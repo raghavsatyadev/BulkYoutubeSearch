@@ -1,0 +1,228 @@
+[versions]
+
+# App Name
+debugAppName = "BYS"
+betaAppName = "BYS Beta"
+releaseAppName = "Bulk Youtube Search"
+
+# Build Variables
+apkName = "SundaramGold"
+
+# Package Names
+nameSpace = "io.github.raghavsatyadev.bys"
+appIdDev = "io.github.raghavsatyadev.bys"
+appIdProd = "io.github.raghavsatyadev.bys"
+supportId = "io.github.raghavsatyadev.support"
+
+# SDK Versions
+targetSdk = "35"
+minSdk = "24"
+compileSdk = "35"
+
+# App Version Codes
+versionCode = "1"
+versionName = "0.0.1"
+
+# Plugin Versions
+agp = "8.8.0-alpha09"
+kotlin = "2.1.0-Beta2"
+com-google-devtools-ksp = "2.1.0-Beta2-1.0.26"
+com-google-gms = "4.4.2"
+
+# Library Versions
+activity-ktx = "1.10.0-alpha03"
+androidx-core-ktx = "1.15.0"
+androidx-test-core-ktx = "1.6.1"
+androidx-junit = "1.2.1"
+androidx-navigation = "2.8.3"
+appcompat = "1.7.0"
+coil = "2.7.0"
+collection-ktx = "1.4.5"
+com-google-firebase = "3.0.2"
+constraintlayout = "2.2.0"
+datastore-preferences = "1.1.1"
+desugar-jdk-libs = "2.1.2"
+firebase-analytics-ktx = "22.1.2"
+firebase-crashlytics-ktx = "19.2.1"
+firebase-messaging-ktx = "24.0.3"
+firebase-appcheck = "18.0.0"
+firebase-auth = "23.1.0"
+firebase-firestore = "25.1.1"
+firebase-functions = "21.0.0"
+firebase-storage = "21.0.1"
+fragment-ktx = "1.8.5"
+gson = "2.11.0"
+imagepicker = "2.1"
+junit = "4.13.2"
+junit-jupiter = "5.11.1"
+kotlinx-coroutines-android = "1.9.0"
+lifecycle-runtime-ktx = "2.9.0-alpha06"
+lottie = "6.5.2"
+material = "1.13.0-alpha07"
+multidex = "2.0.1"
+okhttp-urlconnection = "5.0.0-alpha.14"
+org-sonarqube = "5.0.0.4638"
+paging-runtime-ktx = "3.3.2"
+permissionx = "1.8.1"
+play-services-ads = "23.5.0"
+recyclerview = "1.4.0-rc01"
+retrofit = "2.11.0"
+room-ktx = "2.7.0-alpha11"
+rules = "1.6.1"
+runner = "1.6.2"
+swiperefreshlayout = "1.2.0-alpha01"
+work-runtime-ktx = "2.10.0"
+
+[libraries]
+# Classpaths
+androidx-navigation = { group = "androidx.navigation", name = "navigation-safe-args-gradle-plugin", version.ref = "androidx-navigation" }
+com-google-firebase = { group = "com.google.firebase", name = "firebase-crashlytics-gradle", version.ref = "com-google-firebase" }
+com-google-gms = { group = "com.google.gms", name = "google-services", version.ref = "com-google-gms" }
+
+# Android
+androidx-activity = { module = "androidx.activity:activity-ktx", version.ref = "activity-ktx" }
+androidx-appcompat = { module = "androidx.appcompat:appcompat", version.ref = "appcompat" }
+androidx-collection = { module = "androidx.collection:collection-ktx", version.ref = "collection-ktx" }
+androidx-constraintlayout = { module = "androidx.constraintlayout:constraintlayout", version.ref = "constraintlayout" }
+androidx-datastore-preferences = { module = "androidx.datastore:datastore-preferences", version.ref = "datastore-preferences" }
+androidx-fragment = { module = "androidx.fragment:fragment-ktx", version.ref = "fragment-ktx" }
+androidx-recyclerview = { module = "androidx.recyclerview:recyclerview", version.ref = "recyclerview" }
+androidx-swiperefreshlayout = { module = "androidx.swiperefreshlayout:swiperefreshlayout", version.ref = "swiperefreshlayout" }
+core-ktx = { group = "androidx.core", name = "core-ktx", version.ref = "androidx-core-ktx" }
+
+material = { module = "com.google.android.material:material", version.ref = "material" }
+
+#Kotlin
+kotlin-stdlib-jdk8 = { module = "org.jetbrains.kotlin:kotlin-stdlib-jdk8", version.ref = "kotlin" }
+kotlinx-coroutines-android = { module = "org.jetbrains.kotlinx:kotlinx-coroutines-android", version.ref = "kotlinx-coroutines-android" }
+
+#Lifecycle
+androidx-lifecycle-common-java8 = { module = "androidx.lifecycle:lifecycle-common-java8", version.ref = "lifecycle-runtime-ktx" }
+androidx-lifecycle-viewmodel = { module = "androidx.lifecycle:lifecycle-viewmodel-ktx", version.ref = "lifecycle-runtime-ktx" }
+lifecycle-runtime = { group = "androidx.lifecycle", name = "lifecycle-runtime-ktx", version.ref = "lifecycle-runtime-ktx" }
+
+#Navigation
+androidx-navigation-fragment = { module = "androidx.navigation:navigation-fragment-ktx", version.ref = "androidx-navigation" }
+androidx-navigation-runtime = { module = "androidx.navigation:navigation-runtime-ktx", version.ref = "androidx-navigation" }
+androidx-navigation-ui = { module = "androidx.navigation:navigation-ui-ktx", version.ref = "androidx-navigation" }
+
+#Retrofit
+converter-gson = { module = "com.squareup.retrofit2:converter-gson", version.ref = "retrofit" }
+gson = { module = "com.google.code.gson:gson", version.ref = "gson" }
+logging-interceptor = { module = "com.squareup.okhttp3:logging-interceptor", version.ref = "okhttp-urlconnection" }
+okhttp = { module = "com.squareup.okhttp3:okhttp", version.ref = "okhttp-urlconnection" }
+retrofit = { module = "com.squareup.retrofit2:retrofit", version.ref = "retrofit" }
+
+#Firebase
+firebase-analytics = { module = "com.google.firebase:firebase-analytics-ktx", version.ref = "firebase-analytics-ktx" }
+firebase-auth = { module = "com.google.firebase:firebase-auth", version.ref = "firebase-auth" }
+firebase-crashlytics = { module = "com.google.firebase:firebase-crashlytics-ktx", version.ref = "firebase-crashlytics-ktx" }
+firebase-messaging = { module = "com.google.firebase:firebase-messaging-ktx", version.ref = "firebase-messaging-ktx" }
+firebase-appcheck-playintegrity = { module = "com.google.firebase:firebase-appcheck-playintegrity", version.ref = "firebase-appcheck" }
+firebase-appcheck-debug = { module = "com.google.firebase:firebase-appcheck-debug", version.ref = "firebase-appcheck" }
+firebase-storage = { module = "com.google.firebase:firebase-storage", version.ref = "firebase-storage" }
+firebase-firestore = { module = "com.google.firebase:firebase-firestore", version.ref = "firebase-firestore" }
+firebase-functions = { module = "com.google.firebase:firebase-functions", version.ref = "firebase-functions" }
+
+#Admob
+play-services-ads = { module = "com.google.android.gms:play-services-ads", version.ref = "play-services-ads" }
+
+#Room
+androidx-room-compiler = { module = "androidx.room:room-compiler", version.ref = "room-ktx" }
+androidx-room = { module = "androidx.room:room-ktx", version.ref = "room-ktx" }
+androidx-room-runtime = { module = "androidx.room:room-runtime", version.ref = "room-ktx" }
+
+#WorkManager
+androidx-work-runtime = { module = "androidx.work:work-runtime-ktx", version.ref = "work-runtime-ktx" }
+
+#Coil
+coil = { module = "io.coil-kt:coil", version.ref = "coil" }
+coil-svg = { module = "io.coil-kt:coil-svg", version.ref = "coil" }
+
+#Other
+androidx-multidex = { module = "androidx.multidex:multidex", version.ref = "multidex" }
+androidx-paging-runtime = { module = "androidx.paging:paging-runtime-ktx", version.ref = "paging-runtime-ktx" }
+desugar_jdk_libs = { module = "com.android.tools:desugar_jdk_libs", version.ref = "desugar-jdk-libs" }
+imagepicker = { module = "com.github.dhaval2404:imagepicker", version.ref = "imagepicker" }
+permissionx = { module = "com.guolindev.permissionx:permissionx", version.ref = "permissionx" }
+lottie = { module = "com.airbnb.android:lottie", version.ref = "lottie" }
+
+#Tests
+androidx-test-core = { module = "androidx.test:core-ktx", version.ref = "androidx-test-core-ktx" }
+androidx-junit = { module = "androidx.test.ext:junit", version.ref = "androidx-junit" }
+androidx-room-testing = { module = "androidx.room:room-testing", version.ref = "room-ktx" }
+androidx-rules = { module = "androidx.test:rules", version.ref = "rules" }
+androidx-runner = { module = "androidx.test:runner", version.ref = "runner" }
+junit = { group = "junit", name = "junit", version.ref = "junit" }
+junit-jupiter = { module = "org.junit.jupiter:junit-jupiter", version.ref = "junit-jupiter" }
+
+[plugins]
+com-android-application = { id = "com.android.application", version.ref = "agp" }
+com-android-library = { id = "com.android.library", version.ref = "agp" }
+
+org-jetbrains-kotlin-android = { id = "org.jetbrains.kotlin.android", version.ref = "kotlin" }
+com-google-devtools-ksp = { id = "com.google.devtools.ksp", version.ref = "com-google-devtools-ksp" }
+
+org-sonarqube = { id = "org.sonarqube", version.ref = "org-sonarqube" }
+
+[bundles]
+androidx = [
+    "core-ktx",
+    "androidx-collection",
+    "androidx-appcompat",
+    "androidx-datastore-preferences",
+    "androidx-recyclerview",
+    "androidx-swiperefreshlayout",
+    "androidx-constraintlayout",
+    "androidx-activity",
+    "androidx-fragment",
+    "material",
+]
+lifecycle = [
+    "androidx-lifecycle-common-java8",
+    "androidx-lifecycle-viewmodel",
+    "lifecycle-runtime",
+]
+navigation = [
+    "androidx-navigation-ui",
+    "androidx-navigation-fragment",
+    "androidx-navigation-runtime",
+]
+retrofit = [
+    "retrofit",
+    "converter-gson",
+    "okhttp",
+    "logging-interceptor",
+    "gson",
+]
+coil = [
+    "coil",
+    "coil-svg",
+]
+firebase = [
+    "firebase-analytics",
+    "firebase-crashlytics",
+    "firebase-messaging",
+    "firebase-appcheck-playintegrity",
+    "firebase-appcheck-debug",
+    "firebase-auth",
+    "firebase-firestore",
+    "firebase-storage",
+    "firebase-functions",
+]
+test = [
+    "junit",
+    "androidx-test-core",
+    "androidx-runner",
+    "androidx-rules",
+    "androidx-room-testing",
+    "androidx-junit",
+    "junit-jupiter"
+]
+androidTest = [
+    "androidx-test-core",
+    "androidx-runner",
+    "androidx-rules",
+    "androidx-room-testing",
+    "androidx-junit",
+]

@@ -1,0 +1,12 @@
+<resources>
+    <!--Event-->
+    <string name="search">Search</string>
+    <string name="share_result_file">Share result file</string>
+    <string name="key_app_name">App Name:</string>
+    <string name="expired_on">Expired On</string>
+    <string name="key_details">Key Details</string>
+    <string name="copy_key">Copy Key</string>
+    <string name="label_one_time_work_status">O</string>
+    <string name="label_periodic_work_status">P</string>
+    <string name="songs_remain_to_be_found">Songs remain to be found: %1$d</string>
+</resources>

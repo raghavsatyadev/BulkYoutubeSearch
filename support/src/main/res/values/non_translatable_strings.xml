@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <string name="google_web_client_id" translatable="false">461149407108-qdsrnfb9qvvenkaqvcn46f3u2qvf797a.apps.googleusercontent.com</string>
+
+    <!-- Admob -->
+    <string name="admob_app_id" translatable="false">ca-app-pub-4449643752077869~6074734311</string>
+    <string name="admob_banner_ad_unit_id" translatable="false">ca-app-pub-4449643752077869/7373759145</string>
+    <string name="admob_test_banner_ad_unit_id" translatable="false">ca-app-pub-3940256099942544/9214589741</string>
+    <string name="admob_interstitial_ad_unit_id" translatable="false">ca-app-pub-4449643752077869/7423475008</string>
+    <string name="admob_test_interstitial_ad_unit_id" translatable="false">ca-app-pub-3940256099942544/1033173712</string>
+
+    <!--Notification-->
+    <string name="general_notification_channel_id" translatable="false">general</string>
+</resources>
