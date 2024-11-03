@@ -90,10 +90,10 @@ object YoutubeSearch {
                 break
             }
         }
+        READER_FILE.writeStringToFile(videoTitles.toJsonString())
         videoLinkResults.addAll(oldVideoData)
         videoLinkResults.sortedWith(compareBy<SongDetail> { it.artist }.thenBy { it.title })
         RESULT_FILE.writeStringToFile(videoLinkResults.toJsonString())
-        READER_FILE.writeStringToFile(videoTitles.toJsonString())
         return videoTitles.isEmpty()
     }
 
@@ -107,18 +107,24 @@ object YoutubeSearch {
     }
 
     private suspend fun setupAPIKeys() {
-        val apiKeyDetails = AppPrefsUtil.getKeyDetails().first()
-        apiKeyDetails.ifEmpty {
+        API_KEYS = AppPrefsUtil.getKeyDetails().first().ifEmpty {
             val keyJSONString = BuildConfig.youtube_api_keys
             val jsonKeyDetails =
                 JSONArray(keyJSONString)
+            val apiKeyDetails = ArrayList<AppPrefsUtil.APIKeyDetail>()
             for (i in 0 until jsonKeyDetails.length()) {
                 val keyDetail = jsonKeyDetails.getJSONObject(i)
                 val key = keyDetail.getString("key")
                 val appName = keyDetail.getString("name")
-                API_KEYS.add(AppPrefsUtil.APIKeyDetail(appName, key, System.currentTimeMillis()))
+                apiKeyDetails.add(
+                    AppPrefsUtil.APIKeyDetail(
+                        appName,
+                        key,
+                        System.currentTimeMillis()
+                    )
+                )
             }
-            AppPrefsUtil.saveAllKeyDetail(API_KEYS)
+            apiKeyDetails
         }
     }
 
