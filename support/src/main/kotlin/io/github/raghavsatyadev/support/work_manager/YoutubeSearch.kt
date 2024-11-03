@@ -124,8 +124,10 @@ object YoutubeSearch {
                     )
                 )
             }
+            AppPrefsUtil.saveAllKeyDetail(apiKeyDetails)
             apiKeyDetails
         }
+
     }
 
     private suspend fun searchYoutubeForVideo(query: String): Pair<Boolean, SongDetail?> {
