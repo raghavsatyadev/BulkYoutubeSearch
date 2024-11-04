@@ -16,7 +16,6 @@ import io.github.raghavsatyadev.support.extensions.ViewExtensions.gone
 import io.github.raghavsatyadev.support.extensions.ViewExtensions.visible
 import io.github.raghavsatyadev.support.list.CustomClickListener
 import io.github.raghavsatyadev.support.preferences.AppPrefsUtil
-import io.github.raghavsatyadev.support.work_manager.YoutubeSearch
 import io.github.raghavsatyadev.support.work_manager.YoutubeSearchWorker
 import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.launch
@@ -61,7 +60,9 @@ class SearchActivity : CoreActivity<ActivitySearchBinding>() {
             binding.btnShareResultFile.setOnClickListener {
                 launch {
                     withContext(ioDispatcher) {
-                        YoutubeSearch.RESULT_FILE.shareFile(this@SearchActivity)
+                        viewModel.prepareSharingFile { file ->
+                            file.shareFile(this@SearchActivity)
+                        }
                     }
                 }
             }

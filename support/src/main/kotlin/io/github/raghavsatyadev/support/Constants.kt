@@ -18,6 +18,7 @@ object Constants {
             const val USER_ID = "user_id"
             const val SONG_DETAIL_ID = "id"
             const val SONG_DETAIL_OLD_DETAIL = "oldTitle"
+            const val SONG_DETAIL_LINK = "link"
         }
     }
 

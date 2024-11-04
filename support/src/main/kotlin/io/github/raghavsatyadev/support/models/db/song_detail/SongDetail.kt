@@ -15,9 +15,10 @@ import kotlinx.parcelize.Parcelize
 @Parcelize
 @Entity(
     tableName = Tables.SONG_DETAIL_TABLE,
-    indices = [Index(value = [Tables.SONG_DETAIL_OLD_DETAIL], unique = true)]
+    indices = [Index(value = [Tables.SONG_DETAIL_LINK], unique = true)]
 )
 data class SongDetail(
+    @Transient
     @SerializedName(Tables.SONG_DETAIL_ID)
     @get:PropertyName(Tables.SONG_DETAIL_ID)
     @set:PropertyName(
@@ -28,15 +29,18 @@ data class SongDetail(
     var id: Int = 0,
 
     var artist: String,
+
+    @SerializedName(Tables.SONG_DETAIL_LINK)
+    @get:PropertyName(Tables.SONG_DETAIL_LINK)
+    @set:PropertyName(Tables.SONG_DETAIL_LINK)
+    @ColumnInfo(Tables.SONG_DETAIL_LINK)
     var link: String,
     var thumbnail: String,
     var title: String,
 
     @SerializedName(Tables.SONG_DETAIL_OLD_DETAIL)
     @get:PropertyName(Tables.SONG_DETAIL_OLD_DETAIL)
-    @set:PropertyName(
-        Tables.SONG_DETAIL_OLD_DETAIL
-    )
+    @set:PropertyName(Tables.SONG_DETAIL_OLD_DETAIL)
     @ColumnInfo(Tables.SONG_DETAIL_OLD_DETAIL)
     var oldTitle: String,
 ) : Parcelable
