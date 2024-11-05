@@ -1,4 +1,4 @@
-package io.github.raghavsatyadev.support
+package io.github.raghavsatyadev.support.ads
 
 import android.app.Activity
 import android.view.Display
@@ -6,12 +6,12 @@ import androidx.core.hardware.display.DisplayManagerCompat
 import com.google.android.gms.ads.AdRequest
 import com.google.android.gms.ads.AdSize
 import com.google.android.gms.ads.AdView
-import com.google.android.gms.ads.FullScreenContentCallback
 import com.google.android.gms.ads.LoadAdError
 import com.google.android.gms.ads.interstitial.InterstitialAd
 import com.google.android.gms.ads.interstitial.InterstitialAdLoadCallback
+import io.github.raghavsatyadev.support.BuildConfig
+import io.github.raghavsatyadev.support.R
 import io.github.raghavsatyadev.support.listeners.ResultListener
-
 
 object AdUtil {
     fun loadBannerAd(activity: Activity, adContainerView: AdView) {
@@ -21,8 +21,6 @@ object AdUtil {
         adContainerView.removeAllViews()
         adContainerView.addView(adView)
 
-
-        // Start loading the ad in the background.
         val adRequest: AdRequest = AdRequest.Builder().build()
         adView.loadAd(adRequest)
     }
@@ -38,7 +36,6 @@ object AdUtil {
     }
 
     private fun getAdSize(activity: Activity, adContainerView: AdView): AdSize {
-        // Determine the screen width (less decorations) to use for the ad width.
         val defaultDisplay =
             DisplayManagerCompat.getInstance(activity).getDisplay(Display.DEFAULT_DISPLAY)
         val metrics = activity.createDisplayContext(defaultDisplay!!).resources.displayMetrics
@@ -74,18 +71,6 @@ object AdUtil {
             })
     }
 
-    fun InterstitialAd.showInterstitialAd(activity: Activity, onAdClosed: () -> Unit) {
-        if (BuildConfig.DEBUG) {
-            onAdClosed()
-        } else {
-            fullScreenContentCallback = object : FullScreenContentCallback() {
-                override fun onAdDismissedFullScreenContent() {
-                    onAdClosed()
-                }
-            }
-            show(activity)
-        }
-    }
 
     private fun getInterstitialAdID(activity: Activity): String {
         return activity.getString(

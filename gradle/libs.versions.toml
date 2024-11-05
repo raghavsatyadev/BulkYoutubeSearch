@@ -6,7 +6,7 @@ betaAppName = "BYS Beta"
 releaseAppName = "Bulk Youtube Search"
 
 # Build Variables
-apkName = "SundaramGold"
+apkName = "BYS"
 
 # Package Names
 nameSpace = "io.github.raghavsatyadev.bys"

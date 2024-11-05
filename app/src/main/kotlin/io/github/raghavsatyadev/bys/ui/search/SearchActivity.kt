@@ -9,6 +9,8 @@ import android.provider.Settings
 import androidx.activity.viewModels
 import io.github.raghavsatyadev.bys.R
 import io.github.raghavsatyadev.bys.databinding.ActivitySearchBinding
+import io.github.raghavsatyadev.support.ads.AdExtensions.loadAds
+import io.github.raghavsatyadev.support.ads.AdExtensions.showInterstitialAd
 import io.github.raghavsatyadev.support.core.CoreActivity
 import io.github.raghavsatyadev.support.extensions.ImplicitIntentExtensions.copyToClipboard
 import io.github.raghavsatyadev.support.extensions.ImplicitIntentExtensions.shareFile
@@ -35,6 +37,7 @@ class SearchActivity : CoreActivity<ActivitySearchBinding>() {
 
 
     override fun createReference(savedInstanceState: Bundle?) {
+        loadAds(binding.adSearch)
         setupUI()
         getPermissions()
     }
@@ -45,23 +48,29 @@ class SearchActivity : CoreActivity<ActivitySearchBinding>() {
     override fun setListeners(isEnabled: Boolean) {
         if (isEnabled) {
             adapter.itemClickListener = CustomClickListener { position, _, _ ->
-                copyToClipboard(
-                    "API Key",
-                    adapter.items[position].key
-                )
+                showInterstitialAd {
+                    copyToClipboard(
+                        "API Key",
+                        adapter.items[position].key
+                    )
+                }
             }
             binding.btnSearchVideos.setOnClickListener {
-                launch {
-                    withContext(ioDispatcher) {
-                        viewModel.searchVideos()
+                showInterstitialAd {
+                    launch {
+                        withContext(ioDispatcher) {
+                            viewModel.searchVideos()
+                        }
                     }
                 }
             }
             binding.btnShareResultFile.setOnClickListener {
-                launch {
-                    withContext(ioDispatcher) {
-                        viewModel.prepareSharingFile { file ->
-                            file.shareFile(this@SearchActivity)
+                showInterstitialAd {
+                    launch {
+                        withContext(ioDispatcher) {
+                            viewModel.prepareSharingFile { file ->
+                                file.shareFile(this@SearchActivity)
+                            }
                         }
                     }
                 }
@@ -107,7 +116,6 @@ class SearchActivity : CoreActivity<ActivitySearchBinding>() {
                         } else {
                             binding.progressOneTimeWorkStatus.gone()
                         }
-
                     }
                 }
             }, {
