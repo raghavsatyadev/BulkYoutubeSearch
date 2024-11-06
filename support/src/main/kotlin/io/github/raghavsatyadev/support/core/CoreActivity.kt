@@ -8,6 +8,7 @@ import androidx.viewbinding.ViewBinding
 import io.github.raghavsatyadev.support.AppLog
 import io.github.raghavsatyadev.support.KeyBoardUtil
 import io.github.raghavsatyadev.support.databinding.LoaderBinding
+import io.github.raghavsatyadev.support.databinding.ToolBarBinding
 import io.github.raghavsatyadev.support.extensions.AppExtensions.kotlinFileName
 import io.github.raghavsatyadev.support.extensions.ViewExtensions.gone
 import io.github.raghavsatyadev.support.extensions.ViewExtensions.visible
@@ -56,7 +57,17 @@ abstract class CoreActivity<Binding : ViewBinding> : AppCompatActivity(), Corout
         setupBinding(savedInstanceState)
         setContentView(binding.root)
         findProgressBar()
+        setupToolBar()
         createReference(savedInstanceState)
+        registerBackButton()
+    }
+
+    private fun setupToolBar() {
+        setSupportActionBar(getToolBar()?.toolBar)
+    }
+
+    open fun getToolBar(): ToolBarBinding? {
+        return null
     }
 
     private fun findProgressBar() {

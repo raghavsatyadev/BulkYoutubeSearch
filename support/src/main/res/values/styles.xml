@@ -105,4 +105,19 @@
         <item name="textInputStyle">@style/TextInputLayoutStyle</item>
         <item name="materialCardViewStyle">@style/CardStyleCustom</item>
     </style>
+
+    <style name="ActionBarTheme" parent="@style/ThemeOverlay.MaterialComponents.ActionBar">
+        <!--back arrow color will be changed here-->
+        <item name="colorControlNormal">@color/toolbar_button</item>
+    </style>
+
+    <style name="DashboardToolbar" parent="ThemeOverlay.MaterialComponents.Toolbar.Primary">
+        <item name="actionBarTheme">@style/ActionBarTheme</item>
+        <item name="colorControlNormal">@color/toolbar_button</item>
+        <item name="colorOnPrimary">@color/toolbar_button</item>
+    </style>
+
+    <style name="ToolbarTextStyle" parent="TextAppearance.Material3.HeadlineSmall">
+        <item name="android:textStyle">bold</item>
+    </style>
 </resources>

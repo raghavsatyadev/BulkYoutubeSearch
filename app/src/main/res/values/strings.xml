@@ -1,5 +1,5 @@
 <resources>
-    <!--Event-->
+    <!-- Search View -->
     <string name="search">Search</string>
     <string name="share_result_file">Share result file</string>
     <string name="key_app_name">App Name:</string>
@@ -9,4 +9,9 @@
     <string name="label_one_time_work_status">O</string>
     <string name="label_periodic_work_status">P</string>
     <string name="songs_remain_to_be_found">Songs remain to be found: %1$d</string>
+
+    <!-- Dashboard -->
+    <string name="search_songs">Search Songs</string>
+    <string name="manage_keys">Manage API keys</string>
+    <string name="found_songs">Found Songs</string>
 </resources>

@@ -5,7 +5,7 @@ import android.os.Bundle
 import android.os.Handler
 import android.os.Looper
 import io.github.raghavsatyadev.bys.databinding.ActivitySplashBinding
-import io.github.raghavsatyadev.bys.ui.search.SearchActivity
+import io.github.raghavsatyadev.bys.ui.dashboard.DashboardActivity
 import io.github.raghavsatyadev.support.Constants
 import io.github.raghavsatyadev.support.core.CoreActivity
 import io.github.raghavsatyadev.support.extensions.OrientationExtensions.enableFullScreen
@@ -36,14 +36,14 @@ class SplashActivity : CoreActivity<ActivitySplashBinding>() {
             withContext(mainDispatcher) {
                 if (timerComplete && !isStopped) {
                     finish()
-                    openSearchActivity()
+                    openNextActivity()
                 }
             }
         }
     }
 
-    private fun openSearchActivity() {
-        startActivity(SearchActivity.getIntentObject(this))
+    private fun openNextActivity() {
+        startActivity(DashboardActivity.getIntentObject(this))
     }
 
     override fun createBinding(savedInstanceState: Bundle?) =

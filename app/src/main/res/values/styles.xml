@@ -1,28 +1,4 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
 
-    <style name="ToolbarMenuTextStyle" parent="@style/TextAppearance.Material3.LabelLarge">
-        <item name="fontFamily">@font/montserrat_bold</item>
-        <item name="android:fontFamily">@font/montserrat_bold</item>
-        <item name="android:textStyle">bold</item>
-    </style>
-
-    <style name="ToolBarTextStyle">
-        <item name="android:textSize">18sp</item>
-        <item name="fontFamily">@font/montserrat_semi_bold</item>
-    </style>
-
-    <style name="ToolBarTextStyle.DashboardHidden">
-        <item name="android:textSize">0sp</item>
-    </style>
-
-    <style name="ToolBarTextStyle.DashboardVisible">
-        <item name="android:textSize">16sp</item>
-    </style>
-
-    <style name="DashboardToolbar" parent="@style/ThemeOverlay.Material3.Toolbar.Surface">
-        <item name="actionMenuTextColor">?colorPrimary</item>
-        <item name="actionMenuTextAppearance">@style/ToolbarMenuTextStyle</item>
-    </style>
-
 </resources>

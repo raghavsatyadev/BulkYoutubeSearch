@@ -29,11 +29,6 @@
         tools:replace="android:allowBackup,android:supportsRtl"
         tools:targetApi="tiramisu"
         >
-        <property
-            android:name="android.adservices.AD_SERVICES_CONFIG"
-            android:resource="@xml/gma_ad_services_config"
-            tools:replace="android:resource"
-            />
 
         <activity
             android:name=".ui.other.SplashActivity"
@@ -52,12 +47,24 @@
         </activity>
 
         <activity
+            android:name=".ui.dashboard.DashboardActivity"
+            android:configChanges="orientation|screenSize|screenLayout|keyboardHidden"
+            android:windowSoftInputMode="adjustPan"
+            />
+        <activity
             android:name=".ui.search.SearchActivity"
             android:configChanges="orientation|screenSize|screenLayout|keyboardHidden"
-            android:exported="true"
-            android:screenOrientation="portrait"
             android:windowSoftInputMode="adjustPan"
-            tools:ignore="DiscouragedApi,LockedOrientationActivity"
+            />
+        <activity
+            android:name=".ui.found_songs.FoundSongsActivity"
+            android:configChanges="orientation|screenSize|screenLayout|keyboardHidden"
+            android:windowSoftInputMode="adjustPan"
+            />
+        <activity
+            android:name=".ui.manage_keys.ManageKeysActivity"
+            android:configChanges="orientation|screenSize|screenLayout|keyboardHidden"
+            android:windowSoftInputMode="adjustPan"
             />
 
         <meta-data

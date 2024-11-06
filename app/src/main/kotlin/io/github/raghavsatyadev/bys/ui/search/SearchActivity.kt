@@ -37,13 +37,15 @@ class SearchActivity : CoreActivity<ActivitySearchBinding>() {
 
 
     override fun createReference(savedInstanceState: Bundle?) {
-        loadAds(binding.adSearch)
+        loadAds(binding.adView)
         setupUI()
         getPermissions()
     }
 
     override fun createBinding(savedInstanceState: Bundle?) =
         ActivitySearchBinding.inflate(layoutInflater)
+
+    override fun getToolBar() = binding.toolbar
 
     override fun setListeners(isEnabled: Boolean) {
         if (isEnabled) {
