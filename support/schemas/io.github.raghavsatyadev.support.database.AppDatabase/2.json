@@ -2,11 +2,11 @@
   "formatVersion": 1,
   "database": {
     "version": 2,
-    "identityHash": "120f6aeb3e1d94f485ce26e1fb98306b",
+    "identityHash": "7de9bb98f0f8237930eda4e332f36a01",
     "entities": [
       {
         "tableName": "song_detail",
-        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`id` INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL, `artist` TEXT NOT NULL, `link` TEXT NOT NULL, `thumbnail` TEXT NOT NULL, `title` TEXT NOT NULL, `oldTitle` TEXT NOT NULL)",
+        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`id` INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL, `artist` TEXT NOT NULL, `thumbnail` TEXT NOT NULL, `title` TEXT NOT NULL, `description` TEXT NOT NULL, `link` TEXT NOT NULL, `oldTitle` TEXT NOT NULL)",
         "fields": [
           {
             "fieldPath": "id",
@@ -21,12 +21,6 @@
             "notNull": true
           },
           {
-            "fieldPath": "link",
-            "columnName": "link",
-            "affinity": "TEXT",
-            "notNull": true
-          },
-          {
             "fieldPath": "thumbnail",
             "columnName": "thumbnail",
             "affinity": "TEXT",
@@ -35,6 +29,18 @@
           {
             "fieldPath": "title",
             "columnName": "title",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "description",
+            "columnName": "description",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "link",
+            "columnName": "link",
             "affinity": "TEXT",
             "notNull": true
           },
@@ -66,7 +72,7 @@
     ],
     "setupQueries": [
       "CREATE TABLE IF NOT EXISTS room_master_table (id INTEGER PRIMARY KEY,identity_hash TEXT)",
-      "INSERT OR REPLACE INTO room_master_table (id,identity_hash) VALUES(42, '120f6aeb3e1d94f485ce26e1fb98306b')"
+      "INSERT OR REPLACE INTO room_master_table (id,identity_hash) VALUES(42, '7de9bb98f0f8237930eda4e332f36a01')"
     ]
   }
 }
