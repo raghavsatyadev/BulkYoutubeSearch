@@ -1,15 +1,18 @@
 package io.github.raghavsatyadev.support.core
 
 import android.os.Bundle
+import android.view.MenuItem
 import android.view.WindowManager
 import androidx.activity.addCallback
 import androidx.appcompat.app.AppCompatActivity
 import androidx.viewbinding.ViewBinding
 import io.github.raghavsatyadev.support.AppLog
 import io.github.raghavsatyadev.support.KeyBoardUtil
+import io.github.raghavsatyadev.support.R
 import io.github.raghavsatyadev.support.databinding.LoaderBinding
 import io.github.raghavsatyadev.support.databinding.ToolBarBinding
 import io.github.raghavsatyadev.support.extensions.AppExtensions.kotlinFileName
+import io.github.raghavsatyadev.support.extensions.ResourceExtensions.getConDrawable
 import io.github.raghavsatyadev.support.extensions.ViewExtensions.gone
 import io.github.raghavsatyadev.support.extensions.ViewExtensions.visible
 import kotlinx.coroutines.CoroutineExceptionHandler
@@ -17,6 +20,7 @@ import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.Job
 import kotlin.coroutines.CoroutineContext
+
 
 abstract class CoreActivity<Binding : ViewBinding> : AppCompatActivity(), CoroutineScope {
     private lateinit var job: Job
@@ -62,8 +66,30 @@ abstract class CoreActivity<Binding : ViewBinding> : AppCompatActivity(), Corout
         registerBackButton()
     }
 
+    override fun onStart() {
+        super.onStart()
+        setupBackButton()
+    }
+
     private fun setupToolBar() {
         setSupportActionBar(getToolBar()?.toolBar)
+    }
+
+    private fun setupBackButton() {
+        if (!isTaskRoot) {
+            supportActionBar?.setDisplayHomeAsUpEnabled(true)
+            getToolBar()?.toolBar?.navigationIcon = getConDrawable(R.drawable.ic_back)
+        }
+    }
+
+    override fun onOptionsItemSelected(
+        item: MenuItem,
+    ): Boolean {
+        if (item.itemId == android.R.id.home) {
+            pressBack()
+            return true
+        }
+        return super.onOptionsItemSelected(item)
     }
 
     open fun getToolBar(): ToolBarBinding? {
@@ -108,11 +134,13 @@ abstract class CoreActivity<Binding : ViewBinding> : AppCompatActivity(), Corout
         }
     }
 
-    fun registerBackButton() {
+    private fun registerBackButton() {
         onBackPressedDispatcher.addCallback { onBackPressedCompat() }
     }
 
-    open fun onBackPressedCompat() {}
+    open fun onBackPressedCompat() {
+        finish()
+    }
 
     fun pressBack() {
         onBackPressedDispatcher.onBackPressed()

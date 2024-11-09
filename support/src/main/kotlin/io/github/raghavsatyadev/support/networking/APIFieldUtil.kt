@@ -4,6 +4,7 @@ import android.text.TextUtils
 import io.github.raghavsatyadev.support.AppLog
 import io.github.raghavsatyadev.support.Constants.Other.MEDIA_TYPE_JSON
 import io.github.raghavsatyadev.support.extensions.AppExtensions.kotlinFileName
+import io.github.raghavsatyadev.support.extensions.FileExtensions.getMimeType
 import io.github.raghavsatyadev.support.extensions.GsonExtensions.toJsonString
 import okhttp3.MediaType.Companion.toMediaType
 import okhttp3.MediaType.Companion.toMediaTypeOrNull
@@ -45,7 +46,7 @@ object APIFieldUtil {
      */
     fun File.toMultiPartFile(fileParameter: String): MultipartBody.Part? {
         try {
-            val type = FileChooserUtil.getMimeType(absolutePath)?.toMediaTypeOrNull()
+            val type = getMimeType()?.toMediaTypeOrNull()
             return MultipartBody.Part.createFormData(fileParameter, name, asRequestBody(type))
         } catch (e: Exception) {
             AppLog.loge(false, kotlinFileName, "getMultiPartFile", e, Exception())
@@ -54,7 +55,7 @@ object APIFieldUtil {
     }
 
     fun File.toFileRequestBody(): RequestBody {
-        val type = FileChooserUtil.getMimeType(absolutePath)?.toMediaTypeOrNull()
+        val type = getMimeType()?.toMediaTypeOrNull()
         return asRequestBody(type)
     }
 

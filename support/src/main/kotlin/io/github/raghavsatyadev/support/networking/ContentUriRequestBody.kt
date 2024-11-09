@@ -51,7 +51,6 @@ fun Uri.length(contentResolver: ContentResolver)
     if (scheme.equals(ContentResolver.SCHEME_CONTENT)) {
         return contentResolver.query(this, arrayOf(OpenableColumns.SIZE), null, null, null)
             ?.use { cursor ->
-                // maybe shouldn't trust ContentResolver for size: https://stackoverflow.com/questions/48302972/content-resolver-returns-wrong-size
                 val sizeIndex = cursor.getColumnIndex(OpenableColumns.SIZE)
                 if (sizeIndex == -1) {
                     return@use -1L

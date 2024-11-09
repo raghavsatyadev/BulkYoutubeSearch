@@ -16,6 +16,7 @@
         android:layout_height="wrap_content"
         android:elevation="10dp"
         android:minHeight="?attr/actionBarSize"
+        app:navigationIconTint="?colorSurface"
         app:popupTheme="@style/ThemeOverlay.MaterialComponents.Toolbar.Primary"
         app:titleCentered="true"
         app:titleTextAppearance="@style/ToolbarTextStyle"

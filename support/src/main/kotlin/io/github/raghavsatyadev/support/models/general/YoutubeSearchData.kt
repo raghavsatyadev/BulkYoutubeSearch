@@ -5,8 +5,25 @@ import androidx.annotation.Keep
 import kotlinx.parcelize.Parcelize
 
 @Keep
+
 @Parcelize
 data class YoutubeSearchData(
+    var kind: String,
+    var etag: String,
+    var nextPageToken: String,
+    var regionCode: String,
+    var pageInfo: PageInfo,
+    var items: List<Item>,
+) : Parcelable
+
+@Parcelize
+data class PageInfo(
+    var totalResults: Int,
+    var resultsPerPage: Int,
+) : Parcelable
+
+@Parcelize
+data class Item(
     var kind: String,
     var etag: String,
     var id: Id,
@@ -58,3 +75,5 @@ data class High(
     var width: Int,
     var height: Int,
 ) : Parcelable
+
+

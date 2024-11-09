@@ -139,8 +139,7 @@ dependencies {
     implementation(project(path = ":support"))
 
     // Kotlin
-    implementation(libs.kotlin.stdlib.jdk8)
-    implementation(libs.kotlinx.coroutines.android)
+    implementation(libs.bundles.kotlin)
 
     // Android
     implementation(libs.bundles.androidx)
@@ -151,17 +150,14 @@ dependencies {
     // Navigation
     implementation(libs.bundles.navigation)
 
-    // Retrofit
-    implementation(libs.bundles.retrofit)
-
     // Firebase
     implementation(libs.bundles.firebase)
 
-    // Paging
-    implementation(libs.androidx.paging.runtime)
-
     // Coil
     implementation(libs.bundles.coil)
+
+    // Ktor
+    implementation(libs.bundles.ktor)
 
     // Admob
     implementation(libs.play.services.ads)
@@ -174,17 +170,12 @@ dependencies {
     // WorkManager
     implementation(libs.androidx.work.runtime)
 
-    // Paging
-    implementation(libs.androidx.paging.runtime)
-
     // Test
     testImplementation(libs.bundles.test)
     androidTestImplementation(libs.bundles.androidTest)
 
     // Others
-    implementation(libs.permissionx)
-    implementation(libs.imagepicker)
-    implementation(libs.lottie)
+    implementation(libs.bundles.other)
 
     implementation(libs.androidx.multidex)
     coreLibraryDesugaring(libs.desugar.jdk.libs)

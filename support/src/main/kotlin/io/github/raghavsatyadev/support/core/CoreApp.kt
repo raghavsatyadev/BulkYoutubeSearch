@@ -12,6 +12,7 @@ import io.github.raghavsatyadev.support.R
 import io.github.raghavsatyadev.support.database.RoomDBUtil
 import io.github.raghavsatyadev.support.extensions.AppExtensions.kotlinFileName
 import io.github.raghavsatyadev.support.extensions.GoogleExtensions.checkPlayServiceAvailability
+import io.github.raghavsatyadev.support.networking.KtorUtil
 import kotlinx.coroutines.CoroutineExceptionHandler
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
@@ -21,9 +22,6 @@ import kotlin.coroutines.CoroutineContext
 class CoreApp : Application(), CoroutineScope {
 
     private lateinit var job: Job
-    val mainDispatcher = Dispatchers.Main
-    val ioDispatcher = Dispatchers.IO
-    val defaultDispatcher = Dispatchers.Default
 
     private val handler = CoroutineExceptionHandler { _, exception ->
         AppLog.loge(false, kotlinFileName, "handler", exception, Exception())
@@ -49,6 +47,7 @@ class CoreApp : Application(), CoroutineScope {
 
         setupGoogleServices()
         RoomDBUtil.getDatabase()
+        KtorUtil.httpClient
     }
 
     private fun setupGoogleServices() {

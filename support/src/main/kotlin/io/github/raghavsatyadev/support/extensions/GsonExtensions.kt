@@ -10,7 +10,7 @@ import java.lang.reflect.Type
 object GsonExtensions {
 
     // region [G-SON]
-    val gSon: Gson by lazy { GsonBuilder().disableHtmlEscaping().create() }
+    val gSon: Gson by lazy { GsonBuilder().setPrettyPrinting().disableHtmlEscaping().create() }
 
     fun Any?.toJsonString(): String = gSon.toJson(this)
 

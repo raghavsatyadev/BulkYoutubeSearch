@@ -35,7 +35,7 @@ object StorageUtils {
         return file
     }
 
-    fun File.getInternalUri(context: Context): Uri {
+    fun File.getUriForFile(context: Context): Uri {
         return FileProvider.getUriForFile(
             context,
             CoreApp.instance.packageName + ".fileprovider",
@@ -70,6 +70,10 @@ object StorageUtils {
             }
         }
         return file
+    }
+
+    fun getCacheDirectory(): File {
+        return CoreApp.instance.cacheDir
     }
 
     /**

@@ -7,6 +7,9 @@ import android.os.Bundle
 import android.os.Environment
 import android.provider.Settings
 import androidx.activity.viewModels
+import androidx.lifecycle.Lifecycle
+import androidx.lifecycle.lifecycleScope
+import androidx.lifecycle.repeatOnLifecycle
 import io.github.raghavsatyadev.bys.R
 import io.github.raghavsatyadev.bys.databinding.ActivitySearchBinding
 import io.github.raghavsatyadev.support.ads.AdExtensions.loadAds
@@ -39,7 +42,11 @@ class SearchActivity : CoreActivity<ActivitySearchBinding>() {
     override fun createReference(savedInstanceState: Bundle?) {
         loadAds(binding.adView)
         setupUI()
-        getPermissions()
+        lifecycleScope.launch {
+            repeatOnLifecycle(Lifecycle.State.STARTED) {
+                getPermissions()
+            }
+        }
     }
 
     override fun createBinding(savedInstanceState: Bundle?) =
@@ -88,6 +95,12 @@ class SearchActivity : CoreActivity<ActivitySearchBinding>() {
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.R) {
             if (!Environment.isExternalStorageManager()) {
                 startActivity(Intent(Settings.ACTION_MANAGE_ALL_FILES_ACCESS_PERMISSION))
+            } else {
+                launch {
+                    withContext(ioDispatcher) {
+                        viewModel.setupData()
+                    }
+                }
             }
         }
     }

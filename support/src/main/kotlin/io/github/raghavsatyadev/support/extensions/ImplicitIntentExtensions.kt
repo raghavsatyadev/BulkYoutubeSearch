@@ -11,7 +11,7 @@ import androidx.core.app.ShareCompat
 import androidx.fragment.app.Fragment
 import io.github.raghavsatyadev.support.AppLog
 import io.github.raghavsatyadev.support.R
-import io.github.raghavsatyadev.support.StorageUtils.getInternalUri
+import io.github.raghavsatyadev.support.StorageUtils.getUriForFile
 import io.github.raghavsatyadev.support.extensions.AppExtensions.kotlinFileName
 import java.io.File
 import java.io.UnsupportedEncodingException
@@ -108,7 +108,7 @@ object ImplicitIntentExtensions {
 
     fun Context.shareFile(file: File) {
         ShareCompat.IntentBuilder(this)
-            .setStream(file.getInternalUri(this))
+            .setStream(file.getUriForFile(this))
             .setType(URLConnection.guessContentTypeFromName(file.name))
             .createChooserIntent()
             .addFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION)
@@ -117,7 +117,7 @@ object ImplicitIntentExtensions {
 
     fun File.shareFile(context: Context) {
         ShareCompat.IntentBuilder(context)
-            .setStream(getInternalUri(context))
+            .setStream(getUriForFile(context))
             .setType(URLConnection.guessContentTypeFromName(name))
             .createChooserIntent()
             .addFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION)
