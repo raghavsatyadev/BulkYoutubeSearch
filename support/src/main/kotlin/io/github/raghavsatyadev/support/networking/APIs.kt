@@ -1,6 +1,8 @@
 package io.github.raghavsatyadev.support.networking
 
 import android.net.Uri
+import io.github.raghavsatyadev.support.AppLog
+import io.github.raghavsatyadev.support.extensions.AppExtensions.kotlinFileName
 import io.github.raghavsatyadev.support.extensions.GsonExtensions.toGsonObject
 import io.github.raghavsatyadev.support.models.general.YoutubeError
 import io.github.raghavsatyadev.support.models.general.YoutubeSearchData
@@ -19,6 +21,7 @@ object APIs {
             return response.body<YoutubeSearchData>()
         } catch (e: Exception) {
             val errorReason = getErrorReason(e)
+            AppLog.loge(true, kotlinFileName, "searchYoutube", errorReason, Exception())
             throw Exception(errorReason)
         }
     }
