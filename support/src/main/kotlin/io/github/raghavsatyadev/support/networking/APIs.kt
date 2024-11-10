@@ -1,8 +1,6 @@
 package io.github.raghavsatyadev.support.networking
 
 import android.net.Uri
-import io.github.raghavsatyadev.support.AppLog
-import io.github.raghavsatyadev.support.extensions.AppExtensions.kotlinFileName
 import io.github.raghavsatyadev.support.extensions.GsonExtensions.toGsonObject
 import io.github.raghavsatyadev.support.models.general.YoutubeError
 import io.github.raghavsatyadev.support.models.general.YoutubeSearchData
@@ -18,9 +16,7 @@ object APIs {
     suspend fun searchYoutube(query: String, key: String): YoutubeSearchData {
         try {
             val response = KtorUtil.httpClient.get(getYoutubeSearchURL(query, key))
-            val body = response.body<YoutubeSearchData>()
-            AppLog.loge(true, kotlinFileName, "searchYoutube", body, Exception())
-            return body
+            return response.body<YoutubeSearchData>()
         } catch (e: Exception) {
             val errorReason = getErrorReason(e)
             throw Exception(errorReason)

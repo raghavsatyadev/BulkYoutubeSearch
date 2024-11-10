@@ -3,6 +3,7 @@ package io.github.raghavsatyadev.support.preferences
 import io.github.raghavsatyadev.support.core.CoreApp
 import io.github.raghavsatyadev.support.extensions.GsonExtensions.toGsonObject
 import io.github.raghavsatyadev.support.extensions.GsonExtensions.toJsonString
+import io.github.raghavsatyadev.support.models.general.APIKeyDetail
 import io.github.raghavsatyadev.support.models.general.User
 import io.github.raghavsatyadev.support.preferences.AppPrefsUtil.FCM.NOTIFICATION_ENABLED
 import io.github.raghavsatyadev.support.preferences.AppPrefsUtil.FCM.TOKEN
@@ -57,32 +58,6 @@ object AppPrefsUtil {
         }
     }
 
-    suspend fun setIsDataLoadedFirstTime(
-        isFamilySaved: Boolean = false,
-        isVehicleSaved: Boolean = false,
-        isPetSaved: Boolean = false,
-    ) {
-        val dataLoadedFirstTime = isDataLoadedFirstTime().first()
-        with(dataLoadedFirstTime) {
-            if (isFamilySaved) this.isFamilySaved = true
-            if (isVehicleSaved) this.isVehicleSaved = true
-            if (isPetSaved) this.isPetSaved = true
-        }
-        CoreApp.instance.savePref(
-            Keys.IS_DATA_LOADED_FIRST_TIME, dataLoadedFirstTime.toJsonString()
-        )
-    }
-
-    fun isDataLoadedFirstTime(): Flow<DataLoadedFirstTimeCondition> {
-        return CoreApp.instance.getPrefs(Keys.IS_DATA_LOADED_FIRST_TIME, "").map {
-            if (it.isEmpty()) {
-                DataLoadedFirstTimeCondition()
-            } else {
-                it.toGsonObject<DataLoadedFirstTimeCondition>()
-            }
-        }
-    }
-
     suspend fun saveKeyDetail(currentKeyDetails: APIKeyDetail, currentMilliSecond: Long) {
         val apiKeyDetails = getKeyDetails().first()
         apiKeyDetails.find {
@@ -125,25 +100,8 @@ object AppPrefsUtil {
         return CoreApp.instance.getPrefs(Keys.SONGS_REMAINING_TO_BE_FOUND, 0)
     }
 
-    data class DataLoadedFirstTimeCondition(
-        var isFamilySaved: Boolean = false,
-        var isVehicleSaved: Boolean = false,
-        var isPetSaved: Boolean = false,
-    ) {
-        fun isAllDataLoaded(): Boolean {
-            return isFamilySaved && isVehicleSaved && isPetSaved
-        }
-    }
-
-    data class APIKeyDetail(
-        val appName: String,
-        val key: String,
-        var expiry: Long,
-    )
-
     object Keys {
         const val USER_DETAILS = "user_details"
-        const val IS_DATA_LOADED_FIRST_TIME = "is_data_loaded_first_time"
         const val API_KEY_DETAILS = "api_key_details"
         const val SONGS_REMAINING_TO_BE_FOUND = "songs_remaining_to_be_found"
     }

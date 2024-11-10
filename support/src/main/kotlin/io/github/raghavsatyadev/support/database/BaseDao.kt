@@ -7,6 +7,8 @@ import androidx.room.RawQuery
 import androidx.room.Update
 import androidx.sqlite.db.SimpleSQLiteQuery
 import androidx.sqlite.db.SupportSQLiteQuery
+import io.github.raghavsatyadev.support.models.db.song_detail.SongDetail
+import kotlinx.coroutines.flow.Flow
 
 abstract class BaseDao<T> {
     @Insert(onConflict = OnConflictStrategy.REPLACE)
@@ -38,6 +40,9 @@ abstract class BaseDao<T> {
 
     @RawQuery
     abstract fun getAll(query: SupportSQLiteQuery): List<T>
+
+    @RawQuery(observedEntities = [SongDetail::class])
+    abstract fun getAllLive(simpleSQLiteQuery: SimpleSQLiteQuery): Flow<List<T>>
 
     @RawQuery
     abstract fun getItem(query: SupportSQLiteQuery): T

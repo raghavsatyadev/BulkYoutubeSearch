@@ -2,11 +2,11 @@
   "formatVersion": 1,
   "database": {
     "version": 2,
-    "identityHash": "7de9bb98f0f8237930eda4e332f36a01",
+    "identityHash": "e368675f402f58450d5a1aa01e6ebe63",
     "entities": [
       {
         "tableName": "song_detail",
-        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`id` INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL, `artist` TEXT NOT NULL, `thumbnail` TEXT NOT NULL, `title` TEXT NOT NULL, `description` TEXT NOT NULL, `link` TEXT NOT NULL, `oldTitle` TEXT NOT NULL)",
+        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`id` INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL, `artist` TEXT NOT NULL, `thumbnailHigh` TEXT NOT NULL, `thumbnailLow` TEXT NOT NULL, `title` TEXT NOT NULL, `description` TEXT NOT NULL, `link` TEXT NOT NULL, `oldTitle` TEXT NOT NULL)",
         "fields": [
           {
             "fieldPath": "id",
@@ -21,8 +21,14 @@
             "notNull": true
           },
           {
-            "fieldPath": "thumbnail",
-            "columnName": "thumbnail",
+            "fieldPath": "thumbnailHigh",
+            "columnName": "thumbnailHigh",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "thumbnailLow",
+            "columnName": "thumbnailLow",
             "affinity": "TEXT",
             "notNull": true
           },
@@ -59,20 +65,21 @@
         },
         "indices": [
           {
-            "name": "index_song_detail_link",
+            "name": "index_song_detail_link_oldTitle",
             "unique": true,
             "columnNames": [
-              "link"
+              "link",
+              "oldTitle"
             ],
             "orders": [],
-            "createSql": "CREATE UNIQUE INDEX IF NOT EXISTS `index_song_detail_link` ON `${TABLE_NAME}` (`link`)"
+            "createSql": "CREATE UNIQUE INDEX IF NOT EXISTS `index_song_detail_link_oldTitle` ON `${TABLE_NAME}` (`link`, `oldTitle`)"
           }
         ]
       }
     ],
     "setupQueries": [
       "CREATE TABLE IF NOT EXISTS room_master_table (id INTEGER PRIMARY KEY,identity_hash TEXT)",
-      "INSERT OR REPLACE INTO room_master_table (id,identity_hash) VALUES(42, '7de9bb98f0f8237930eda4e332f36a01')"
+      "INSERT OR REPLACE INTO room_master_table (id,identity_hash) VALUES(42, 'e368675f402f58450d5a1aa01e6ebe63')"
     ]
   }
 }

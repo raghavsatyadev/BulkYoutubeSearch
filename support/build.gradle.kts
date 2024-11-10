@@ -9,6 +9,7 @@ plugins {
     id("com.google.devtools.ksp")
 
     id("androidx.navigation.safeargs")
+    alias(libs.plugins.room)
 }
 
 fun readProperties(propertiesFile: File) = Properties().apply {
@@ -23,18 +24,22 @@ android {
     namespace = libs.versions.supportId.get()
     compileSdk = libs.versions.compileSdk.get().toInt()
 
+    room {
+        schemaDirectory("$projectDir/schemas")
+        // incremental("true")
+        // generateKotlin("true")
+    }
+    ksp {
+        arg("room.incremental", "true")
+        arg("room.generateKotlin", "true")
+    }
+
     defaultConfig {
         minSdk = libs.versions.minSdk.get().toInt()
         multiDexEnabled = true
 
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
         consumerProguardFiles.add(file("consumer-rules.pro"))
-
-        ksp {
-            arg("room.schemaLocation", "$projectDir/schemas")
-            arg("room.incremental", "true")
-            arg("room.expandProjection", "true")
-        }
 
         sourceSets {
             getByName("androidTest").assets.srcDirs(files("$projectDir/schemas"))

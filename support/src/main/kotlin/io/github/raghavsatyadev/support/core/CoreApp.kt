@@ -4,6 +4,12 @@ import android.app.Application
 import android.content.Context
 import android.widget.Toast
 import androidx.multidex.MultiDex
+import coil3.ImageLoader
+import coil3.SingletonImageLoader
+import coil3.disk.DiskCache
+import coil3.disk.directory
+import coil3.memory.MemoryCache
+import coil3.util.DebugLogger
 import com.google.android.gms.ads.MobileAds
 import com.google.firebase.FirebaseApp
 import io.github.raghavsatyadev.support.AppLog
@@ -48,6 +54,26 @@ class CoreApp : Application(), CoroutineScope {
         setupGoogleServices()
         RoomDBUtil.getDatabase()
         KtorUtil.httpClient
+        setupCoil()
+    }
+
+    private fun setupCoil() {
+        SingletonImageLoader.setSafe {
+            ImageLoader.Builder(instance)
+                .memoryCache {
+                    MemoryCache.Builder()
+                        .maxSizePercent(instance, 0.25)
+                        .build()
+                }
+                .diskCache {
+                    DiskCache.Builder()
+                        .directory(cacheDir.resolve("image_cache"))
+                        .maxSizeBytes(5 * 1024 * 1024)
+                        .build()
+                }
+                .logger(DebugLogger())
+                .build()
+        }
     }
 
     private fun setupGoogleServices() {

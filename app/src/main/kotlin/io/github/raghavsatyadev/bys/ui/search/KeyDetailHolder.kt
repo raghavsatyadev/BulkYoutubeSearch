@@ -4,12 +4,12 @@ import io.github.raghavsatyadev.bys.databinding.ItemKeyDetailBinding
 import io.github.raghavsatyadev.support.extensions.DateExtensions.formatMillisToDate
 import io.github.raghavsatyadev.support.list.CustomClickListener
 import io.github.raghavsatyadev.support.list.GenObjectHolder
-import io.github.raghavsatyadev.support.preferences.AppPrefsUtil
+import io.github.raghavsatyadev.support.models.general.APIKeyDetail
 
 class KeyDetailHolder(
     binding: ItemKeyDetailBinding,
     itemClickListener: CustomClickListener?,
-) : GenObjectHolder<AppPrefsUtil.APIKeyDetail, ItemKeyDetailBinding>(binding, itemClickListener) {
+) : GenObjectHolder<APIKeyDetail, ItemKeyDetailBinding>(binding, itemClickListener) {
     companion object {
         fun getInstance(
             binding: ItemKeyDetailBinding,
@@ -26,7 +26,7 @@ class KeyDetailHolder(
     }
 
     override fun bind(
-        model: AppPrefsUtil.APIKeyDetail,
+        model: APIKeyDetail,
         itemViewType: Int,
         position: Int,
         itemCount: Int,

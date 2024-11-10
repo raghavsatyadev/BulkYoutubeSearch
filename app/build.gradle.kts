@@ -12,6 +12,7 @@ plugins {
     alias(libs.plugins.com.android.application)
     alias(libs.plugins.org.jetbrains.kotlin.android)
 
+
     id("kotlin-parcelize")
     id("com.google.devtools.ksp")
 
@@ -20,6 +21,7 @@ plugins {
 
     id("androidx.navigation.safeargs")
 }
+
 sonar {
     properties {
         setAndroidVariant("DevDebug")

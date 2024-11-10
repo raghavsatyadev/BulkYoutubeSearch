@@ -30,7 +30,16 @@ class FoundSongsHolder(
                     Html.fromHtml(title, Html.FROM_HTML_MODE_COMPACT).toString()
                 txtFoundSongArtist.text =
                     Html.fromHtml(artist, Html.FROM_HTML_MODE_COMPACT).toString()
-                imgFoundSong.loadImage(thumbnail, placeHolder = placeholder, crossFade = true)
+                imgFoundSong.loadImage(
+                    thumbnailLow,
+                    placeHolder = placeholder,
+                    crossFade = true,
+                    listener = {
+                        imgFoundSong.loadImage(
+                            thumbnailHigh,
+                            crossFade = true,
+                        )
+                    })
             }
         }
     }

@@ -24,7 +24,7 @@ class SearchViewModel : CoreViewModel() {
     fun prepareSharingFile(listener: ResultListener<File>) {
         viewModelScope.launch {
             withContext(ioDispatcher) {
-                val songDetails = SongDetailDataUtil.getInstance().getAll()
+                val songDetails = SongDetailDataUtil.getInstance().getAllSorted()
                 val songTitles = songDetails.map {
                     it.title
                 }.toList().toJsonString()

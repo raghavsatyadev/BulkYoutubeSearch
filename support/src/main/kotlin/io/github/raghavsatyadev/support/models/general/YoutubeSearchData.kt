@@ -5,7 +5,6 @@ import androidx.annotation.Keep
 import kotlinx.parcelize.Parcelize
 
 @Keep
-
 @Parcelize
 data class YoutubeSearchData(
     var kind: String,
