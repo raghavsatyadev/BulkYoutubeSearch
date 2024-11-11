@@ -1,4 +1,4 @@
-package io.github.raghavsatyadev.support.activity_result
+package io.github.raghavsatyadev.support.extensions.activity_result
 
 import android.content.Intent
 import android.content.IntentSender
@@ -12,7 +12,8 @@ import androidx.activity.result.contract.ActivityResultContracts.StartIntentSend
 import androidx.core.app.ActivityOptionsCompat
 import androidx.fragment.app.Fragment
 
-object ActivityResultUtil {
+@Suppress("unused")
+object ActivityResultExtensions {
     fun ComponentActivity.registerActivityForResult(
         listener: ActivityResultListener,
     ): ActivityResultLauncher<Intent> {
@@ -50,9 +51,5 @@ object ActivityResultUtil {
         return registerForActivityResult(StartIntentSenderForResult()) { result: ActivityResult ->
             listener.onResult(ResultType.getEnumByResultIndex(result.resultCode), result.data)
         }
-    }
-
-    interface ActivityResultListener {
-        fun onResult(resultType: ResultType, data: Intent?)
     }
 }

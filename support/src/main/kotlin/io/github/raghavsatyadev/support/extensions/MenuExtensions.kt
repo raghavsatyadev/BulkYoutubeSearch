@@ -9,8 +9,8 @@ import androidx.lifecycle.Lifecycle.State
 import androidx.viewbinding.ViewBinding
 import io.github.raghavsatyadev.support.core.CoreActivity
 import io.github.raghavsatyadev.support.core.CoreFragment
-import io.github.raghavsatyadev.support.listeners.ResultListener
 
+@Suppress("MemberVisibilityCanBePrivate", "unused")
 object MenuExtensions {
     fun <T : ViewBinding> CoreFragment<T>.invalidateOptionsMenu() {
         menuHost.invalidateMenu()
@@ -19,7 +19,7 @@ object MenuExtensions {
     fun <T : ViewBinding> CoreFragment<T>.setupOptionsMenus(
         @MenuRes
         menuRes: Array<Int>,
-        menuPrepareListener: ResultListener<Menu>? = null,
+        menuPrepareListener: ((Menu) -> Unit)? = null,
         onMenuItemClickListener: (MenuItem) -> Boolean,
     ) {
         menuHost = requireActivity()
@@ -36,7 +36,7 @@ object MenuExtensions {
             }
 
             override fun onPrepareMenu(menu: Menu) {
-                menuPrepareListener?.onResult(menu)
+                menuPrepareListener?.invoke(menu)
                 super.onPrepareMenu(menu)
             }
         }, viewLifecycleOwner, State.STARTED)
@@ -45,7 +45,7 @@ object MenuExtensions {
     fun <T : ViewBinding> CoreFragment<T>.setupOptionsMenus(
         @MenuRes
         menuRes: Int,
-        menuPrepareListener: ResultListener<Menu>? = null,
+        menuPrepareListener: ((Menu) -> Unit)? = null,
         onMenuItemClickListener: (MenuItem) -> Boolean,
     ) {
         setupOptionsMenus(
@@ -58,7 +58,7 @@ object MenuExtensions {
     fun <T : ViewBinding> CoreActivity<T>.setupOptionsMenus(
         @MenuRes
         menuRes: Array<Int>,
-        menuPrepareListener: ResultListener<Menu>? = null,
+        menuPrepareListener: ((Menu) -> Unit)? = null,
         onMenuItemClickListener: (MenuItem) -> Boolean,
     ) {
         addMenuProvider(object : MenuProvider {
@@ -73,7 +73,7 @@ object MenuExtensions {
             }
 
             override fun onPrepareMenu(menu: Menu) {
-                menuPrepareListener?.onResult(menu)
+                menuPrepareListener?.invoke(menu)
                 super.onPrepareMenu(menu)
             }
         }, this, State.STARTED)
@@ -82,7 +82,7 @@ object MenuExtensions {
     fun <T : ViewBinding> CoreActivity<T>.setupOptionsMenus(
         @MenuRes
         menuRes: Int,
-        menuPrepareListener: ResultListener<Menu>? = null,
+        menuPrepareListener: ((Menu) -> Unit)? = null,
         onMenuItemClickListener: (MenuItem) -> Boolean,
     ) {
         setupOptionsMenus(arrayOf(menuRes), menuPrepareListener, onMenuItemClickListener)

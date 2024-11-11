@@ -12,11 +12,11 @@ import androidx.lifecycle.lifecycleScope
 import androidx.lifecycle.repeatOnLifecycle
 import androidx.viewbinding.ViewBinding
 import io.github.raghavsatyadev.support.AppLog
-import io.github.raghavsatyadev.support.KeyBoardUtil
 import io.github.raghavsatyadev.support.databinding.LoaderBinding
 import io.github.raghavsatyadev.support.extensions.AppExtensions.kotlinFileName
 import io.github.raghavsatyadev.support.extensions.NavigationExtensions.getNavController
 import io.github.raghavsatyadev.support.extensions.ViewExtensions.gone
+import io.github.raghavsatyadev.support.extensions.ViewExtensions.hideKeyBoard
 import io.github.raghavsatyadev.support.extensions.ViewExtensions.visible
 import kotlinx.coroutines.CoroutineExceptionHandler
 import kotlinx.coroutines.CoroutineScope
@@ -141,7 +141,7 @@ abstract class CoreFragment<Binding : ViewBinding> : Fragment(), CoroutineScope 
 
     private fun disableScreen(disable: Boolean) {
         if (disable) {
-            if (loader != null) KeyBoardUtil.hideKeyBoard(loader?.root)
+            if (loader != null) loader?.root?.hideKeyBoard()
             requireActivity().window.setFlags(
                 LayoutParams.FLAG_NOT_TOUCHABLE,
                 LayoutParams.FLAG_NOT_TOUCHABLE

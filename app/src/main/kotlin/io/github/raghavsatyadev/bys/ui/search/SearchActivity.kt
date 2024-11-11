@@ -12,13 +12,13 @@ import androidx.lifecycle.lifecycleScope
 import androidx.lifecycle.repeatOnLifecycle
 import io.github.raghavsatyadev.bys.R
 import io.github.raghavsatyadev.bys.databinding.ActivitySearchBinding
-import io.github.raghavsatyadev.support.ads.AdExtensions.loadAds
-import io.github.raghavsatyadev.support.ads.AdExtensions.showInterstitialAd
 import io.github.raghavsatyadev.support.core.CoreActivity
 import io.github.raghavsatyadev.support.extensions.ImplicitIntentExtensions.copyToClipboard
 import io.github.raghavsatyadev.support.extensions.ImplicitIntentExtensions.shareFile
 import io.github.raghavsatyadev.support.extensions.ViewExtensions.gone
 import io.github.raghavsatyadev.support.extensions.ViewExtensions.visible
+import io.github.raghavsatyadev.support.extensions.ads.AdExtensions.loadAds
+import io.github.raghavsatyadev.support.extensions.ads.AdExtensions.showInterstitialAd
 import io.github.raghavsatyadev.support.list.CustomClickListener
 import io.github.raghavsatyadev.support.preferences.AppPrefsUtil
 import io.github.raghavsatyadev.support.work_manager.YoutubeSearchWorker
@@ -78,7 +78,7 @@ class SearchActivity : CoreActivity<ActivitySearchBinding>() {
                     launch {
                         withContext(ioDispatcher) {
                             viewModel.prepareSharingFile { file ->
-                                file.shareFile(this@SearchActivity)
+                                shareFile(file)
                             }
                         }
                     }

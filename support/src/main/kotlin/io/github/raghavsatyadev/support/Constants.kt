@@ -1,7 +1,6 @@
 package io.github.raghavsatyadev.support
 
 object Constants {
-
     object Other {
         const val SPLASH_COUNTER: Long = 3000
 
@@ -15,7 +14,6 @@ object Constants {
         object Tables {
             const val SONG_DETAIL_TABLE = "song_detail"
 
-            const val USER_ID = "user_id"
             const val SONG_DETAIL_ID = "id"
             const val SONG_DETAIL_OLD_TITLE = "oldTitle"
             const val SONG_DETAIL_LINK = "link"

@@ -1,4 +1,4 @@
-@file:Suppress("UnstableApiUsage", "DEPRECATION")
+@file:Suppress("UnstableApiUsage")
 
 pluginManagement {
     repositories {
@@ -13,8 +13,6 @@ dependencyResolutionManagement {
         google()
         mavenCentral()
         mavenLocal()
-        // noinspection JcenterRepositoryObsolete
-        jcenter()
         maven(url = "https://jitpack.io")
         maven(url = "https://central.maven.org/maven2/")
         maven(url = "https://jitpack.io")

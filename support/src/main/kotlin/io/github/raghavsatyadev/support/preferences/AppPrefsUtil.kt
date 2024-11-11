@@ -1,21 +1,20 @@
 package io.github.raghavsatyadev.support.preferences
 
 import io.github.raghavsatyadev.support.core.CoreApp
-import io.github.raghavsatyadev.support.extensions.GsonExtensions.toGsonObject
-import io.github.raghavsatyadev.support.extensions.GsonExtensions.toJsonString
 import io.github.raghavsatyadev.support.models.general.APIKeyDetail
-import io.github.raghavsatyadev.support.models.general.User
+import io.github.raghavsatyadev.support.preferences.AppPrefsExtensions.deleteAllPrefs
+import io.github.raghavsatyadev.support.preferences.AppPrefsExtensions.getPrefs
+import io.github.raghavsatyadev.support.preferences.AppPrefsExtensions.getPrefsList
+import io.github.raghavsatyadev.support.preferences.AppPrefsExtensions.savePref
 import io.github.raghavsatyadev.support.preferences.AppPrefsUtil.FCM.NOTIFICATION_ENABLED
 import io.github.raghavsatyadev.support.preferences.AppPrefsUtil.FCM.TOKEN
 import io.github.raghavsatyadev.support.preferences.AppPrefsUtil.FCM.TOPICS
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.first
-import kotlinx.coroutines.flow.map
-import org.json.JSONArray
 
 object AppPrefsUtil {
-    suspend fun clearUserData() {
-        CoreApp.instance.clearAllPrefs()
+    suspend fun clearAppPreferences() {
+        CoreApp.instance.deleteAllPrefs()
     }
 
     suspend fun saveFCMToken(token: String) {
@@ -26,14 +25,12 @@ object AppPrefsUtil {
         return CoreApp.instance.getPrefs(TOKEN)
     }
 
-    suspend fun setFCMTopics(fcmTopics: JSONArray) {
-        CoreApp.instance.savePref(TOPICS, fcmTopics.toString())
+    suspend fun setFCMTopics(fcmTopics: ArrayList<String>) {
+        CoreApp.instance.savePref(TOPICS, fcmTopics)
     }
 
-    fun getFCMTopics(): Flow<String> {
-        return CoreApp.instance.getPrefs<String?>(TOPICS).map {
-            it ?: "[]"
-        }
+    fun getFCMTopics(): Flow<ArrayList<String>> {
+        return CoreApp.instance.getPrefs(TOPICS, ArrayList())
     }
 
     suspend fun setNotificationEnableStatus(isNotificationEnabled: Boolean) {
@@ -42,20 +39,6 @@ object AppPrefsUtil {
 
     fun isNotificationEnabled(): Flow<Boolean> {
         return CoreApp.instance.getPrefs(NOTIFICATION_ENABLED, true)
-    }
-
-    suspend fun saveUserDetails(user: User) {
-        CoreApp.instance.savePref(Keys.USER_DETAILS, user.toJsonString())
-    }
-
-    fun getUserDetails(): Flow<User?> {
-        return CoreApp.instance.getPrefs(Keys.USER_DETAILS, "").map {
-            if (it.isEmpty()) {
-                null
-            } else {
-                it.toGsonObject<User>()
-            }
-        }
     }
 
     suspend fun saveKeyDetail(currentKeyDetails: APIKeyDetail, currentMilliSecond: Long) {
@@ -72,17 +55,11 @@ object AppPrefsUtil {
         apiKeyDetails.sortBy {
             it.expiry
         }
-        CoreApp.instance.savePref(Keys.API_KEY_DETAILS, apiKeyDetails.toJsonString())
+        CoreApp.instance.savePref(Keys.API_KEY_DETAILS, apiKeyDetails)
     }
 
     fun getKeyDetails(): Flow<ArrayList<APIKeyDetail>> {
-        return CoreApp.instance.getPrefs(Keys.API_KEY_DETAILS, "").map {
-            if (it.isEmpty()) {
-                ArrayList()
-            } else {
-                it.toGsonObject<ArrayList<APIKeyDetail>>()
-            }
-        }
+        return CoreApp.instance.getPrefsList(Keys.API_KEY_DETAILS)
     }
 
     suspend fun setRemainingSongsToBeFound(firstTimeValue: Int = -1) {
@@ -101,7 +78,6 @@ object AppPrefsUtil {
     }
 
     object Keys {
-        const val USER_DETAILS = "user_details"
         const val API_KEY_DETAILS = "api_key_details"
         const val SONGS_REMAINING_TO_BE_FOUND = "songs_remaining_to_be_found"
     }

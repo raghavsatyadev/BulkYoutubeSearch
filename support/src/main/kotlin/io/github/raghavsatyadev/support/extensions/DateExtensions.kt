@@ -4,6 +4,7 @@ import java.text.SimpleDateFormat
 import java.util.Date
 import java.util.Locale
 
+@Suppress("unused")
 object DateExtensions {
     // Format millis to date
     fun String.formatMillisToDate(

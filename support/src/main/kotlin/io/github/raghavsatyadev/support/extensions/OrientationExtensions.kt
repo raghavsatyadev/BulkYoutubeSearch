@@ -11,6 +11,7 @@ import androidx.core.view.WindowCompat
 import androidx.core.view.WindowInsetsCompat
 import androidx.core.view.WindowInsetsControllerCompat
 
+@Suppress("unused")
 object OrientationExtensions {
     /**
      * will set [ActivityInfo.SCREEN_ORIENTATION_SENSOR_LANDSCAPE] if it is tab

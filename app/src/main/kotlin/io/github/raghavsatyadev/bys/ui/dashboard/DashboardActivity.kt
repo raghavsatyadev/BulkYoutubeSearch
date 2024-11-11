@@ -8,8 +8,8 @@ import io.github.raghavsatyadev.bys.databinding.ActivityDashboardBinding
 import io.github.raghavsatyadev.bys.ui.found_songs.FoundSongsActivity
 import io.github.raghavsatyadev.bys.ui.manage_keys.ManageKeysActivity
 import io.github.raghavsatyadev.bys.ui.search.SearchActivity
-import io.github.raghavsatyadev.support.ads.AdExtensions.loadAds
 import io.github.raghavsatyadev.support.core.CoreActivity
+import io.github.raghavsatyadev.support.extensions.ads.AdExtensions.loadAds
 
 class DashboardActivity : CoreActivity<ActivityDashboardBinding>() {
     private val viewModel: DashboardViewModel by viewModels()

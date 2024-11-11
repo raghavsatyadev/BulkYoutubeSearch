@@ -20,9 +20,9 @@ import io.github.raghavsatyadev.support.R
 import io.github.raghavsatyadev.support.core.CoreActivity
 import io.github.raghavsatyadev.support.core.CoreFragment
 
-@Suppress("MemberVisibilityCanBePrivate", "unused")
+@Suppress("unused", "MemberVisibilityCanBePrivate")
 object NavigationExtensions {
-    fun getAnimationNavOption() = navOptions {
+    private fun getAnimationNavOption() = navOptions {
         anim {
             getNavigationAnimationBuilder()
         }

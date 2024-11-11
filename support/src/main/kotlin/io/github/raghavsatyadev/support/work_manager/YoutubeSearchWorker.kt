@@ -10,8 +10,7 @@ import androidx.work.WorkInfo
 import androidx.work.WorkManager
 import androidx.work.WorkerParameters
 import io.github.raghavsatyadev.support.core.CoreApp
-import io.github.raghavsatyadev.support.listeners.ResultListener
-import io.github.raghavsatyadev.support.work_manager.YoutubeSearch.searchVideos
+import io.github.raghavsatyadev.support.work_manager.YoutubeSearchUtil.searchVideos
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.coroutineScope
 import kotlinx.coroutines.flow.collectLatest
@@ -72,17 +71,17 @@ class YoutubeSearchWorker(appContext: Context, workerParams: WorkerParameters) :
         }
 
         suspend fun listenToWorkStatus(
-            onOneTimeWorkStatusChanged: ResultListener<Boolean>,
-            onPeriodicWorkStatusChanged: ResultListener<Boolean>,
+            onOneTimeWorkStatusChanged: ((Boolean) -> Unit),
+            onPeriodicWorkStatusChanged: ((Boolean) -> Unit),
         ) {
             oneTimeWorkStatus.collectLatest { infos ->
                 val oneTimeWorkRunning = infos.any { it.state == WorkInfo.State.RUNNING }
 
-                onOneTimeWorkStatusChanged.onResult(oneTimeWorkRunning)
+                onOneTimeWorkStatusChanged(oneTimeWorkRunning)
             }
             periodicWorkStatus.collectLatest { infos ->
                 val periodicWorkRunning = infos.any { it.state == WorkInfo.State.RUNNING }
-                onPeriodicWorkStatusChanged.onResult(periodicWorkRunning)
+                onPeriodicWorkStatusChanged(periodicWorkRunning)
             }
         }
     }

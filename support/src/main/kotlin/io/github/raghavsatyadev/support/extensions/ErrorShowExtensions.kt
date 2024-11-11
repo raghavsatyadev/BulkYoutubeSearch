@@ -3,7 +3,6 @@ package io.github.raghavsatyadev.support.extensions
 import android.content.DialogInterface
 import androidx.activity.ComponentActivity
 import androidx.annotation.StringRes
-import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.Fragment
 import com.google.android.material.dialog.MaterialAlertDialogBuilder
 import com.google.android.material.snackbar.Snackbar
@@ -15,10 +14,6 @@ object ErrorShowExtensions {
         Snackbar.make(requireContext(), requireView(), message, Snackbar.LENGTH_LONG).show()
     }
 
-    fun AppCompatActivity.snackBar(message: String) {
-        Snackbar.make(findViewById(android.R.id.content), message, Snackbar.LENGTH_LONG).show()
-    }
-
     fun ComponentActivity.snackBar(message: String) {
         Snackbar.make(findViewById(android.R.id.content), message, Snackbar.LENGTH_LONG).show()
     }
@@ -28,14 +23,6 @@ object ErrorShowExtensions {
         message: Int,
     ) {
         Snackbar.make(requireContext(), requireView(), getString(message), Snackbar.LENGTH_LONG)
-            .show()
-    }
-
-    fun AppCompatActivity.snackBar(
-        @StringRes
-        message: Int,
-    ) {
-        Snackbar.make(findViewById(android.R.id.content), getString(message), Snackbar.LENGTH_LONG)
             .show()
     }
 
@@ -54,19 +41,6 @@ object ErrorShowExtensions {
         message: Int,
     ) {
         MaterialAlertDialogBuilder(requireContext())
-            .setTitle(R.string.error)
-            .setMessage(getString(message))
-            .setNegativeButton(
-                R.string.okay
-            ) { dialog: DialogInterface, _: Int -> dialog.dismiss() }
-            .show()
-    }
-
-    fun AppCompatActivity.errorDialog(
-        @StringRes
-        message: Int,
-    ) {
-        MaterialAlertDialogBuilder(this)
             .setTitle(R.string.error)
             .setMessage(getString(message))
             .setNegativeButton(

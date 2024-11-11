@@ -1,6 +1,6 @@
 @file:Suppress("MemberVisibilityCanBePrivate", "unused")
 
-package io.github.raghavsatyadev.support.ads
+package io.github.raghavsatyadev.support.extensions.ads
 
 import androidx.activity.ComponentActivity
 import androidx.fragment.app.Fragment

@@ -7,6 +7,7 @@ import com.google.android.gms.common.GoogleApiAvailability
 import io.github.raghavsatyadev.support.extensions.ImplicitIntentExtensions.openPlayServiceUpdate
 import io.github.raghavsatyadev.support.extensions.Randoms.randomInt
 
+@Suppress("unused")
 object GoogleExtensions {
     private const val REQUIRED_PLAY_SERVICES_VERSION: Int = 241427032
 

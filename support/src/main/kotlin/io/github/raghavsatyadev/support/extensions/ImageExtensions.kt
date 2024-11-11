@@ -1,5 +1,3 @@
-@file:Suppress("unused")
-
 package io.github.raghavsatyadev.support.extensions
 
 import android.graphics.drawable.Drawable
@@ -18,6 +16,7 @@ import coil3.request.placeholder
 import coil3.request.target
 import io.github.raghavsatyadev.support.extensions.ResourceExtensions.getConDrawable
 
+@Suppress("unused")
 object ImageExtensions {
     fun ImageView.loadImage(
         url: String?,

@@ -31,6 +31,7 @@ import java.net.HttpURLConnection
 import java.net.URL
 import java.util.Random
 
+@Suppress("unused")
 object NotificationUtils {
     private const val MINIMUM = 1
 
@@ -72,7 +73,6 @@ object NotificationUtils {
                 PendingIntent.getActivity(this, notificationIdChanged, intent, pendingIntentFlag)
             )
 
-        // TODO: Handle Notification permission
         if (ActivityCompat.checkSelfPermission(
                 this,
                 Manifest.permission.POST_NOTIFICATIONS
@@ -120,10 +120,11 @@ object NotificationUtils {
         ).build()
     }
 
-    fun getNotificationChannelBuilder(
+    private fun getNotificationChannelBuilder(
         id: String?,
         channelName: String?,
         channelDescription: String,
+        @Suppress("SameParameterValue")
         importance: Int,
         defaultSoundUri: Uri,
     ): NotificationChannelCompat.Builder {
@@ -137,7 +138,7 @@ object NotificationUtils {
         }
     }
 
-    fun Context.getNotificationBuilder(
+    private fun Context.getNotificationBuilder(
         title: String?,
         message: String?,
         imageURL: String?,

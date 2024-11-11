@@ -18,7 +18,7 @@ import java.io.File
 import java.net.URLEncoder
 
 @Suppress("unused", "MemberVisibilityCanBePrivate")
-object APIFieldUtil {
+object APIFieldExtensions {
 
     /**
      * Converts File into Multipart Object

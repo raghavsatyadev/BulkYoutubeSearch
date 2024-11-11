@@ -8,10 +8,10 @@ import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.lifecycleScope
 import androidx.lifecycle.repeatOnLifecycle
 import io.github.raghavsatyadev.bys.databinding.ActivityFoundSongsBinding
-import io.github.raghavsatyadev.support.ads.AdExtensions.loadAds
 import io.github.raghavsatyadev.support.core.CoreActivity
 import io.github.raghavsatyadev.support.extensions.ImplicitIntentExtensions.openBrowser
 import io.github.raghavsatyadev.support.extensions.ResourceExtensions.getConDrawable
+import io.github.raghavsatyadev.support.extensions.ads.AdExtensions.loadAds
 import io.github.raghavsatyadev.support.list.CustomClickListener
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext

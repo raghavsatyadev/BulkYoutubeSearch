@@ -1,18 +1,18 @@
 package io.github.raghavsatyadev.support
 
-import android.content.Context
-import android.net.Uri
-import android.os.Environment
-import androidx.core.content.FileProvider
 import io.github.raghavsatyadev.support.core.CoreApp
 import io.github.raghavsatyadev.support.extensions.AppExtensions.kotlinFileName
 import java.io.File
 import java.io.IOException
 
-@Suppress("unused")
+@Suppress("unused", "MemberVisibilityCanBePrivate")
 object StorageUtils {
-    fun createInternalDirectory(): String {
-        return CoreApp.instance.filesDir.absolutePath
+    fun getAppStorageDir(): File {
+        return CoreApp.instance.filesDir
+    }
+
+    fun getCacheDirectory(): File {
+        return CoreApp.instance.cacheDir
     }
 
     fun createFile(
@@ -20,7 +20,7 @@ object StorageUtils {
         fileName: String,
         replace: Boolean = false,
     ): File {
-        val file = getFilePathWithoutCreating(fileName, parentFolderName, replace)
+        val file = getFileWithoutCreating(fileName, parentFolderName, replace)
         try {
             if (replace || !file.exists()) file.createNewFile()
         } catch (e: IOException) {
@@ -35,65 +35,31 @@ object StorageUtils {
         return file
     }
 
-    fun File.getUriForFile(context: Context): Uri {
-        return FileProvider.getUriForFile(
-            context,
-            CoreApp.instance.packageName + ".fileprovider",
-            this
-        )
-    }
-
     /**
      * Create a file in the storage location taken from the
-     * [StorageUtils.createExternalDirectory]
+     * [StorageUtils.getAppStorageDir]
      */
     @Suppress("MemberVisibilityCanBePrivate")
-    fun getFilePathWithoutCreating(
+    fun getFileWithoutCreating(
         fileName: String,
         parentFolderName: String? = null,
-        replace: Boolean = false,
+        deleteIfExists: Boolean = false,
     ): File {
-        val root = createExternalDirectory()
-        val myDir = if (!parentFolderName.isNullOrEmpty()) {
-            File(root, parentFolderName)
+        val rootDir = if (parentFolderName.isNullOrEmpty()) {
+            getAppStorageDir()
         } else {
-            File(root)
+            File(getAppStorageDir(), parentFolderName)
         }
-        if (!myDir.exists()) {
-            myDir.mkdirs()
-        }
-        var file = myDir
+
+        rootDir.mkdirs()
+
         if (fileName.isNotEmpty()) {
-            file = File(myDir, fileName)
-            if (file.exists()) {
-                if (replace) file.delete()
+            val file = File(rootDir, fileName)
+            if (file.exists() && deleteIfExists) {
+                file.delete()
             }
-        }
-        return file
-    }
-
-    fun getCacheDirectory(): File {
-        return CoreApp.instance.cacheDir
-    }
-
-    /**
-     * tries to create external file directory in downloads with app name, if
-     * not possible it will create internal folder
-     */
-    private fun createExternalDirectory(): String {
-        val state = Environment.getExternalStorageState()
-        var baseDir: String? = null
-        if (Environment.MEDIA_MOUNTED == state) {
-            val baseDirFile: File? = CoreApp.instance.getExternalFilesDir(
-                Environment.DIRECTORY_DOWNLOADS
-            )
-            if (baseDirFile != null) {
-                baseDir = baseDirFile.absolutePath
-            }
-        }
-        if (baseDir == null) {
-            baseDir = CoreApp.instance.filesDir.absolutePath
-        }
-        return baseDir!!
+            return file
+        } else
+            return rootDir
     }
 }

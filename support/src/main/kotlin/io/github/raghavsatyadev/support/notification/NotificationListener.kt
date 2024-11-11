@@ -1,12 +1,12 @@
 package io.github.raghavsatyadev.support.notification
 
-import android.net.Uri
 import android.text.TextUtils
 import com.google.android.gms.tasks.Tasks
 import com.google.firebase.messaging.FirebaseMessaging
 import com.google.firebase.messaging.FirebaseMessagingService
 import com.google.firebase.messaging.RemoteMessage
 import io.github.raghavsatyadev.support.AppLog
+import io.github.raghavsatyadev.support.BuildConfig
 import io.github.raghavsatyadev.support.Constants
 import io.github.raghavsatyadev.support.R
 import io.github.raghavsatyadev.support.core.CoreApp
@@ -22,11 +22,11 @@ import kotlinx.coroutines.Job
 import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
-import org.json.JSONArray
 import org.json.JSONException
 import org.json.JSONObject
 import kotlin.coroutines.CoroutineContext
 
+@Suppress("UNUSED_PARAMETER")
 class NotificationListener : FirebaseMessagingService(), CoroutineScope {
     private lateinit var job: Job
 
@@ -47,98 +47,15 @@ class NotificationListener : FirebaseMessagingService(), CoroutineScope {
     override val coroutineContext: CoroutineContext
         get() {
             var context = Dispatchers.Main + job
-            if (!io.github.raghavsatyadev.support.BuildConfig.DEBUG) context += handler
+            if (!BuildConfig.DEBUG) context += handler
             return context
         }
 
     override fun onMessageReceived(packet: RemoteMessage) {
         val from = packet.from
-
-        val message: String? = parseNotification(packet)
-        if (message == null) {
-            getMessageFromData(packet)
-        }
-
+        val message = getMessageFromData(packet)
         launch {
             handlePacketMessage(from, message)
-        }
-    }
-
-    private fun parseNotification(packet: RemoteMessage): String? {
-        var message = parseLoginNotification(packet)
-        if (TextUtils.isEmpty(message)) {
-            message = parseCameraNotification(packet)
-        } else if (TextUtils.isEmpty(message)) {
-            message = parseHomeDeleteNotification(packet)
-        } else if (TextUtils.isEmpty(message)) {
-            message = parseRemoveDeviceNotification(packet)
-        }
-
-        return message
-    }
-
-    private fun parseRemoveDeviceNotification(packet: RemoteMessage): String? {
-        return try {
-            null
-        } catch (e: Exception) {
-            AppLog.loge(
-                true,
-                kotlinFileName,
-                "parseRemoveDeviceNotification",
-                e,
-                Exception()
-            )
-            return null
-        }
-    }
-
-    private fun parseHomeDeleteNotification(packet: RemoteMessage): String? {
-        return try {
-            val uri = Uri.parse(packet.data["link"])
-            JSONObject().apply {
-                put("description", uri.getQueryParameter("cc"))
-                put("title", uri.getQueryParameter("ct"))
-            }.toString()
-        } catch (e: Exception) {
-            AppLog.loge(
-                true,
-                kotlinFileName,
-                "parseHomeDeleteNotification",
-                e,
-                Exception()
-            )
-            return null
-        }
-    }
-
-    /** from "link" field URL and its "ct" and "cc" parameter */
-    private fun parseCameraNotification(
-        packet: RemoteMessage,
-    ): String? {
-        return try {
-            val uri = Uri.parse(packet.data["link"])
-            JSONObject().apply {
-                put("description", uri.getQueryParameter("cc"))
-                put("title", uri.getQueryParameter("ct"))
-            }.toString()
-        } catch (e: Exception) {
-            AppLog.loge(true, kotlinFileName, "parseCameraNotification", e, Exception())
-            return null
-        }
-    }
-
-    private fun parseLoginNotification(
-        packet: RemoteMessage,
-    ): String? {
-        return try {
-            val uri = Uri.parse(packet.data["link"])
-            JSONObject().apply {
-                put("description", uri.getQueryParameter("cc"))
-                put("title", uri.getQueryParameter("ct"))
-            }.toString()
-        } catch (e: Exception) {
-            AppLog.loge(true, kotlinFileName, "parseCameraNotification", e, Exception())
-            return null
         }
     }
 
@@ -200,27 +117,9 @@ class NotificationListener : FirebaseMessagingService(), CoroutineScope {
         return message
     }
 
+    @Suppress("ControlFlowWithEmptyBody")
     private suspend fun traverseMessage(notificationData: String?) {
         if (isNotificationEnabled().first()) {
-            try {
-                notificationData?.let {
-                    val jsonObject = JSONObject(it)
-                    var title: String? = null
-                    var message: String? = null
-                    var imageURL: String? = null
-                    if (jsonObject.has("title")) {
-                        title = jsonObject.getString("title")
-                    }
-                    if (jsonObject.has("description")) {
-                        message = jsonObject.getString("description")
-                    }
-                    if (jsonObject.has("image_url")) {
-                        imageURL = jsonObject.getString("image_url")
-                    }
-                }
-            } catch (e: JSONException) {
-                AppLog.loge(false, kotlinFileName, "traverseMessage", e, Exception())
-            }
         }
     }
 
@@ -237,12 +136,12 @@ class NotificationListener : FirebaseMessagingService(), CoroutineScope {
         private val defaultDispatcher = Dispatchers.Default
 
         suspend fun saveTokenProcess(token: String) {
-            if (io.github.raghavsatyadev.support.BuildConfig.DEBUG) {
+            if (BuildConfig.DEBUG) {
                 AppLog.loge(true, kotlinFileName, "saveTokenProcess", token, Exception())
             }
 
             saveFCMToken(token)
-            subscribeTopics()
+            subscribeTopics(arrayListOf())
         }
 
         suspend fun recreateToken() {
@@ -252,15 +151,15 @@ class NotificationListener : FirebaseMessagingService(), CoroutineScope {
             }
         }
 
-        private suspend fun subscribeTopics(topics: JSONArray = JSONArray()) {
+        private suspend fun subscribeTopics(topics: ArrayList<String>) {
             unSubscribeTopics()
-            topics.put(CoreApp.instance.getString(R.string.app_name))
+            topics.add(CoreApp.instance.getString(R.string.app_name))
             val pubSub = FirebaseMessaging.getInstance()
-            val modifiedTopics = JSONArray()
-            for (i in 0 until topics.length()) {
+            val modifiedTopics = ArrayList<String>()
+            for (i in 0 until topics.size) {
                 try {
-                    val topic = makeTopic(topics.getString(i))
-                    modifiedTopics.put(topic)
+                    val topic = makeTopic(topics[i])
+                    modifiedTopics.add(topic)
                     pubSub.subscribeToTopic(topic)
                 } catch (e: JSONException) {
                     AppLog.loge(false, kotlinFileName, "subscribeTopics", e, Exception())
@@ -270,13 +169,13 @@ class NotificationListener : FirebaseMessagingService(), CoroutineScope {
         }
 
         suspend fun unSubscribeTopics() {
-            val fcmTopics = JSONArray(getFCMTopics().first())
+            val fcmTopics = (getFCMTopics().first())
             fcmTopics.let {
                 val pubSub = FirebaseMessaging.getInstance()
-                for (i in 0 until it.length()) {
-                    pubSub.unsubscribeFromTopic(it.getString(i))
+                for (i in 0 until it.size) {
+                    pubSub.unsubscribeFromTopic(it[i])
                 }
-                setFCMTopics(JSONArray())
+                setFCMTopics(arrayListOf())
             }
         }
 

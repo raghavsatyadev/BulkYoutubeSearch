@@ -5,8 +5,8 @@ import android.content.Intent
 import android.os.Bundle
 import androidx.activity.viewModels
 import io.github.raghavsatyadev.bys.databinding.ActivityManageKeysBinding
-import io.github.raghavsatyadev.support.ads.AdExtensions.loadAds
 import io.github.raghavsatyadev.support.core.CoreActivity
+import io.github.raghavsatyadev.support.extensions.ads.AdExtensions.loadAds
 
 class ManageKeysActivity : CoreActivity<ActivityManageKeysBinding>() {
     private val viewModel: ManageKeysViewModel by viewModels()

@@ -1,5 +1,3 @@
-@file:Suppress("MemberVisibilityCanBePrivate")
-
 package io.github.raghavsatyadev.support.extensions
 
 import android.content.ClipData
@@ -11,13 +9,14 @@ import androidx.core.app.ShareCompat
 import androidx.fragment.app.Fragment
 import io.github.raghavsatyadev.support.AppLog
 import io.github.raghavsatyadev.support.R
-import io.github.raghavsatyadev.support.StorageUtils.getUriForFile
 import io.github.raghavsatyadev.support.extensions.AppExtensions.kotlinFileName
+import io.github.raghavsatyadev.support.extensions.FileExtensions.getUriForFile
 import java.io.File
 import java.io.UnsupportedEncodingException
 import java.net.URLConnection
 import java.net.URLEncoder
 
+@Suppress("unused", "MemberVisibilityCanBePrivate")
 object ImplicitIntentExtensions {
     fun Context.openDialer(number: String) {
         val intent = Intent(Intent.ACTION_DIAL)
@@ -95,11 +94,13 @@ object ImplicitIntentExtensions {
     }
 
     fun Context.openWhatsapp(phoneNumberWithCountryCode: String) {
-        val phoneNumberWithCountryCodeChanged =
-            phoneNumberWithCountryCode.replace("\\+".toRegex(), "").replace(" ".toRegex(), "")
-                .replace("\\.".toRegex(), "").replace("\\(".toRegex(), "")
-                .replace("\\)".toRegex(), "")
-        openBrowser("https://api.whatsapp.com/send?phone=$phoneNumberWithCountryCodeChanged")
+        val phoneNumber = phoneNumberWithCountryCode
+            .replace("\\+".toRegex(), "")
+            .replace(" ".toRegex(), "")
+            .replace("\\.".toRegex(), "")
+            .replace("\\(".toRegex(), "")
+            .replace("\\)".toRegex(), "")
+        openBrowser("https://api.whatsapp.com/send?phone=$phoneNumber")
     }
 
     fun Context.shareApp() {

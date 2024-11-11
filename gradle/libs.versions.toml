@@ -52,7 +52,6 @@ firebase-functions = "21.0.0"
 firebase-storage = "21.0.1"
 fragment-ktx = "1.8.5"
 gson = "2.11.0"
-imagepicker = "2.1"
 junit = "4.13.2"
 junit-jupiter = "5.11.3"
 coroutines = "1.9.0"
@@ -141,7 +140,6 @@ coil = { module = "io.coil-kt.coil3:coil", version.ref = "coil" }
 coil-network-ktor3 = { module = "io.coil-kt.coil3:coil-network-ktor3", version.ref = "coil" }
 
 #Other
-imagepicker = { module = "com.github.dhaval2404:imagepicker", version.ref = "imagepicker" }
 permissionx = { module = "com.guolindev.permissionx:permissionx", version.ref = "permissionx" }
 lottie = { module = "com.airbnb.android:lottie", version.ref = "lottie" }
 gson = { module = "com.google.code.gson:gson", version.ref = "gson" }
@@ -223,7 +221,6 @@ ktor = [
 ]
 other = [
     "gson",
-    "imagepicker",
     "permissionx",
     "lottie",
 ]

@@ -1,4 +1,4 @@
-package io.github.raghavsatyadev.support.activity_result
+package io.github.raghavsatyadev.support.extensions.activity_result
 
 enum class ResultType(val resultIndex: Int) {
     CANCELED(0),
@@ -11,8 +11,5 @@ enum class ResultType(val resultIndex: Int) {
             return CANCELED
         }
 
-        fun size(): Int {
-            return entries.size
-        }
     }
 }

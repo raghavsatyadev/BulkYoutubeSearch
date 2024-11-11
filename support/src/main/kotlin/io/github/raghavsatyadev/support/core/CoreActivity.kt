@@ -7,13 +7,13 @@ import androidx.activity.addCallback
 import androidx.appcompat.app.AppCompatActivity
 import androidx.viewbinding.ViewBinding
 import io.github.raghavsatyadev.support.AppLog
-import io.github.raghavsatyadev.support.KeyBoardUtil
 import io.github.raghavsatyadev.support.R
 import io.github.raghavsatyadev.support.databinding.LoaderBinding
 import io.github.raghavsatyadev.support.databinding.ToolBarBinding
 import io.github.raghavsatyadev.support.extensions.AppExtensions.kotlinFileName
 import io.github.raghavsatyadev.support.extensions.ResourceExtensions.getConDrawable
 import io.github.raghavsatyadev.support.extensions.ViewExtensions.gone
+import io.github.raghavsatyadev.support.extensions.ViewExtensions.hideKeyBoard
 import io.github.raghavsatyadev.support.extensions.ViewExtensions.visible
 import kotlinx.coroutines.CoroutineExceptionHandler
 import kotlinx.coroutines.CoroutineScope
@@ -124,7 +124,7 @@ abstract class CoreActivity<Binding : ViewBinding> : AppCompatActivity(), Corout
 
     private fun disableScreen(disable: Boolean) {
         if (disable) {
-            if (loader != null) KeyBoardUtil.hideKeyBoard(loader?.root)
+            if (loader != null) loader?.root?.hideKeyBoard()
             window.setFlags(
                 WindowManager.LayoutParams.FLAG_NOT_TOUCHABLE,
                 WindowManager.LayoutParams.FLAG_NOT_TOUCHABLE

@@ -2,21 +2,19 @@ package io.github.raghavsatyadev.support.extensions
 
 import android.content.Context
 import android.content.pm.PackageManager
-import androidx.appcompat.app.AppCompatActivity
 import androidx.core.app.ActivityCompat
 import androidx.fragment.app.Fragment
+import androidx.fragment.app.FragmentActivity
 import com.permissionx.guolindev.PermissionX
 import io.github.raghavsatyadev.support.R
-import io.github.raghavsatyadev.support.listeners.CompleteListener
-import io.github.raghavsatyadev.support.listeners.ErrorListener
 
 @Suppress("unused", "MemberVisibilityCanBePrivate")
 object PermissionExtensions {
-    fun AppCompatActivity.getPermissionX(
+    fun FragmentActivity.getPermissionX(
         permissions: List<String>,
         permissionReason: String? = null,
-        listener: CompleteListener? = null,
-        errorListener: ErrorListener<List<String>>? = null,
+        listener: (() -> Unit)? = null,
+        errorListener: ((List<String>) -> Unit)? = null,
     ) = PermissionX.init(this)
         .permissions(permissions)
         .explainReasonBeforeRequest()
@@ -38,17 +36,17 @@ object PermissionExtensions {
         }
         .request { allGranted, _, deniedList ->
             if (allGranted) {
-                listener?.onComplete()
+                listener?.invoke()
             } else {
-                errorListener?.onError(deniedList)
+                errorListener?.invoke(deniedList)
             }
         }
 
     fun Fragment.getPermissionX(
         permissions: List<String>,
         permissionReason: String? = null,
-        listener: CompleteListener? = null,
-        errorListener: ErrorListener<List<String>>? = null,
+        listener: (() -> Unit)? = null,
+        errorListener: ((List<String>) -> Unit)? = null,
     ) = PermissionX.init(this)
         .permissions(permissions)
         .explainReasonBeforeRequest()
@@ -70,9 +68,9 @@ object PermissionExtensions {
         }
         .request { allGranted, _, deniedList ->
             if (allGranted) {
-                listener?.onComplete()
+                listener?.invoke()
             } else {
-                errorListener?.onError(deniedList)
+                errorListener?.invoke(deniedList)
             }
         }
 

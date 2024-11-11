@@ -19,7 +19,6 @@ import java.util.Locale
 
 @Suppress("MemberVisibilityCanBePrivate")
 object ResourceExtensions {
-
     fun getString(
         format: String,
         vararg formatArgs: Any?,

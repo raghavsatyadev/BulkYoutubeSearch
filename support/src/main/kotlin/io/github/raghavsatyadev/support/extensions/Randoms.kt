@@ -2,6 +2,7 @@ package io.github.raghavsatyadev.support.extensions
 
 import kotlin.random.Random
 
+@Suppress("unused")
 object Randoms {
 
     /**

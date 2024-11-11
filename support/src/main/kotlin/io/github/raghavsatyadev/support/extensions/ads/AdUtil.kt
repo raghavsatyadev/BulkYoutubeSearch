@@ -1,4 +1,4 @@
-package io.github.raghavsatyadev.support.ads
+package io.github.raghavsatyadev.support.extensions.ads
 
 import android.app.Activity
 import android.view.Display
@@ -11,7 +11,6 @@ import com.google.android.gms.ads.interstitial.InterstitialAd
 import com.google.android.gms.ads.interstitial.InterstitialAdLoadCallback
 import io.github.raghavsatyadev.support.BuildConfig
 import io.github.raghavsatyadev.support.R
-import io.github.raghavsatyadev.support.listeners.ResultListener
 
 object AdUtil {
     fun loadBannerAd(activity: Activity, adContainerView: AdView) {
@@ -54,7 +53,7 @@ object AdUtil {
     }
 
 
-    fun loadInterstitialAd(activity: Activity, listener: ResultListener<InterstitialAd?>) {
+    fun loadInterstitialAd(activity: Activity, listener: ((InterstitialAd?) -> Unit)) {
         val adRequest = AdRequest.Builder().build()
 
         InterstitialAd.load(
@@ -62,11 +61,11 @@ object AdUtil {
             object : InterstitialAdLoadCallback() {
                 override fun onAdLoaded(ad: InterstitialAd) {
                     ad.setImmersiveMode(true)
-                    listener.onResult(ad)
+                    listener(ad)
                 }
 
                 override fun onAdFailedToLoad(loadAdError: LoadAdError) {
-                    listener.onResult(null)
+                    listener(null)
                 }
             })
     }

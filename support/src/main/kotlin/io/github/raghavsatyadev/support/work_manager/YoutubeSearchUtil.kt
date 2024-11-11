@@ -19,15 +19,13 @@ import java.io.File
 import java.io.FileWriter
 import java.io.IOException
 
-object YoutubeSearch {
+object YoutubeSearchUtil {
     private var apiKeys: ArrayList<APIKeyDetail> = ArrayList()
 
     private val parentFile =
-        StorageUtils.getFilePathWithoutCreating("Videos").apply {
-            mkdirs()
-        }
+        StorageUtils.getFileWithoutCreating("Videos")
     private val readerFile = File(parentFile, "video_names.json")
-    private val resultFile: File = File(parentFile, "video_links.json")
+    private val resultFile = File(parentFile, "video_links.json")
 
     suspend fun searchVideos(): Boolean {
         val (isDataSetupCorrectly, remainingSongs) = setupData()
@@ -195,7 +193,13 @@ object YoutubeSearch {
             }
             return readStringFromFile.toGsonObject()
         } catch (e: IOException) {
-            AppLog.loge(false, this@YoutubeSearch.kotlinFileName, "getVideoTitles", e, Exception())
+            AppLog.loge(
+                false,
+                this@YoutubeSearchUtil.kotlinFileName,
+                "getVideoTitles",
+                e,
+                Exception()
+            )
         }
         return ArrayList()
     }
