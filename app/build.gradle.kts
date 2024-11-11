@@ -1,5 +1,3 @@
-@file:Suppress("DEPRECATION")
-
 import com.android.build.api.variant.AndroidComponentsExtension
 import com.android.build.gradle.api.ApplicationVariant
 import com.android.build.gradle.api.BaseVariantOutput
