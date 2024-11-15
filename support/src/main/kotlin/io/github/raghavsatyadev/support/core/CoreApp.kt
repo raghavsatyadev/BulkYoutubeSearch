@@ -79,30 +79,11 @@ class CoreApp : Application(), CoroutineScope {
     private fun setupGoogleServices() {
         if (checkPlayServiceAvailability()) {
             MobileAds.initialize(this)
-            val initializeApp = FirebaseApp.initializeApp(this)
-            initializeApp?.let {
-                // initializeAppCheck(it)
-            }
+            FirebaseApp.initializeApp(this)
         } else {
             Toast.makeText(this, R.string.warning_update_play_service, Toast.LENGTH_SHORT).show()
         }
     }
-
-    // private fun initializeAppCheck(firebaseApp: FirebaseApp) {
-    //     Firebase.appCheck.installAppCheckProviderFactory(
-    //         if (BuildConfig.DEBUG) {
-    //             val storageHelper = StorageHelper(
-    //                 firebaseApp.applicationContext,
-    //                 firebaseApp.persistenceKey
-    //             )
-    //             // TODO: Don't forget to delete this when publishing the app
-    //             storageHelper.saveDebugSecret("2E434121-1420-400F-8DCB-8E9AB4098386")
-    //             DebugAppCheckProviderFactory.getInstance()
-    //         } else {
-    //             PlayIntegrityAppCheckProviderFactory.getInstance()
-    //         },
-    //     )
-    // }
 
     override fun attachBaseContext(base: Context?) {
         super.attachBaseContext(base)

@@ -6,7 +6,6 @@ import androidx.room.ColumnInfo
 import androidx.room.Entity
 import androidx.room.Index
 import androidx.room.PrimaryKey
-import com.google.firebase.firestore.PropertyName
 import io.github.raghavsatyadev.support.Constants.DB.Tables
 import kotlinx.parcelize.Parcelize
 import kotlinx.serialization.SerialName
@@ -25,10 +24,6 @@ import kotlinx.serialization.Transient
 data class SongDetail(
     @Transient
     @SerialName(Tables.SONG_DETAIL_ID)
-    @get:PropertyName(Tables.SONG_DETAIL_ID)
-    @set:PropertyName(
-        Tables.SONG_DETAIL_ID
-    )
     @ColumnInfo(Tables.SONG_DETAIL_ID)
     @PrimaryKey(autoGenerate = true)
     var id: Int = 0,
@@ -40,14 +35,10 @@ data class SongDetail(
     var description: String = "",
 
     @SerialName(Tables.SONG_DETAIL_LINK)
-    @get:PropertyName(Tables.SONG_DETAIL_LINK)
-    @set:PropertyName(Tables.SONG_DETAIL_LINK)
     @ColumnInfo(Tables.SONG_DETAIL_LINK)
     var link: String = "",
 
     @SerialName(Tables.SONG_DETAIL_OLD_TITLE)
-    @get:PropertyName(Tables.SONG_DETAIL_OLD_TITLE)
-    @set:PropertyName(Tables.SONG_DETAIL_OLD_TITLE)
     @ColumnInfo(Tables.SONG_DETAIL_OLD_TITLE)
     var oldTitle: String,
 ) : Parcelable
