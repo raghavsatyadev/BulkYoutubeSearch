@@ -2,13 +2,15 @@ import groovy.json.JsonOutput
 import java.util.Properties
 
 plugins {
-    alias(libs.plugins.com.android.library)
-    alias(libs.plugins.org.jetbrains.kotlin.android)
+    alias(libs.plugins.android.library)
 
-    id("kotlin-parcelize")
-    id("com.google.devtools.ksp")
+    alias(libs.plugins.kotlin.android)
+    alias(libs.plugins.ksp)
+    alias(libs.plugins.kotlin.serialization)
+    alias(libs.plugins.kotlin.parcelize)
 
-    id("androidx.navigation.safeargs")
+    id("androidx.navigation.safeargs.kotlin")
+
     alias(libs.plugins.room)
 }
 

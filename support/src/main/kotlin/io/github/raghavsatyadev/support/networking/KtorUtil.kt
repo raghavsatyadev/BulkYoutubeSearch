@@ -1,6 +1,7 @@
 package io.github.raghavsatyadev.support.networking
 
 import io.github.raghavsatyadev.support.StorageUtils
+import io.github.raghavsatyadev.support.extensions.serializer.kotlinJsonSerializer
 import io.ktor.client.HttpClient
 import io.ktor.client.engine.android.Android
 import io.ktor.client.plugins.HttpRequestRetry
@@ -10,7 +11,7 @@ import io.ktor.client.plugins.cache.storage.FileStorage
 import io.ktor.client.plugins.contentnegotiation.ContentNegotiation
 import io.ktor.client.plugins.logging.LogLevel
 import io.ktor.client.plugins.logging.Logging
-import io.ktor.serialization.gson.gson
+import io.ktor.serialization.kotlinx.json.json
 import java.io.File
 
 object KtorUtil {
@@ -22,10 +23,9 @@ object KtorUtil {
         httpClient = HttpClient(Android) {
             expectSuccess = true
             install(ContentNegotiation) {
-                gson {
-                    setPrettyPrinting()
-                    disableHtmlEscaping()
-                }
+                json(
+                    kotlinJsonSerializer
+                )
             }
             install(Logging) {
                 level = LogLevel.BODY

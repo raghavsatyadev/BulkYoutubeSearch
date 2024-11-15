@@ -7,12 +7,15 @@ import androidx.room.Entity
 import androidx.room.Index
 import androidx.room.PrimaryKey
 import com.google.firebase.firestore.PropertyName
-import com.google.gson.annotations.SerializedName
 import io.github.raghavsatyadev.support.Constants.DB.Tables
 import kotlinx.parcelize.Parcelize
+import kotlinx.serialization.SerialName
+import kotlinx.serialization.Serializable
+import kotlinx.serialization.Transient
 
 @Keep
 @Parcelize
+@Serializable
 @Entity(
     tableName = Tables.SONG_DETAIL_TABLE,
     indices = [
@@ -21,7 +24,7 @@ import kotlinx.parcelize.Parcelize
 )
 data class SongDetail(
     @Transient
-    @SerializedName(Tables.SONG_DETAIL_ID)
+    @SerialName(Tables.SONG_DETAIL_ID)
     @get:PropertyName(Tables.SONG_DETAIL_ID)
     @set:PropertyName(
         Tables.SONG_DETAIL_ID
@@ -36,13 +39,13 @@ data class SongDetail(
     var title: String = "",
     var description: String = "",
 
-    @SerializedName(Tables.SONG_DETAIL_LINK)
+    @SerialName(Tables.SONG_DETAIL_LINK)
     @get:PropertyName(Tables.SONG_DETAIL_LINK)
     @set:PropertyName(Tables.SONG_DETAIL_LINK)
     @ColumnInfo(Tables.SONG_DETAIL_LINK)
     var link: String = "",
 
-    @SerializedName(Tables.SONG_DETAIL_OLD_TITLE)
+    @SerialName(Tables.SONG_DETAIL_OLD_TITLE)
     @get:PropertyName(Tables.SONG_DETAIL_OLD_TITLE)
     @set:PropertyName(Tables.SONG_DETAIL_OLD_TITLE)
     @ColumnInfo(Tables.SONG_DETAIL_OLD_TITLE)

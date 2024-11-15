@@ -20,6 +20,8 @@ import io.github.raghavsatyadev.support.extensions.ViewExtensions.visible
 import io.github.raghavsatyadev.support.extensions.ads.AdExtensions.loadAds
 import io.github.raghavsatyadev.support.extensions.ads.AdExtensions.showInterstitialAd
 import io.github.raghavsatyadev.support.list.CustomClickListener
+import io.github.raghavsatyadev.support.models.db.song_detail.SongDetailDataUtil
+import io.github.raghavsatyadev.support.models.db.song_detail.SongRetrievalMode
 import io.github.raghavsatyadev.support.preferences.AppPrefsUtil
 import io.github.raghavsatyadev.support.work_manager.YoutubeSearchWorker
 import kotlinx.coroutines.flow.collectLatest
@@ -108,7 +110,8 @@ class SearchActivity : CoreActivity<ActivitySearchBinding>() {
     private fun setupUI() {
         binding.listKeyExpiry.adapter = adapter
         launch {
-            AppPrefsUtil.getRemainingSongsToBeFound().collectLatest {
+            SongDetailDataUtil.getInstance().getCountLive(SongRetrievalMode.NOT_FOUND)
+                .collectLatest {
                 withContext(mainDispatcher) {
                     binding.txtSongsRemainToBeFound.text =
                         getString(R.string.songs_remain_to_be_found, it)

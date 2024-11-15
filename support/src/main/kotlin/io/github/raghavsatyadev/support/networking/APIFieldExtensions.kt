@@ -5,7 +5,7 @@ import io.github.raghavsatyadev.support.AppLog
 import io.github.raghavsatyadev.support.Constants.Other.MEDIA_TYPE_JSON
 import io.github.raghavsatyadev.support.extensions.AppExtensions.kotlinFileName
 import io.github.raghavsatyadev.support.extensions.FileExtensions.getMimeType
-import io.github.raghavsatyadev.support.extensions.GsonExtensions.toJsonString
+import io.github.raghavsatyadev.support.extensions.serializer.SerializationExtensions.toJsonString
 import okhttp3.MediaType.Companion.toMediaType
 import okhttp3.MediaType.Companion.toMediaTypeOrNull
 import okhttp3.MultipartBody

@@ -3,7 +3,7 @@ package io.github.raghavsatyadev.bys.ui.search
 import androidx.lifecycle.viewModelScope
 import io.github.raghavsatyadev.support.StorageUtils
 import io.github.raghavsatyadev.support.core.CoreViewModel
-import io.github.raghavsatyadev.support.extensions.GsonExtensions.toJsonString
+import io.github.raghavsatyadev.support.extensions.serializer.SerializationExtensions.toJsonString
 import io.github.raghavsatyadev.support.models.db.song_detail.SongDetailDataUtil
 import io.github.raghavsatyadev.support.work_manager.YoutubeSearchUtil
 import io.github.raghavsatyadev.support.work_manager.YoutubeSearchWorker

@@ -1,8 +1,8 @@
 package io.github.raghavsatyadev.support.database
 
 import androidx.room.TypeConverter
-import io.github.raghavsatyadev.support.extensions.GsonExtensions.toGsonObject
-import io.github.raghavsatyadev.support.extensions.GsonExtensions.toJsonString
+import io.github.raghavsatyadev.support.extensions.serializer.SerializationExtensions.toJsonString
+import io.github.raghavsatyadev.support.extensions.serializer.SerializationExtensions.toKotlinObject
 import java.util.Date
 
 @Suppress("unused")
@@ -25,7 +25,7 @@ class EssentialConverters {
 
     @TypeConverter
     fun toIntegerArrayList(s: String?): ArrayList<Int> {
-        return s?.toGsonObject<ArrayList<Int>>() ?: ArrayList()
+        return s?.toKotlinObject<ArrayList<Int>>() ?: ArrayList()
     }
 
     @TypeConverter
@@ -35,7 +35,7 @@ class EssentialConverters {
 
     @TypeConverter
     fun toIntegerList(s: String?): List<Int> {
-        return s?.toGsonObject<ArrayList<Int>>() ?: ArrayList()
+        return s?.toKotlinObject<ArrayList<Int>>() ?: ArrayList()
     }
 
     @TypeConverter
@@ -45,7 +45,7 @@ class EssentialConverters {
 
     @TypeConverter
     fun toStringArrayList(s: String?): ArrayList<String> {
-        return s?.toGsonObject<ArrayList<String>>() ?: ArrayList()
+        return s?.toKotlinObject<ArrayList<String>>() ?: ArrayList()
     }
 
     @TypeConverter
@@ -55,7 +55,7 @@ class EssentialConverters {
 
     @TypeConverter
     fun toStringList(s: String?): List<String> {
-        return s?.toGsonObject<ArrayList<String>>() ?: ArrayList()
+        return s?.toKotlinObject<ArrayList<String>>() ?: ArrayList()
     }
     // endregion
 }

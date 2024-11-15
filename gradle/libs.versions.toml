@@ -24,9 +24,9 @@ versionCode = "1"
 versionName = "0.0.1"
 
 # Plugin Versions
-agp = "8.8.0-alpha09"
+agp = "8.9.0-alpha02"
 kotlin = "2.1.0-RC"
-com-google-devtools-ksp = "2.1.0-RC-1.0.26"
+com-google-devtools-ksp = "2.1.0-RC-1.0.27"
 com-google-gms = "4.4.2"
 
 # Library Versions
@@ -51,9 +51,9 @@ firebase-firestore = "25.1.1"
 firebase-functions = "21.0.0"
 firebase-storage = "21.0.1"
 fragment-ktx = "1.8.5"
-gson = "2.11.0"
 junit = "4.13.2"
 junit-jupiter = "5.11.3"
+serialization = "1.7.3"
 coroutines = "1.9.0"
 ktor = "3.0.1"
 lifecycle-runtime-ktx = "2.9.0-alpha06"
@@ -74,7 +74,6 @@ work-runtime-ktx = "2.10.0"
 # Classpaths
 androidx-navigation = { group = "androidx.navigation", name = "navigation-safe-args-gradle-plugin", version.ref = "androidx-navigation" }
 com-google-firebase = { group = "com.google.firebase", name = "firebase-crashlytics-gradle", version.ref = "com-google-firebase" }
-com-google-gms = { group = "com.google.gms", name = "google-services", version.ref = "com-google-gms" }
 
 # Android
 androidx-activity = { module = "androidx.activity:activity-ktx", version.ref = "activity-ktx" }
@@ -93,6 +92,7 @@ material = { module = "com.google.android.material:material", version.ref = "mat
 kotlin-stdlib-jdk8 = { module = "org.jetbrains.kotlin:kotlin-stdlib-jdk8", version.ref = "kotlin" }
 kotlinx-coroutines-core = { module = "org.jetbrains.kotlinx:kotlinx-coroutines-core", version.ref = "coroutines" }
 kotlinx-coroutines-android = { module = "org.jetbrains.kotlinx:kotlinx-coroutines-android", version.ref = "coroutines" }
+kotlinx-serialization-json = { module = "org.jetbrains.kotlinx:kotlinx-serialization-json", version.ref = "serialization" }
 
 #Lifecycle
 androidx-lifecycle-common-java8 = { module = "androidx.lifecycle:lifecycle-common-java8", version.ref = "lifecycle-runtime-ktx" }
@@ -122,7 +122,7 @@ ktor-client-android = { module = "io.ktor:ktor-client-android", version.ref = "k
 ktor-client-serialization-jvm = { module = "io.ktor:ktor-client-serialization-jvm", version.ref = "ktor" }
 ktor-client-logging = { module = "io.ktor:ktor-client-logging", version.ref = "ktor" }
 ktor-client-content-negotiation = { module = "io.ktor:ktor-client-content-negotiation", version.ref = "ktor" }
-ktor-serialization-gson = { module = "io.ktor:ktor-serialization-gson", version.ref = "ktor" }
+ktor-serialization-kotlinx-json = { module = "io.ktor:ktor-serialization-kotlinx-json", version.ref = "ktor" }
 
 #Admob
 play-services-ads = { module = "com.google.android.gms:play-services-ads", version.ref = "play-services-ads" }
@@ -142,7 +142,6 @@ coil-network-ktor3 = { module = "io.coil-kt.coil3:coil-network-ktor3", version.r
 #Other
 permissionx = { module = "com.guolindev.permissionx:permissionx", version.ref = "permissionx" }
 lottie = { module = "com.airbnb.android:lottie", version.ref = "lottie" }
-gson = { module = "com.google.code.gson:gson", version.ref = "gson" }
 
 #Support
 androidx-multidex = { module = "androidx.multidex:multidex", version.ref = "multidex" }
@@ -158,11 +157,15 @@ junit = { group = "junit", name = "junit", version.ref = "junit" }
 junit-jupiter = { module = "org.junit.jupiter:junit-jupiter", version.ref = "junit-jupiter" }
 
 [plugins]
-com-android-application = { id = "com.android.application", version.ref = "agp" }
-com-android-library = { id = "com.android.library", version.ref = "agp" }
+android-application = { id = "com.android.application", version.ref = "agp" }
+android-library = { id = "com.android.library", version.ref = "agp" }
 
-org-jetbrains-kotlin-android = { id = "org.jetbrains.kotlin.android", version.ref = "kotlin" }
-com-google-devtools-ksp = { id = "com.google.devtools.ksp", version.ref = "com-google-devtools-ksp" }
+google-gms = { id = "com.google.gms.google-services", version.ref = "com-google-gms" }
+
+kotlin-android = { id = "org.jetbrains.kotlin.android", version.ref = "kotlin" }
+kotlin-serialization = { id = "org.jetbrains.kotlin.plugin.serialization", version.ref = "kotlin" }
+kotlin-parcelize = { id = "org.jetbrains.kotlin.plugin.parcelize", version.ref = "kotlin" }
+ksp = { id = "com.google.devtools.ksp", version.ref = "com-google-devtools-ksp" }
 
 org-sonarqube = { id = "org.sonarqube", version.ref = "org-sonarqube" }
 room = { id = "androidx.room", version.ref = "room" }
@@ -172,6 +175,7 @@ kotlin = [
     "kotlin-stdlib-jdk8",
     "kotlinx-coroutines-core",
     "kotlinx-coroutines-android",
+    "kotlinx-serialization-json",
 ]
 androidx = [
     "core-ktx",
@@ -217,10 +221,9 @@ ktor = [
     "ktor-client-serialization-jvm",
     "ktor-client-logging",
     "ktor-client-content-negotiation",
-    "ktor-serialization-gson",
+    "ktor-serialization-kotlinx-json",
 ]
 other = [
-    "gson",
     "permissionx",
     "lottie",
 ]

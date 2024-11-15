@@ -3,7 +3,7 @@ package io.github.raghavsatyadev.support.networking
 import android.net.Uri
 import io.github.raghavsatyadev.support.AppLog
 import io.github.raghavsatyadev.support.extensions.AppExtensions.kotlinFileName
-import io.github.raghavsatyadev.support.extensions.GsonExtensions.toGsonObject
+import io.github.raghavsatyadev.support.extensions.serializer.SerializationExtensions.toKotlinObject
 import io.github.raghavsatyadev.support.models.general.YoutubeError
 import io.github.raghavsatyadev.support.models.general.YoutubeSearchData
 import io.ktor.client.call.body
@@ -35,7 +35,7 @@ object APIs {
             val matchingGroups = matchResult?.groups
             if (matchingGroups != null && matchingGroups.size >= 2) {
                 val extractedContent =
-                    matchingGroups[1]?.value?.toGsonObject<YoutubeError>()?.error?.errors
+                    matchingGroups[1]?.value?.toKotlinObject<YoutubeError>()?.error?.errors
                 if (!extractedContent.isNullOrEmpty()) {
                     return extractedContent[0].reason
                 }

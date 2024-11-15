@@ -5,10 +5,11 @@ import io.github.raghavsatyadev.support.AppLog
 import io.github.raghavsatyadev.support.BuildConfig
 import io.github.raghavsatyadev.support.StorageUtils
 import io.github.raghavsatyadev.support.extensions.AppExtensions.kotlinFileName
-import io.github.raghavsatyadev.support.extensions.GsonExtensions.toGsonObject
 import io.github.raghavsatyadev.support.extensions.Randoms
+import io.github.raghavsatyadev.support.extensions.serializer.SerializationExtensions.toKotlinObject
 import io.github.raghavsatyadev.support.models.db.song_detail.SongDetail
 import io.github.raghavsatyadev.support.models.db.song_detail.SongDetailDataUtil
+import io.github.raghavsatyadev.support.models.db.song_detail.SongRetrievalMode
 import io.github.raghavsatyadev.support.models.general.APIKeyDetail
 import io.github.raghavsatyadev.support.models.general.YoutubeSearchData
 import io.github.raghavsatyadev.support.networking.APIs
@@ -22,8 +23,7 @@ import java.io.IOException
 object YoutubeSearchUtil {
     private var apiKeys: ArrayList<APIKeyDetail> = ArrayList()
 
-    private val parentFile =
-        StorageUtils.getFileWithoutCreating("Videos")
+    private val parentFile = StorageUtils.getFileWithoutCreating("Videos")
     private val readerFile = File(parentFile, "video_names.json")
     private val resultFile = File(parentFile, "video_links.json")
 
@@ -31,16 +31,13 @@ object YoutubeSearchUtil {
         val (isDataSetupCorrectly, remainingSongs) = setupData()
 
         if (isDataSetupCorrectly) {
-            val remainingSongsReversed = ArrayList(remainingSongs.reversed())
-
-            for ((index, oldSongDetail) in remainingSongsReversed.withIndex()) {
+            for (oldSongDetail in remainingSongs) {
                 try {
                     val response = searchYoutubeForVideo(oldSongDetail)
                     val songDetail = response.second
                     if (response.first) {
                         if (songDetail != null) {
                             handleYoutubeResult(songDetail)
-                            remainingSongs.removeAt(remainingSongsReversed.size - index - 1)
                         }
                     } else {
                         break
@@ -50,13 +47,14 @@ object YoutubeSearchUtil {
                     break
                 }
             }
-            return remainingSongs.isEmpty()
+            return SongDetailDataUtil.getInstance().getCountLive(SongRetrievalMode.NOT_FOUND)
+                .first() == 0L
         } else {
             return false
         }
     }
 
-    private suspend fun handleYoutubeResult(songDetail: SongDetail) {
+    private fun handleYoutubeResult(songDetail: SongDetail) {
         AppLog.loge(
             true,
             kotlinFileName,
@@ -64,7 +62,6 @@ object YoutubeSearchUtil {
             "Title: ${songDetail.oldTitle}\nVideo: ${songDetail.link}",
             Exception()
         )
-        AppPrefsUtil.setRemainingSongsToBeFound()
         SongDetailDataUtil.getInstance().update(songDetail)
     }
 
@@ -91,37 +88,36 @@ object YoutubeSearchUtil {
                 }
             }
             oldVideoData.sortBy { detail ->
-                detail.oldTitle
+                detail.oldTitle.lowercase()
             }
             SongDetailDataUtil.getInstance().upsert(oldVideoData)
         }
-        val remainingTitles = SongDetailDataUtil.getInstance().getAllSorted(false)
-        AppPrefsUtil.setRemainingSongsToBeFound(remainingTitles.size)
+        val remainingTitles =
+            SongDetailDataUtil.getInstance().getAllSorted(SongRetrievalMode.NOT_FOUND)
 
         return true to remainingTitles
     }
 
     private suspend fun setupAPIKeys() {
-        apiKeys = AppPrefsUtil.getKeyDetails().first().ifEmpty {
-            val keyJSONString = BuildConfig.youtube_api_keys
-            val jsonKeyDetails =
-                JSONArray(keyJSONString)
-            val apiKeyDetails = ArrayList<APIKeyDetail>()
-            for (i in 0 until jsonKeyDetails.length()) {
-                val keyDetail = jsonKeyDetails.getJSONObject(i)
-                val key = keyDetail.getString("key")
-                val appName = keyDetail.getString("name")
-                apiKeyDetails.add(
-                    APIKeyDetail(
-                        appName,
-                        key,
-                        System.currentTimeMillis()
-                    )
+        apiKeys = AppPrefsUtil.getNonExpiredKeyDetails() ?: buildKeysFromJson()
+    }
+
+    private suspend fun buildKeysFromJson(): java.util.ArrayList<APIKeyDetail> {
+        val keyJSONString = BuildConfig.youtube_api_keys
+        val jsonKeyDetails = JSONArray(keyJSONString)
+        val apiKeyDetails = ArrayList<APIKeyDetail>()
+        for (i in 0 until jsonKeyDetails.length()) {
+            val keyDetail = jsonKeyDetails.getJSONObject(i)
+            val key = keyDetail.getString("key")
+            val appName = keyDetail.getString("name")
+            apiKeyDetails.add(
+                APIKeyDetail(
+                    appName, key, System.currentTimeMillis()
                 )
-            }
-            AppPrefsUtil.saveAllKeyDetail(apiKeyDetails)
-            apiKeyDetails
+            )
         }
+        AppPrefsUtil.saveAllKeyDetail(apiKeyDetails)
+        return apiKeyDetails
     }
 
     private suspend fun searchYoutubeForVideo(oldSongDetail: SongDetail): Pair<Boolean, SongDetail?> {
@@ -191,14 +187,10 @@ object YoutubeSearchUtil {
             if (readStringFromFile.isEmpty()) {
                 return ArrayList()
             }
-            return readStringFromFile.toGsonObject()
+            return readStringFromFile.toKotlinObject()
         } catch (e: IOException) {
             AppLog.loge(
-                false,
-                this@YoutubeSearchUtil.kotlinFileName,
-                "getVideoTitles",
-                e,
-                Exception()
+                false, this@YoutubeSearchUtil.kotlinFileName, "getVideoTitles", e, Exception()
             )
         }
         return ArrayList()

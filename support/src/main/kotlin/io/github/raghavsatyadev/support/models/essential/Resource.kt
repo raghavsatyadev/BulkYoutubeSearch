@@ -1,8 +1,10 @@
 package io.github.raghavsatyadev.support.models.essential
 
 import androidx.annotation.Keep
+import kotlinx.serialization.Serializable
 
 @Keep
+@Serializable
 data class Resource<out T>(
     val code: Int?,
     val status: Status,

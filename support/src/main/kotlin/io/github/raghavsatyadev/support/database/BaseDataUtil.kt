@@ -1,8 +1,6 @@
 package io.github.raghavsatyadev.support.database
 
 import androidx.sqlite.db.SimpleSQLiteQuery
-import kotlinx.coroutines.flow.Flow
-import kotlinx.coroutines.flow.map
 
 @Suppress("unused")
 abstract class BaseDataUtil<T, D : BaseDao<T>> {
@@ -80,11 +78,6 @@ abstract class BaseDataUtil<T, D : BaseDao<T>> {
 
     open fun getAll(sortKey: String = ""): ArrayList<T> {
         return ArrayList(getDao().getAll(SimpleSQLiteQuery(buildGetAllSortedQuery(sortKey))))
-    }
-
-    fun getAllLive(sortKey: String = ""): Flow<ArrayList<T>> {
-        return getDao().getAllLive(SimpleSQLiteQuery(buildGetAllSortedQuery(sortKey)))
-            .map { value: List<T> -> ArrayList(value) }
     }
 
     open fun getItem(id: String): T {

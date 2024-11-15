@@ -7,22 +7,27 @@ import java.util.Date
 import java.util.Locale
 
 plugins {
-    alias(libs.plugins.com.android.application)
-    alias(libs.plugins.org.jetbrains.kotlin.android)
+    alias(libs.plugins.android.application)
 
-    id("kotlin-parcelize")
-    id("com.google.devtools.ksp")
+    alias(libs.plugins.google.gms)
 
-    id("com.google.gms.google-services")
+    alias(libs.plugins.kotlin.android)
+    alias(libs.plugins.ksp)
+    alias(libs.plugins.kotlin.serialization)
+    alias(libs.plugins.kotlin.parcelize)
+
     id("com.google.firebase.crashlytics")
 
-    id("androidx.navigation.safeargs")
+    id("androidx.navigation.safeargs.kotlin")
 }
 
 sonar {
     properties {
         setAndroidVariant("DevDebug")
-        property("sonar.androidLint.reportPaths", "${buildDir}/reports/lint-results-DevDebug.xml")
+        property(
+            "sonar.androidLint.reportPaths",
+            "${layout.buildDirectory.asFile}/reports/lint-results-DevDebug.xml"
+        )
     }
 }
 android {
@@ -193,7 +198,7 @@ fun moveAAB(
     buildTypeDirectory: File,
 ) {
     val name = variant.name
-    val variantNameCapitalized = name.capitalize()
+    val variantNameCapitalized = name.replaceFirstChar { it.uppercase() }
     val bundleTaskName = "bundle${variantNameCapitalized}"
     val bundleTask = tasks.named(bundleTaskName)
 
@@ -246,7 +251,7 @@ fun moveAPK(
         }
 
         val nativeSymbolsDir =
-            file("$buildDir/app/intermediates/merged_native_libs/${variantName}/out/lib")
+            file("${layout.buildDirectory.asFile}/app/intermediates/merged_native_libs/${variantName}/out/lib")
 
         if (nativeSymbolsDir.exists()) {
             println("Zipping native debug symbols and copying them to output directory: $buildOutputDirectoryPath")
