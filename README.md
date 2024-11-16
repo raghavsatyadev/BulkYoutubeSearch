@@ -1,3 +1,3 @@
 # Software Versions:
 
-Android Studio Ladybug Feature Drop | 2024.2.2 Canary 9
+Android Studio Meerkat | 2024.3.1 Canary 2

@@ -1,6 +1,6 @@
 package io.github.raghavsatyadev.support.networking
 
-import android.net.Uri
+import androidx.core.text.HtmlCompat
 import io.github.raghavsatyadev.support.AppLog
 import io.github.raghavsatyadev.support.extensions.AppExtensions.kotlinFileName
 import io.github.raghavsatyadev.support.extensions.serializer.SerializationExtensions.toKotlinObject
@@ -45,12 +45,9 @@ object APIs {
     }
 
     private fun getYoutubeSearchURL(query: String, key: String): String {
-        val encodedQuery = Uri.encode(
-            query.replace(
-                " ",
-                "+"
-            )
-        )
+        val encodedQuery =
+            HtmlCompat.fromHtml(query, HtmlCompat.FROM_HTML_MODE_LEGACY).toString()
+                .replace(" ", "+")
         return "$YOUTUBE_SEARCH_URL${
             encodedQuery
         }&key=$key"

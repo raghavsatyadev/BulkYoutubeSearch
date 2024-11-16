@@ -11,7 +11,7 @@ import kotlinx.serialization.Serializable
 data class YoutubeSearchData(
     var kind: String,
     var etag: String,
-    var nextPageToken: String,
+    var nextPageToken: String? = null,
     var regionCode: String,
     var pageInfo: PageInfo,
     var items: List<Item>,
