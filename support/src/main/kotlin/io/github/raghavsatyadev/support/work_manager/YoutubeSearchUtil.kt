@@ -3,6 +3,7 @@ package io.github.raghavsatyadev.support.work_manager
 import android.os.Environment
 import io.github.raghavsatyadev.support.AppLog
 import io.github.raghavsatyadev.support.BuildConfig
+import io.github.raghavsatyadev.support.Constants.Other.YOUTUBE_LINK
 import io.github.raghavsatyadev.support.StorageUtils
 import io.github.raghavsatyadev.support.extensions.AppExtensions.kotlinFileName
 import io.github.raghavsatyadev.support.extensions.Randoms
@@ -31,26 +32,38 @@ object YoutubeSearchUtil {
         val (isDataSetupCorrectly, remainingSongs) = setupData()
 
         if (isDataSetupCorrectly) {
-            for (oldSongDetail in remainingSongs) {
-                try {
-                    val response = searchYoutubeForVideo(oldSongDetail)
-                    val songDetail = response.second
-                    if (response.first) {
-                        if (songDetail != null) {
-                            handleYoutubeResult(songDetail)
-                        }
-                    } else {
-                        break
-                    }
-                } catch (e: Exception) {
-                    AppLog.loge(false, kotlinFileName, "searchVideos", e, Exception())
-                    break
-                }
-            }
-            return SongDetailDataUtil.getInstance().getCountLive(SongRetrievalMode.NOT_FOUND)
+            processTitles(remainingSongs)
+            return SongDetailDataUtil
+                .getInstance()
+                .getCountLive(SongRetrievalMode.NOT_FOUND)
                 .first() == 0L
         } else {
             return false
+        }
+    }
+
+    private suspend fun processTitles(remainingSongs: ArrayList<SongDetail>) {
+        for (oldSongDetail in remainingSongs) {
+            try {
+                val response = searchYoutubeForVideo(oldSongDetail)
+                val songDetail = response.second
+                if (response.first) {
+                    if (songDetail != null) {
+                        handleYoutubeResult(songDetail)
+                    }
+                } else {
+                    break
+                }
+            } catch (e: Exception) {
+                AppLog.loge(
+                    false,
+                    kotlinFileName,
+                    "searchVideos",
+                    e,
+                    Exception()
+                )
+                break
+            }
         }
     }
 
@@ -154,7 +167,7 @@ object YoutubeSearchUtil {
             return true to null
         } else {
             val video = items[0]
-            val videoLink = "https://www.youtube.com/watch?v=${video.id.videoId}"
+            val videoLink = "$YOUTUBE_LINK${video.id.videoId}"
             val videoTitle = video.snippet.title
             val description = video.snippet.description
             val artist = video.snippet.channelTitle

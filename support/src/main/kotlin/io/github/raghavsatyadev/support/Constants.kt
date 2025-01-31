@@ -5,6 +5,8 @@ object Constants {
         const val SPLASH_COUNTER: Long = 3000
 
         const val MEDIA_TYPE_JSON = "application/json; charset=utf-8"
+
+        const val YOUTUBE_LINK = "https://www.youtube.com/watch?v="
     }
 
     object DB {

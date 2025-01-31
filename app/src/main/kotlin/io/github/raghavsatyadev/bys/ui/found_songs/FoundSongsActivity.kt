@@ -4,14 +4,17 @@ import android.content.Context
 import android.content.Intent
 import android.os.Bundle
 import androidx.activity.viewModels
+import androidx.core.os.bundleOf
 import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.lifecycleScope
 import androidx.lifecycle.repeatOnLifecycle
+import io.github.raghavsatyadev.bys.R
 import io.github.raghavsatyadev.bys.databinding.ActivityFoundSongsBinding
+import io.github.raghavsatyadev.bys.ui.player.PlayerActivity
 import io.github.raghavsatyadev.support.core.CoreActivity
-import io.github.raghavsatyadev.support.extensions.ImplicitIntentExtensions.openBrowser
 import io.github.raghavsatyadev.support.extensions.ResourceExtensions.getConDrawable
 import io.github.raghavsatyadev.support.extensions.ads.AdExtensions.loadAds
+import io.github.raghavsatyadev.support.extensions.serializer.SerializationExtensions.toJsonString
 import io.github.raghavsatyadev.support.list.CustomClickListener
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
@@ -26,8 +29,10 @@ class FoundSongsActivity : CoreActivity<ActivityFoundSongsBinding>() {
         fun getIntentObject(
             context: Context,
             bundle: Bundle = Bundle.EMPTY,
-        ): Intent =
-            Intent(context, FoundSongsActivity::class.java).apply { putExtras(bundle) }
+        ): Intent = Intent(
+            context,
+            FoundSongsActivity::class.java
+        ).apply { putExtras(bundle) }
     }
 
 
@@ -54,9 +59,26 @@ class FoundSongsActivity : CoreActivity<ActivityFoundSongsBinding>() {
         if (isEnabled) {
             adapter.itemClickListener = CustomClickListener(
                 onClick = { position, view, _ ->
-                    openBrowser(adapter.getItem(position).link)
-                }
-            )
+                    when (view?.id) {
+                        R.id.btn_delete -> {
+                            viewModel.deleteSong(adapter.getItem(position))
+                        }
+
+                        else -> {
+                            startActivity(
+                                PlayerActivity.getIntentObject(
+                                    this,
+                                    bundleOf(
+                                        PlayerActivity.SONG to adapter
+                                            .getItem(position)
+                                            .toJsonString()
+                                    )
+                                )
+                            )
+                            // openBrowser(adapter.getItem(position).link)
+                        }
+                    }
+                })
         }
     }
 }

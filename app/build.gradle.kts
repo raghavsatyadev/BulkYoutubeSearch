@@ -1,3 +1,5 @@
+@file:Suppress("DEPRECATION")
+
 import com.android.build.api.variant.AndroidComponentsExtension
 import com.android.build.gradle.api.ApplicationVariant
 import com.android.build.gradle.api.BaseVariantOutput
@@ -88,13 +90,13 @@ android {
                 mappingFileUploadEnabled = false
             }
         }
+        kotlin {
+            jvmToolchain(21)
+        }
         compileOptions {
             isCoreLibraryDesugaringEnabled = true
-            sourceCompatibility = JavaVersion.VERSION_17
-            targetCompatibility = JavaVersion.VERSION_17
         }
         kotlinOptions {
-            jvmTarget = "17"
             freeCompilerArgs += "-Xjvm-default=all"
         }
         buildFeatures {
@@ -157,6 +159,9 @@ dependencies {
     // Firebase
     implementation(libs.bundles.firebase)
 
+    // Google
+    implementation(libs.bundles.google)
+
     // Coil
     implementation(libs.bundles.coil)
 
@@ -167,9 +172,9 @@ dependencies {
     implementation(libs.play.services.ads)
 
     // Room
-    implementation(libs.androidx.room)
-    implementation(libs.androidx.room.runtime)
-    ksp(libs.androidx.room.compiler)
+    implementation(libs.room)
+    implementation(libs.room.runtime)
+    ksp(libs.room.compiler)
 
     // WorkManager
     implementation(libs.androidx.work.runtime)

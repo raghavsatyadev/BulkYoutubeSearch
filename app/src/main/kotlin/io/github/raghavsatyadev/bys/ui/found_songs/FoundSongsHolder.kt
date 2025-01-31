@@ -12,24 +12,54 @@ class FoundSongsHolder(
     private val placeholder: Drawable?,
     binding: ItemFoundSongBinding,
     itemClickListener: CustomClickListener?,
-) : GenObjectHolder<SongDetail, ItemFoundSongBinding>(binding, itemClickListener) {
+) : GenObjectHolder<SongDetail, ItemFoundSongBinding>(
+    binding,
+    itemClickListener
+) {
     companion object {
         fun getInstance(
             placeholder: Drawable?,
             binding: ItemFoundSongBinding,
             itemClickListener: CustomClickListener?,
         ): FoundSongsHolder {
-            return FoundSongsHolder(placeholder, binding, itemClickListener)
+            return FoundSongsHolder(
+                placeholder,
+                binding,
+                itemClickListener
+            )
         }
     }
 
-    override fun bind(model: SongDetail, itemViewType: Int, position: Int, itemCount: Int) {
+    init {
+        binding.btnDelete.setOnClickListener {
+            itemClickListener?.onItemClick(
+                layoutPosition,
+                binding.btnDelete,
+                false
+            )
+        }
+    }
+
+    override fun bind(
+        model: SongDetail,
+        itemViewType: Int,
+        position: Int,
+        itemCount: Int,
+    ) {
         with(binding) {
             with(model) {
-                txtFoundSongTitle.text =
-                    Html.fromHtml(title, Html.FROM_HTML_MODE_COMPACT).toString()
-                txtFoundSongArtist.text =
-                    Html.fromHtml(artist, Html.FROM_HTML_MODE_COMPACT).toString()
+                txtFoundSongTitle.text = Html
+                    .fromHtml(
+                        title,
+                        Html.FROM_HTML_MODE_COMPACT
+                    )
+                    .toString()
+                txtFoundSongArtist.text = Html
+                    .fromHtml(
+                        artist,
+                        Html.FROM_HTML_MODE_COMPACT
+                    )
+                    .toString()
                 imgFoundSong.loadImage(
                     thumbnailLow,
                     placeHolder = placeholder,
