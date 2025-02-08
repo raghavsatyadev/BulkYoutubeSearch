@@ -34,11 +34,15 @@ sonar {
 }
 android {
     namespace = libs.versions.nameSpace.get()
-    compileSdk = libs.versions.compileSdk.get().toInt()
+    // compileSdk = libs.versions.compileSdk.get().toInt()
+    compileSdkPreview = libs.versions.compileSdkPreview.get()
+    buildToolsVersion = libs.versions.buildTools.get()
+
     defaultConfig {
         applicationId = libs.versions.appIdDev.get()
         minSdk = libs.versions.minSdk.get().toInt()
-        targetSdk = libs.versions.targetSdk.get().toInt()
+        // targetSdk = libs.versions.targetSdk.get().toInt()
+        targetSdkPreview = libs.versions.targetSdkPreview.get()
         versionCode = libs.versions.versionCode.get().toInt()
         versionName = libs.versions.versionName.get()
         multiDexEnabled = true

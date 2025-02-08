@@ -24,8 +24,9 @@ val props = readProperties(file("../secret.properties"))
 
 android {
     namespace = libs.versions.supportId.get()
-    compileSdk = libs.versions.compileSdk.get().toInt()
-
+    // compileSdk = libs.versions.compileSdk.get().toInt()
+    compileSdkPreview = libs.versions.compileSdkPreview.get()
+    buildToolsVersion = libs.versions.buildTools.get()
     room {
         schemaDirectory("$projectDir/schemas")
         // incremental("true")
