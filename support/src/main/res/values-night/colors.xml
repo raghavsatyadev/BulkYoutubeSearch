@@ -1,118 +1,118 @@
 <resources xmlns:tools="http://schemas.android.com/tools">
-    <color name="md_theme_primary_dark" tools:ignore="MissingDefaultResource">#FFB5A0</color>
-    <color name="md_theme_onPrimary_dark" tools:ignore="MissingDefaultResource">#561F0F</color>
-    <color name="md_theme_primaryContainer_dark" tools:ignore="MissingDefaultResource">#723523
+    <color name="md_theme_primary_dark" tools:ignore="MissingDefaultResource">#B6C4FF</color>
+    <color name="md_theme_onPrimary_dark" tools:ignore="MissingDefaultResource">#1E2D61</color>
+    <color name="md_theme_primaryContainer_dark" tools:ignore="MissingDefaultResource">#354479
     </color>
-    <color name="md_theme_onPrimaryContainer_dark" tools:ignore="MissingDefaultResource">#FFDBD1
+    <color name="md_theme_onPrimaryContainer_dark" tools:ignore="MissingDefaultResource">#DCE1FF
     </color>
-    <color name="md_theme_secondary_dark" tools:ignore="MissingDefaultResource">#E7BDB2</color>
-    <color name="md_theme_onSecondary_dark" tools:ignore="MissingDefaultResource">#442A22</color>
-    <color name="md_theme_secondaryContainer_dark" tools:ignore="MissingDefaultResource">#5D4037
+    <color name="md_theme_secondary_dark" tools:ignore="MissingDefaultResource">#C2C5DD</color>
+    <color name="md_theme_onSecondary_dark" tools:ignore="MissingDefaultResource">#2B3042</color>
+    <color name="md_theme_secondaryContainer_dark" tools:ignore="MissingDefaultResource">#424659
     </color>
-    <color name="md_theme_onSecondaryContainer_dark" tools:ignore="MissingDefaultResource">#FFDBD1
+    <color name="md_theme_onSecondaryContainer_dark" tools:ignore="MissingDefaultResource">#DEE1F9
     </color>
-    <color name="md_theme_tertiary_dark" tools:ignore="MissingDefaultResource">#D8C58D</color>
-    <color name="md_theme_onTertiary_dark" tools:ignore="MissingDefaultResource">#3B2F05</color>
-    <color name="md_theme_tertiaryContainer_dark" tools:ignore="MissingDefaultResource">#534619
+    <color name="md_theme_tertiary_dark" tools:ignore="MissingDefaultResource">#88D1EC</color>
+    <color name="md_theme_onTertiary_dark" tools:ignore="MissingDefaultResource">#003544</color>
+    <color name="md_theme_tertiaryContainer_dark" tools:ignore="MissingDefaultResource">#004D61
     </color>
-    <color name="md_theme_onTertiaryContainer_dark" tools:ignore="MissingDefaultResource">#F5E1A7
+    <color name="md_theme_onTertiaryContainer_dark" tools:ignore="MissingDefaultResource">#B7EAFF
     </color>
     <color name="md_theme_error_dark" tools:ignore="MissingDefaultResource">#FFB4AB</color>
     <color name="md_theme_onError_dark" tools:ignore="MissingDefaultResource">#690005</color>
     <color name="md_theme_errorContainer_dark" tools:ignore="MissingDefaultResource">#93000A</color>
     <color name="md_theme_onErrorContainer_dark" tools:ignore="MissingDefaultResource">#FFDAD6
     </color>
-    <color name="md_theme_background_dark" tools:ignore="MissingDefaultResource">#1A110F</color>
-    <color name="md_theme_onBackground_dark" tools:ignore="MissingDefaultResource">#F1DFDA</color>
-    <color name="md_theme_surface_dark" tools:ignore="MissingDefaultResource">#1A110F</color>
-    <color name="md_theme_onSurface_dark" tools:ignore="MissingDefaultResource">#F1DFDA</color>
-    <color name="md_theme_surfaceVariant_dark" tools:ignore="MissingDefaultResource">#53433F</color>
-    <color name="md_theme_onSurfaceVariant_dark" tools:ignore="MissingDefaultResource">#D8C2BC
+    <color name="md_theme_background_dark" tools:ignore="MissingDefaultResource">#121318</color>
+    <color name="md_theme_onBackground_dark" tools:ignore="MissingDefaultResource">#E3E1E9</color>
+    <color name="md_theme_surface_dark" tools:ignore="MissingDefaultResource">#121318</color>
+    <color name="md_theme_onSurface_dark" tools:ignore="MissingDefaultResource">#E3E1E9</color>
+    <color name="md_theme_surfaceVariant_dark" tools:ignore="MissingDefaultResource">#45464F</color>
+    <color name="md_theme_onSurfaceVariant_dark" tools:ignore="MissingDefaultResource">#C6C5D0
     </color>
-    <color name="md_theme_outline_dark" tools:ignore="MissingDefaultResource">#A08C87</color>
-    <color name="md_theme_outlineVariant_dark" tools:ignore="MissingDefaultResource">#53433F</color>
+    <color name="md_theme_outline_dark" tools:ignore="MissingDefaultResource">#90909A</color>
+    <color name="md_theme_outlineVariant_dark" tools:ignore="MissingDefaultResource">#45464F</color>
     <color name="md_theme_scrim_dark" tools:ignore="MissingDefaultResource">#000000</color>
-    <color name="md_theme_inverseSurface_dark" tools:ignore="MissingDefaultResource">#F1DFDA</color>
-    <color name="md_theme_inverseOnSurface_dark" tools:ignore="MissingDefaultResource">#392E2B
+    <color name="md_theme_inverseSurface_dark" tools:ignore="MissingDefaultResource">#E3E1E9</color>
+    <color name="md_theme_inverseOnSurface_dark" tools:ignore="MissingDefaultResource">#2F3036
     </color>
-    <color name="md_theme_inversePrimary_dark" tools:ignore="MissingDefaultResource">#8F4C38</color>
-    <color name="md_theme_primaryFixed_dark" tools:ignore="MissingDefaultResource">#FFDBD1</color>
-    <color name="md_theme_onPrimaryFixed_dark" tools:ignore="MissingDefaultResource">#3A0B01</color>
-    <color name="md_theme_primaryFixedDim_dark" tools:ignore="MissingDefaultResource">#FFB5A0
+    <color name="md_theme_inversePrimary_dark" tools:ignore="MissingDefaultResource">#4D5C92</color>
+    <color name="md_theme_primaryFixed_dark" tools:ignore="MissingDefaultResource">#DCE1FF</color>
+    <color name="md_theme_onPrimaryFixed_dark" tools:ignore="MissingDefaultResource">#04164B</color>
+    <color name="md_theme_primaryFixedDim_dark" tools:ignore="MissingDefaultResource">#B6C4FF
     </color>
     <color name="md_theme_onPrimaryFixedVariant_dark" tools:ignore="MissingDefaultResource">
-        #723523
+        #354479
     </color>
-    <color name="md_theme_secondaryFixed_dark" tools:ignore="MissingDefaultResource">#FFDBD1</color>
-    <color name="md_theme_onSecondaryFixed_dark" tools:ignore="MissingDefaultResource">#2C150F
+    <color name="md_theme_secondaryFixed_dark" tools:ignore="MissingDefaultResource">#DEE1F9</color>
+    <color name="md_theme_onSecondaryFixed_dark" tools:ignore="MissingDefaultResource">#161B2C
     </color>
-    <color name="md_theme_secondaryFixedDim_dark" tools:ignore="MissingDefaultResource">#E7BDB2
+    <color name="md_theme_secondaryFixedDim_dark" tools:ignore="MissingDefaultResource">#C2C5DD
     </color>
     <color name="md_theme_onSecondaryFixedVariant_dark" tools:ignore="MissingDefaultResource">
-        #5D4037
+        #424659
     </color>
-    <color name="md_theme_tertiaryFixed_dark" tools:ignore="MissingDefaultResource">#F5E1A7</color>
-    <color name="md_theme_onTertiaryFixed_dark" tools:ignore="MissingDefaultResource">#231B00
+    <color name="md_theme_tertiaryFixed_dark" tools:ignore="MissingDefaultResource">#B7EAFF</color>
+    <color name="md_theme_onTertiaryFixed_dark" tools:ignore="MissingDefaultResource">#001F28
     </color>
-    <color name="md_theme_tertiaryFixedDim_dark" tools:ignore="MissingDefaultResource">#D8C58D
+    <color name="md_theme_tertiaryFixedDim_dark" tools:ignore="MissingDefaultResource">#88D1EC
     </color>
     <color name="md_theme_onTertiaryFixedVariant_dark" tools:ignore="MissingDefaultResource">
-        #534619
+        #004D61
     </color>
-    <color name="md_theme_surfaceDim_dark" tools:ignore="MissingDefaultResource">#1A110F</color>
-    <color name="md_theme_surfaceBright_dark" tools:ignore="MissingDefaultResource">#423734</color>
+    <color name="md_theme_surfaceDim_dark" tools:ignore="MissingDefaultResource">#121318</color>
+    <color name="md_theme_surfaceBright_dark" tools:ignore="MissingDefaultResource">#38393F</color>
     <color name="md_theme_surfaceContainerLowest_dark" tools:ignore="MissingDefaultResource">
-        #140C0A
+        #0D0E13
     </color>
-    <color name="md_theme_surfaceContainerLow_dark" tools:ignore="MissingDefaultResource">#231917
+    <color name="md_theme_surfaceContainerLow_dark" tools:ignore="MissingDefaultResource">#1A1B21
     </color>
-    <color name="md_theme_surfaceContainer_dark" tools:ignore="MissingDefaultResource">#271D1B
+    <color name="md_theme_surfaceContainer_dark" tools:ignore="MissingDefaultResource">#1E1F25
     </color>
-    <color name="md_theme_surfaceContainerHigh_dark" tools:ignore="MissingDefaultResource">#322825
+    <color name="md_theme_surfaceContainerHigh_dark" tools:ignore="MissingDefaultResource">#292A2F
     </color>
     <color name="md_theme_surfaceContainerHighest_dark" tools:ignore="MissingDefaultResource">
-        #3D322F
+        #34343A
     </color>
     <color name="md_theme_primary_mediumContrast_dark" tools:ignore="MissingDefaultResource">
-        #FFBBA7
+        #D4DBFF
     </color>
     <color name="md_theme_onPrimary_mediumContrast_dark" tools:ignore="MissingDefaultResource">
-        #310700
+        #112255
     </color>
     <color name="md_theme_primaryContainer_mediumContrast_dark" tools:ignore="MissingDefaultResource">
-        #CB7C65
+        #808EC8
     </color>
     <color name="md_theme_onPrimaryContainer_mediumContrast_dark" tools:ignore="MissingDefaultResource">
         #000000
     </color>
     <color name="md_theme_secondary_mediumContrast_dark" tools:ignore="MissingDefaultResource">
-        #ECC1B6
+        #D8DBF3
     </color>
     <color name="md_theme_onSecondary_mediumContrast_dark" tools:ignore="MissingDefaultResource">
-        #26100A
+        #202536
     </color>
     <color name="md_theme_secondaryContainer_mediumContrast_dark" tools:ignore="MissingDefaultResource">
-        #AE887E
+        #8C90A6
     </color>
     <color name="md_theme_onSecondaryContainer_mediumContrast_dark" tools:ignore="MissingDefaultResource">
         #000000
     </color>
     <color name="md_theme_tertiary_mediumContrast_dark" tools:ignore="MissingDefaultResource">
-        #DDCA91
+        #A5E6FF
     </color>
     <color name="md_theme_onTertiary_mediumContrast_dark" tools:ignore="MissingDefaultResource">
-        #1D1600
+        #002A35
     </color>
     <color name="md_theme_tertiaryContainer_mediumContrast_dark" tools:ignore="MissingDefaultResource">
-        #A0905C
+        #509AB4
     </color>
     <color name="md_theme_onTertiaryContainer_mediumContrast_dark" tools:ignore="MissingDefaultResource">
         #000000
     </color>
-    <color name="md_theme_error_mediumContrast_dark" tools:ignore="MissingDefaultResource">#FFBAB1
+    <color name="md_theme_error_mediumContrast_dark" tools:ignore="MissingDefaultResource">#FFD2CC
     </color>
     <color name="md_theme_onError_mediumContrast_dark" tools:ignore="MissingDefaultResource">
-        #370001
+        #540003
     </color>
     <color name="md_theme_errorContainer_mediumContrast_dark" tools:ignore="MissingDefaultResource">
         #FF5449
@@ -121,230 +121,230 @@
         #000000
     </color>
     <color name="md_theme_background_mediumContrast_dark" tools:ignore="MissingDefaultResource">
-        #1A110F
+        #121318
     </color>
     <color name="md_theme_onBackground_mediumContrast_dark" tools:ignore="MissingDefaultResource">
-        #F1DFDA
+        #E3E1E9
     </color>
     <color name="md_theme_surface_mediumContrast_dark" tools:ignore="MissingDefaultResource">
-        #1A110F
+        #121318
     </color>
     <color name="md_theme_onSurface_mediumContrast_dark" tools:ignore="MissingDefaultResource">
-        #FFF9F8
+        #FFFFFF
     </color>
     <color name="md_theme_surfaceVariant_mediumContrast_dark" tools:ignore="MissingDefaultResource">
-        #53433F
+        #45464F
     </color>
     <color name="md_theme_onSurfaceVariant_mediumContrast_dark" tools:ignore="MissingDefaultResource">
-        #DCC6C0
+        #DCDBE6
     </color>
     <color name="md_theme_outline_mediumContrast_dark" tools:ignore="MissingDefaultResource">
-        #B39E99
+        #B1B1BB
     </color>
     <color name="md_theme_outlineVariant_mediumContrast_dark" tools:ignore="MissingDefaultResource">
-        #927F7A
+        #8F8F99
     </color>
     <color name="md_theme_scrim_mediumContrast_dark" tools:ignore="MissingDefaultResource">#000000
     </color>
     <color name="md_theme_inverseSurface_mediumContrast_dark" tools:ignore="MissingDefaultResource">
-        #F1DFDA
+        #E3E1E9
     </color>
     <color name="md_theme_inverseOnSurface_mediumContrast_dark" tools:ignore="MissingDefaultResource">
-        #322825
+        #292A2F
     </color>
     <color name="md_theme_inversePrimary_mediumContrast_dark" tools:ignore="MissingDefaultResource">
-        #743624
+        #36457A
     </color>
     <color name="md_theme_primaryFixed_mediumContrast_dark" tools:ignore="MissingDefaultResource">
-        #FFDBD1
+        #DCE1FF
     </color>
     <color name="md_theme_onPrimaryFixed_mediumContrast_dark" tools:ignore="MissingDefaultResource">
-        #280500
+        #000C39
     </color>
     <color name="md_theme_primaryFixedDim_mediumContrast_dark" tools:ignore="MissingDefaultResource">
-        #FFB5A0
+        #B6C4FF
     </color>
     <color name="md_theme_onPrimaryFixedVariant_mediumContrast_dark" tools:ignore="MissingDefaultResource">
-        #5D2514
+        #243367
     </color>
     <color name="md_theme_secondaryFixed_mediumContrast_dark" tools:ignore="MissingDefaultResource">
-        #FFDBD1
+        #DEE1F9
     </color>
     <color name="md_theme_onSecondaryFixed_mediumContrast_dark" tools:ignore="MissingDefaultResource">
-        #200B06
+        #0C1021
     </color>
     <color name="md_theme_secondaryFixedDim_mediumContrast_dark" tools:ignore="MissingDefaultResource">
-        #E7BDB2
+        #C2C5DD
     </color>
     <color name="md_theme_onSecondaryFixedVariant_mediumContrast_dark" tools:ignore="MissingDefaultResource">
-        #4B2F28
+        #313548
     </color>
     <color name="md_theme_tertiaryFixed_mediumContrast_dark" tools:ignore="MissingDefaultResource">
-        #F5E1A7
+        #B7EAFF
     </color>
     <color name="md_theme_onTertiaryFixed_mediumContrast_dark" tools:ignore="MissingDefaultResource">
-        #171100
+        #00141B
     </color>
     <color name="md_theme_tertiaryFixedDim_mediumContrast_dark" tools:ignore="MissingDefaultResource">
-        #D8C58D
+        #88D1EC
     </color>
     <color name="md_theme_onTertiaryFixedVariant_mediumContrast_dark" tools:ignore="MissingDefaultResource">
-        #41350A
+        #003C4B
     </color>
     <color name="md_theme_surfaceDim_mediumContrast_dark" tools:ignore="MissingDefaultResource">
-        #1A110F
+        #121318
     </color>
     <color name="md_theme_surfaceBright_mediumContrast_dark" tools:ignore="MissingDefaultResource">
-        #423734
+        #44444A
     </color>
     <color name="md_theme_surfaceContainerLowest_mediumContrast_dark" tools:ignore="MissingDefaultResource">
-        #140C0A
+        #06070C
     </color>
     <color name="md_theme_surfaceContainerLow_mediumContrast_dark" tools:ignore="MissingDefaultResource">
-        #231917
+        #1C1D23
     </color>
     <color name="md_theme_surfaceContainer_mediumContrast_dark" tools:ignore="MissingDefaultResource">
-        #271D1B
+        #27272D
     </color>
     <color name="md_theme_surfaceContainerHigh_mediumContrast_dark" tools:ignore="MissingDefaultResource">
-        #322825
+        #323238
     </color>
     <color name="md_theme_surfaceContainerHighest_mediumContrast_dark" tools:ignore="MissingDefaultResource">
-        #3D322F
+        #3D3D43
     </color>
-    <color name="md_theme_primary_highContrast_dark" tools:ignore="MissingDefaultResource">#FFF9F8
+    <color name="md_theme_primary_highContrast_dark" tools:ignore="MissingDefaultResource">#EEEFFF
     </color>
     <color name="md_theme_onPrimary_highContrast_dark" tools:ignore="MissingDefaultResource">
         #000000
     </color>
     <color name="md_theme_primaryContainer_highContrast_dark" tools:ignore="MissingDefaultResource">
-        #FFBBA7
+        #B2C0FD
     </color>
     <color name="md_theme_onPrimaryContainer_highContrast_dark" tools:ignore="MissingDefaultResource">
-        #000000
+        #00082B
     </color>
     <color name="md_theme_secondary_highContrast_dark" tools:ignore="MissingDefaultResource">
-        #FFF9F8
+        #EEEFFF
     </color>
     <color name="md_theme_onSecondary_highContrast_dark" tools:ignore="MissingDefaultResource">
         #000000
     </color>
     <color name="md_theme_secondaryContainer_highContrast_dark" tools:ignore="MissingDefaultResource">
-        #ECC1B6
+        #BEC1D9
     </color>
     <color name="md_theme_onSecondaryContainer_highContrast_dark" tools:ignore="MissingDefaultResource">
-        #000000
+        #060A1B
     </color>
     <color name="md_theme_tertiary_highContrast_dark" tools:ignore="MissingDefaultResource">
-        #FFFAF6
+        #DBF4FF
     </color>
     <color name="md_theme_onTertiary_highContrast_dark" tools:ignore="MissingDefaultResource">
         #000000
     </color>
     <color name="md_theme_tertiaryContainer_highContrast_dark" tools:ignore="MissingDefaultResource">
-        #DDCA91
+        #84CDE8
     </color>
     <color name="md_theme_onTertiaryContainer_highContrast_dark" tools:ignore="MissingDefaultResource">
-        #000000
+        #000D13
     </color>
-    <color name="md_theme_error_highContrast_dark" tools:ignore="MissingDefaultResource">#FFF9F9
+    <color name="md_theme_error_highContrast_dark" tools:ignore="MissingDefaultResource">#FFECE9
     </color>
     <color name="md_theme_onError_highContrast_dark" tools:ignore="MissingDefaultResource">#000000
     </color>
     <color name="md_theme_errorContainer_highContrast_dark" tools:ignore="MissingDefaultResource">
-        #FFBAB1
+        #FFAEA4
     </color>
     <color name="md_theme_onErrorContainer_highContrast_dark" tools:ignore="MissingDefaultResource">
-        #000000
+        #220001
     </color>
     <color name="md_theme_background_highContrast_dark" tools:ignore="MissingDefaultResource">
-        #1A110F
+        #121318
     </color>
     <color name="md_theme_onBackground_highContrast_dark" tools:ignore="MissingDefaultResource">
-        #F1DFDA
+        #E3E1E9
     </color>
-    <color name="md_theme_surface_highContrast_dark" tools:ignore="MissingDefaultResource">#1A110F
+    <color name="md_theme_surface_highContrast_dark" tools:ignore="MissingDefaultResource">#121318
     </color>
     <color name="md_theme_onSurface_highContrast_dark" tools:ignore="MissingDefaultResource">
         #FFFFFF
     </color>
     <color name="md_theme_surfaceVariant_highContrast_dark" tools:ignore="MissingDefaultResource">
-        #53433F
+        #45464F
     </color>
     <color name="md_theme_onSurfaceVariant_highContrast_dark" tools:ignore="MissingDefaultResource">
-        #FFF9F8
+        #FFFFFF
     </color>
-    <color name="md_theme_outline_highContrast_dark" tools:ignore="MissingDefaultResource">#DCC6C0
+    <color name="md_theme_outline_highContrast_dark" tools:ignore="MissingDefaultResource">#F0EFFA
     </color>
     <color name="md_theme_outlineVariant_highContrast_dark" tools:ignore="MissingDefaultResource">
-        #DCC6C0
+        #C2C2CC
     </color>
     <color name="md_theme_scrim_highContrast_dark" tools:ignore="MissingDefaultResource">#000000
     </color>
     <color name="md_theme_inverseSurface_highContrast_dark" tools:ignore="MissingDefaultResource">
-        #F1DFDA
+        #E3E1E9
     </color>
     <color name="md_theme_inverseOnSurface_highContrast_dark" tools:ignore="MissingDefaultResource">
         #000000
     </color>
     <color name="md_theme_inversePrimary_highContrast_dark" tools:ignore="MissingDefaultResource">
-        #4D1909
+        #36457A
     </color>
     <color name="md_theme_primaryFixed_highContrast_dark" tools:ignore="MissingDefaultResource">
-        #FFE0D8
+        #DCE1FF
     </color>
     <color name="md_theme_onPrimaryFixed_highContrast_dark" tools:ignore="MissingDefaultResource">
         #000000
     </color>
     <color name="md_theme_primaryFixedDim_highContrast_dark" tools:ignore="MissingDefaultResource">
-        #FFBBA7
+        #B6C4FF
     </color>
     <color name="md_theme_onPrimaryFixedVariant_highContrast_dark" tools:ignore="MissingDefaultResource">
-        #310700
+        #000C39
     </color>
     <color name="md_theme_secondaryFixed_highContrast_dark" tools:ignore="MissingDefaultResource">
-        #FFE0D8
+        #DEE1F9
     </color>
     <color name="md_theme_onSecondaryFixed_highContrast_dark" tools:ignore="MissingDefaultResource">
         #000000
     </color>
     <color name="md_theme_secondaryFixedDim_highContrast_dark" tools:ignore="MissingDefaultResource">
-        #ECC1B6
+        #C2C5DD
     </color>
     <color name="md_theme_onSecondaryFixedVariant_highContrast_dark" tools:ignore="MissingDefaultResource">
-        #26100A
+        #0C1021
     </color>
     <color name="md_theme_tertiaryFixed_highContrast_dark" tools:ignore="MissingDefaultResource">
-        #FAE6AB
+        #B7EAFF
     </color>
     <color name="md_theme_onTertiaryFixed_highContrast_dark" tools:ignore="MissingDefaultResource">
         #000000
     </color>
     <color name="md_theme_tertiaryFixedDim_highContrast_dark" tools:ignore="MissingDefaultResource">
-        #DDCA91
+        #88D1EC
     </color>
     <color name="md_theme_onTertiaryFixedVariant_highContrast_dark" tools:ignore="MissingDefaultResource">
-        #1D1600
+        #00141B
     </color>
     <color name="md_theme_surfaceDim_highContrast_dark" tools:ignore="MissingDefaultResource">
-        #1A110F
+        #121318
     </color>
     <color name="md_theme_surfaceBright_highContrast_dark" tools:ignore="MissingDefaultResource">
-        #423734
+        #4F5056
     </color>
     <color name="md_theme_surfaceContainerLowest_highContrast_dark" tools:ignore="MissingDefaultResource">
-        #140C0A
+        #000000
     </color>
     <color name="md_theme_surfaceContainerLow_highContrast_dark" tools:ignore="MissingDefaultResource">
-        #231917
+        #1E1F25
     </color>
     <color name="md_theme_surfaceContainer_highContrast_dark" tools:ignore="MissingDefaultResource">
-        #271D1B
+        #2F3036
     </color>
     <color name="md_theme_surfaceContainerHigh_highContrast_dark" tools:ignore="MissingDefaultResource">
-        #322825
+        #3A3B41
     </color>
     <color name="md_theme_surfaceContainerHighest_highContrast_dark" tools:ignore="MissingDefaultResource">
-        #3D322F
+        #46464C
     </color>
 </resources>

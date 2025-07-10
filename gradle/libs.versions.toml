@@ -46,6 +46,7 @@ credentials = "1.5.0"
 datastore = "1.1.7"
 desugar-jdk-libs = "2.1.5"
 firebase-analytics-ktx = "22.5.0"
+firebase-appcheck = "18.0.0"
 firebase-crashlytics = "19.4.4"
 firebase-crashlytics-gradle = "3.0.4"
 fragment = "1.8.8"
@@ -112,6 +113,8 @@ navigation-ui = { module = "androidx.navigation:navigation-ui-ktx", version.ref 
 #Firebase
 firebase-analytics = { module = "com.google.firebase:firebase-analytics-ktx", version.ref = "firebase-analytics-ktx" }
 firebase-crashlytics = { module = "com.google.firebase:firebase-crashlytics-ktx", version.ref = "firebase-crashlytics" }
+firebase-appcheck-debug = { module = "com.google.firebase:firebase-appcheck-debug", version.ref = "firebase-appcheck" }
+firebase-appcheck-playintegrity = { module = "com.google.firebase:firebase-appcheck-playintegrity", version.ref = "firebase-appcheck" }
 
 #Google
 play-services-auth = { module = "com.google.android.gms:play-services-auth", version.ref = "play-services-auth" }
@@ -210,6 +213,8 @@ coil = [
 firebase = [
     "firebase-analytics",
     "firebase-crashlytics",
+    "firebase-appcheck-debug",
+    "firebase-appcheck-playintegrity",
 ]
 google = [
     "google-id",
