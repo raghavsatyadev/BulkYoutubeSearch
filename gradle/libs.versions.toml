@@ -14,10 +14,10 @@ appIdDev = "io.github.raghavsatyadev.bys"
 appIdProd = "io.github.raghavsatyadev.bys"
 supportId = "io.github.raghavsatyadev.support"
 # SDK Versions
-targetSdk = "35"
+targetSdk = "36"
 targetSdkPreview = "Baklava"
 minSdk = "24"
-compileSdk = "35"
+compileSdk = "36"
 compileSdkPreview = "Baklava"
 
 buildTools = "36.0.0 rc4"
@@ -27,54 +27,50 @@ versionCode = "1"
 versionName = "0.0.1"
 
 # Plugin Versions
-agp = "8.10.0-alpha04"
-kotlin = "2.1.20-Beta2"
-com-google-devtools-ksp = "2.1.20-Beta2-1.0.29"
-com-google-gms = "4.4.2"
+agp = "8.12.0-alpha08"
+kotlin = "2.2.0"
+com-google-devtools-ksp = "2.2.0-2.0.2"
+com-google-gms = "4.4.3"
 
 # Library Versions
-activity = "1.10.0"
-androidx-core = "1.16.0-alpha02"
+activity = "1.10.1"
+androidx-core = "1.16.0"
 androidx-junit = "1.2.1"
 androidx-test-core = "1.6.1"
-appcompat = "1.7.0"
-coil = "3.1.0"
-collection = "1.5.0-beta03"
-constraintlayout = "2.2.0"
-coroutines = "1.10.1"
-credentials = "1.5.0-rc01"
-datastore = "1.1.2"
-desugar-jdk-libs = "2.1.4"
-firebase-analytics-ktx = "22.2.0"
-firebase-appcheck = "18.0.0"
-firebase-auth = "23.2.0"
-firebase-crashlytics = "19.4.0"
-firebase-firestore = "25.1.2"
-firebase-crashlytics-gradle = "3.0.3"
-firebase-messaging-ktx = "24.1.0"
-fragment = "1.8.5"
+appcompat = "1.7.1"
+coil = "3.2.0"
+collection = "1.5.0"
+constraintlayout = "2.2.1"
+coroutines = "1.10.2"
+credentials = "1.5.0"
+datastore = "1.1.7"
+desugar-jdk-libs = "2.1.5"
+firebase-analytics-ktx = "22.5.0"
+firebase-crashlytics = "19.4.4"
+firebase-crashlytics-gradle = "3.0.4"
+fragment = "1.8.8"
 google-id = "1.1.1"
 junit = "4.13.2"
-junit-jupiter = "5.11.4"
-ktor = "3.0.3"
-lifecycle = "2.9.0-alpha09"
-lottie = "6.6.2"
-material = "1.13.0-alpha10"
+junit-jupiter = "5.13.3"
+ktor = "3.2.1"
+lifecycle = "2.9.1"
+lottie = "6.6.7"
+material = "1.13.0-beta01"
 multidex = "2.0.1"
-navigation = "2.9.0-alpha05"
+navigation = "2.9.1"
 permissionx = "1.8.1"
-play-services-ads = "23.6.0"
+play-services-ads = "24.4.0"
 play-services-auth = "21.3.0"
 recyclerview = "1.4.0"
-room = "2.7.0-alpha13"
+room = "2.7.2"
 rules = "1.6.1"
 runner = "1.6.2"
-serialization = "1.8.0"
-sonarqube = "6.0.1.5171"
-splashscreen = "1.2.0-alpha02"
-swiperefreshlayout = "1.2.0-alpha01"
-work-manager = "2.10.0"
-youtube = "12.1.1"
+serialization = "1.9.0"
+sonarqube = "6.2.0.5505"
+splashscreen = "1.2.0-rc01"
+swiperefreshlayout = "1.2.0-beta01"
+work-manager = "2.10.2"
+youtube = "12.1.2"
 
 [libraries]
 # Classpaths
@@ -115,12 +111,7 @@ navigation-ui = { module = "androidx.navigation:navigation-ui-ktx", version.ref 
 
 #Firebase
 firebase-analytics = { module = "com.google.firebase:firebase-analytics-ktx", version.ref = "firebase-analytics-ktx" }
-firebase-appcheck-debug = { module = "com.google.firebase:firebase-appcheck-debug", version.ref = "firebase-appcheck" }
-firebase-appcheck-playintegrity = { module = "com.google.firebase:firebase-appcheck-playintegrity", version.ref = "firebase-appcheck" }
-firebase-auth = { module = "com.google.firebase:firebase-auth", version.ref = "firebase-auth" }
 firebase-crashlytics = { module = "com.google.firebase:firebase-crashlytics-ktx", version.ref = "firebase-crashlytics" }
-firebase-firestore = { module = "com.google.firebase:firebase-firestore", version.ref = "firebase-firestore" }
-firebase-messaging = { module = "com.google.firebase:firebase-messaging-ktx", version.ref = "firebase-messaging-ktx" }
 
 #Google
 play-services-auth = { module = "com.google.android.gms:play-services-auth", version.ref = "play-services-auth" }
@@ -218,12 +209,7 @@ coil = [
 ]
 firebase = [
     "firebase-analytics",
-    "firebase-appcheck-debug",
-    "firebase-appcheck-playintegrity",
-    "firebase-auth",
     "firebase-crashlytics",
-    "firebase-firestore",
-    "firebase-messaging",
 ]
 google = [
     "google-id",

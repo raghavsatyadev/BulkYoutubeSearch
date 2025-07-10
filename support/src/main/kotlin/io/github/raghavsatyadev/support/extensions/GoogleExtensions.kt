@@ -51,7 +51,7 @@ object GoogleExtensions {
         return if (isAvailable == ConnectionResult.SUCCESS) {
             if (playServicesVersion >= REQUIRED_PLAY_SERVICES_VERSION) {
                 PlayServiceStatus.AVAILABLE to ConnectionResult.SUCCESS
-            } else PlayServiceStatus.UPDATE_REQUIRED to isAvailable
+            } else PlayServiceStatus.UPDATE_REQUIRED to 0
         } else PlayServiceStatus.NOT_AVAILABLE to isAvailable
     }
 

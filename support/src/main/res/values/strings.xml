@@ -16,6 +16,7 @@
     <!-- Warnings -->
     <string name="warning_connect_internet">Please connect to internet.</string>
     <string name="warning_update_play_service">Update Play Service and Restart app</string>
+    <string name="warning_invalid_json_file">Currently provided json file had wrong format. Keep only the video names in a JSON Array.</string>
 
     <!-- General -->
     <string name="error">Error</string>

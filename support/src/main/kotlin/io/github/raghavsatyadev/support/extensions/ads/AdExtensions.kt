@@ -1,4 +1,7 @@
-@file:Suppress("MemberVisibilityCanBePrivate", "unused")
+@file:Suppress(
+    "MemberVisibilityCanBePrivate",
+    "unused"
+)
 
 package io.github.raghavsatyadev.support.extensions.ads
 
@@ -19,6 +22,10 @@ object AdExtensions {
 
     // region Activity
     fun ComponentActivity.showInterstitialAd(onAdClosed: () -> Unit) {
+        if (BuildConfig.DEBUG) {
+            onAdClosed()
+            return
+        }
         interstitialAd?.let {
             it.fullScreenContentCallback = object : FullScreenContentCallback() {
                 override fun onAdDismissedFullScreenContent() {
@@ -34,11 +41,7 @@ object AdExtensions {
             it.show(this)
             loadInterstitialAd()
         } ?: {
-            if (BuildConfig.DEBUG) {
-                onAdClosed()
-            } else {
-                loadInterstitialAd()
-            }
+            loadInterstitialAd()
         }
     }
 
@@ -57,10 +60,13 @@ object AdExtensions {
         }
     }
 
-    fun ComponentActivity.showBannerAd(adView: AdView) {
+    private fun ComponentActivity.showBannerAd(adView: AdView) {
         lifecycleScope.launch {
             repeatOnLifecycle(Lifecycle.State.STARTED) {
-                AdUtil.loadBannerAd(this@showBannerAd, adView)
+                AdUtil.loadBannerAd(
+                    this@showBannerAd,
+                    adView
+                )
             }
         }
     }
@@ -73,14 +79,6 @@ object AdExtensions {
 
     fun Fragment.loadAds(adView: AdView) {
         requireActivity().loadAds(adView)
-    }
-
-    fun Fragment.loadInterstitialAd() {
-        requireActivity().loadInterstitialAd()
-    }
-
-    fun Fragment.showBannerAd(adView: AdView) {
-        requireActivity().showBannerAd(adView)
     }
     // endregion
 }

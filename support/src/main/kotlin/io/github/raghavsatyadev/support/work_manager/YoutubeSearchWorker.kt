@@ -17,28 +17,35 @@ import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.withContext
 import java.util.concurrent.TimeUnit
 
-class YoutubeSearchWorker(appContext: Context, workerParams: WorkerParameters) :
-    CoroutineWorker(appContext, workerParams) {
+class YoutubeSearchWorker(
+    appContext: Context,
+    workerParams: WorkerParameters,
+) : CoroutineWorker(
+    appContext,
+    workerParams
+) {
 
     companion object {
-        private const val uniqueWorkName = "YoutubeSearch"
-        private const val uniqueWorkNamePeriodic = "YoutubeSearchPeriodic"
+        private const val UNIQUE_WORK_NAME = "YoutubeSearch"
+        private const val UNIQUE_WORK_NAME_PERIODIC = "YoutubeSearchPeriodic"
         private val manager by lazy {
             WorkManager.getInstance(CoreApp.instance)
         }
         private val oneTimeWorkStatus by lazy {
-            manager.getWorkInfosForUniqueWorkFlow(uniqueWorkName)
+            manager.getWorkInfosForUniqueWorkFlow(UNIQUE_WORK_NAME)
         }
         private val periodicWorkStatus by lazy {
             manager.getWorkInfosForUniqueWorkFlow(
-                uniqueWorkNamePeriodic
+                UNIQUE_WORK_NAME_PERIODIC
             )
         }
 
         suspend fun startWorker() {
             // Check the status of the periodic work request
             val periodicWorkInfos = withContext(Dispatchers.IO) {
-                manager.getWorkInfosForUniqueWork(uniqueWorkNamePeriodic).get()
+                manager
+                    .getWorkInfosForUniqueWork(UNIQUE_WORK_NAME_PERIODIC)
+                    .get()
             }
             val periodicWorkRunning = periodicWorkInfos.any { it.state == WorkInfo.State.RUNNING }
 
@@ -48,7 +55,9 @@ class YoutubeSearchWorker(appContext: Context, workerParams: WorkerParameters) :
 
                 // Chain the periodic work to start after the one-time work completes
                 manager.enqueueUniqueWork(
-                    uniqueWorkName, ExistingWorkPolicy.KEEP, oneTimeWorkRequest
+                    UNIQUE_WORK_NAME,
+                    ExistingWorkPolicy.KEEP,
+                    oneTimeWorkRequest
                 )
 
                 oneTimeWorkStatus.collectLatest { infos ->
@@ -57,11 +66,12 @@ class YoutubeSearchWorker(appContext: Context, workerParams: WorkerParameters) :
                     if (!oneTimeWorkRunning) {
                         // Start the periodic work
                         val periodicWorkRequest = PeriodicWorkRequestBuilder<YoutubeSearchWorker>(
-                            1, TimeUnit.DAYS
+                            1,
+                            TimeUnit.DAYS
                         ).build()
 
                         manager.enqueueUniquePeriodicWork(
-                            uniqueWorkNamePeriodic,
+                            UNIQUE_WORK_NAME_PERIODIC,
                             ExistingPeriodicWorkPolicy.KEEP,
                             periodicWorkRequest
                         )

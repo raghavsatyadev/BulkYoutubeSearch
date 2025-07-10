@@ -1,5 +1,6 @@
 <resources>
     <!-- Search View -->
+    <string name="select_file">Select File</string>
     <string name="search">Search</string>
     <string name="share_result_file">Share result file</string>
     <string name="key_app_name">App Name:</string>

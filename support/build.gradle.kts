@@ -15,17 +15,19 @@ plugins {
 }
 
 fun readProperties(propertiesFile: File) = Properties().apply {
-    propertiesFile.inputStream().use { fis ->
-        load(fis)
-    }
+    propertiesFile
+        .inputStream()
+        .use { fis -> load(fis) }
 }
 
 val props = readProperties(file("../secret.properties"))
 
 android {
     namespace = libs.versions.supportId.get()
-    // compileSdk = libs.versions.compileSdk.get().toInt()
-    compileSdkPreview = libs.versions.compileSdkPreview.get()
+    compileSdk = libs.versions.compileSdk
+        .get()
+        .toInt()
+    // compileSdkPreview = libs.versions.compileSdkPreview.get()
     buildToolsVersion = libs.versions.buildTools.get()
     room {
         schemaDirectory("$projectDir/schemas")
@@ -33,25 +35,42 @@ android {
         // generateKotlin("true")
     }
     ksp {
-        arg("room.incremental", "true")
-        arg("room.generateKotlin", "true")
+        arg(
+            "room.incremental",
+            "true"
+        )
+        arg(
+            "room.generateKotlin",
+            "true"
+        )
     }
 
     defaultConfig {
-        minSdk = libs.versions.minSdk.get().toInt()
+        minSdk = libs.versions.minSdk
+            .get()
+            .toInt()
         multiDexEnabled = true
 
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
         consumerProguardFiles.add(file("consumer-rules.pro"))
 
-        sourceSets {
-            getByName("androidTest").assets.srcDirs(files("$projectDir/schemas"))
+        sourceSets { getByName("androidTest").assets.srcDirs(files("$projectDir/schemas")) }
+
+        ndk {
+            abiFilters.addAll(
+                listOf(
+                    "armeabi-v7a",
+                    "arm64-v8a"
+                )
+            )
         }
 
-        ndk { abiFilters.addAll(listOf("armeabi-v7a", "arm64-v8a")) }
-
         val jsonValue = file("../keys.json").readText()
-        buildConfigField("String", "youtube_api_keys", JsonOutput.toJson(jsonValue))
+        buildConfigField(
+            "String",
+            "youtube_api_keys",
+            JsonOutput.toJson(jsonValue)
+        )
     }
     signingConfigs {
         create("release") {
@@ -70,7 +89,11 @@ android {
                     file("proguard-rules.pro")
                 )
             )
-            resValue("string", "app_name", libs.versions.betaAppName.get())
+            resValue(
+                "string",
+                "app_name",
+                libs.versions.betaAppName.get()
+            )
             signingConfig = signingConfigs.getByName("release")
         }
         getByName("release") {
@@ -81,22 +104,23 @@ android {
                     file("proguard-rules.pro")
                 )
             )
-            resValue("string", "app_name", libs.versions.releaseAppName.get())
+            resValue(
+                "string",
+                "app_name",
+                libs.versions.releaseAppName.get()
+            )
             signingConfig = signingConfigs.getByName("release")
         }
         getByName("debug") {
             isMinifyEnabled = false
-            resValue("string", "app_name", libs.versions.debugAppName.get())
+            resValue(
+                "string",
+                "app_name",
+                libs.versions.debugAppName.get()
+            )
         }
-        kotlin {
-            jvmToolchain(21)
-        }
-        compileOptions {
-            isCoreLibraryDesugaringEnabled = true
-        }
-        kotlinOptions {
-            freeCompilerArgs += "-Xjvm-default=all"
-        }
+        kotlin { jvmToolchain(21) }
+        compileOptions { isCoreLibraryDesugaringEnabled = true }
         buildFeatures {
             viewBinding = true
             buildConfig = true
@@ -104,17 +128,13 @@ android {
         }
         flavorDimensions.add("isPlayStoreVersion")
         productFlavors {
-            create("Prod") {
-            }
-            create("Dev") {
-            }
+            create("Prod") {}
+            create("Dev") {}
         }
         androidComponents.beforeVariants { variant ->
             val names = variant.flavorName
 
-            if ((names == "Dev" && variant.buildType == "release") ||
-                (names == "Prod" && (variant.buildType != "release"))
-            ) {
+            if ((names == "Dev" && variant.buildType == "release") || (names == "Prod" && (variant.buildType != "release"))) {
                 variant.enable = false
             }
         }

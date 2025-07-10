@@ -22,7 +22,9 @@ object Constants {
         }
     }
 
-    object NotificationKeys {
-        const val MAIN_KEY = "main"
+    object FileNames {
+        const val PARENT_FOLDER_NAME = "Videos"
+        const val VIDEO_NAMES = "video_names.json"
+        const val VIDEO_LINKS = "video_links.json"
     }
 }
