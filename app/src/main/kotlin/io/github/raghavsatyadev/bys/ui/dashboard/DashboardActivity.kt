@@ -2,14 +2,8 @@ package io.github.raghavsatyadev.bys.ui.dashboard
 
 import android.content.Context
 import android.content.Intent
-import android.os.Build
 import android.os.Bundle
-import android.os.Environment
-import android.provider.Settings
 import androidx.activity.viewModels
-import androidx.lifecycle.Lifecycle
-import androidx.lifecycle.lifecycleScope
-import androidx.lifecycle.repeatOnLifecycle
 import io.github.raghavsatyadev.bys.databinding.ActivityDashboardBinding
 import io.github.raghavsatyadev.bys.ui.found_songs.FoundSongsActivity
 import io.github.raghavsatyadev.bys.ui.manage_keys.ManageKeysActivity
@@ -35,23 +29,13 @@ class DashboardActivity : CoreActivity<ActivityDashboardBinding>() {
     override fun createReference(savedInstanceState: Bundle?) {
         loadAds(binding.adView)
 
-        lifecycleScope.launch {
-            repeatOnLifecycle(Lifecycle.State.STARTED) {
-                getPermissions()
-            }
-        }
+        startSetup()
     }
 
-    private fun getPermissions() {
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.R) {
-            if (!Environment.isExternalStorageManager()) {
-                startActivity(Intent(Settings.ACTION_MANAGE_ALL_FILES_ACCESS_PERMISSION))
-            } else {
-                launch {
-                    withContext(ioDispatcher) {
-                        viewModel.setupData()
-                    }
-                }
+    private fun startSetup() {
+        launch {
+            withContext(ioDispatcher) {
+                viewModel.setupData()
             }
         }
     }
