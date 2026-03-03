@@ -9,26 +9,21 @@ import io.github.raghavsatyadev.support.core.CoreActivity
 import io.github.raghavsatyadev.support.extensions.ads.AdExtensions.loadAds
 
 class ManageKeysActivity : CoreActivity<ActivityManageKeysBinding>() {
-    private val viewModel: ManageKeysViewModel by viewModels()
+  private val viewModel: ManageKeysViewModel by viewModels()
 
-    companion object {
-        fun getIntentObject(
-            context: Context,
-            bundle: Bundle = Bundle.EMPTY,
-        ): Intent =
-            Intent(context, ManageKeysActivity::class.java).apply { putExtras(bundle) }
-    }
+  companion object {
+    fun getIntentObject(context: Context, bundle: Bundle = Bundle.EMPTY): Intent =
+      Intent(context, ManageKeysActivity::class.java).apply { putExtras(bundle) }
+  }
 
+  override fun createReference(savedInstanceState: Bundle?) {
+    loadAds(binding.adView)
+  }
 
-    override fun createReference(savedInstanceState: Bundle?) {
-        loadAds(binding.adView)
-    }
+  override fun getToolBar() = binding.toolbar
 
-    override fun getToolBar() = binding.toolbar
+  override fun createBinding(savedInstanceState: Bundle?) =
+    ActivityManageKeysBinding.inflate(layoutInflater)
 
-    override fun createBinding(savedInstanceState: Bundle?) =
-        ActivityManageKeysBinding.inflate(layoutInflater)
-
-    override fun setListeners(isEnabled: Boolean) {}
+  override fun setListeners(isEnabled: Boolean) {}
 }
-

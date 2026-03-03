@@ -11,21 +11,19 @@ import kotlinx.serialization.modules.SerializersModule
 import kotlinx.serialization.modules.contextual
 
 object ExceptionSerializer : KSerializer<Exception> {
-    override val descriptor: SerialDescriptor =
-        PrimitiveSerialDescriptor("Exception", PrimitiveKind.STRING)
+  override val descriptor: SerialDescriptor =
+    PrimitiveSerialDescriptor("Exception", PrimitiveKind.STRING)
 
-    override fun serialize(encoder: Encoder, value: Exception) {
-        encoder.encodeString(value.toString())
-    }
+  override fun serialize(encoder: Encoder, value: Exception) {
+    encoder.encodeString(value.toString())
+  }
 
-    override fun deserialize(decoder: Decoder): Exception {
-        return Exception(decoder.decodeString())
-    }
+  override fun deserialize(decoder: Decoder): Exception {
+    return Exception(decoder.decodeString())
+  }
 }
 
 val kotlinJsonSerializer = Json {
-    serializersModule = SerializersModule {
-        contextual(ExceptionSerializer)
-    }
-    prettyPrint = true
+  serializersModule = SerializersModule { contextual(ExceptionSerializer) }
+  prettyPrint = true
 }

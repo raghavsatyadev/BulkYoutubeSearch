@@ -7,55 +7,35 @@ import io.github.raghavsatyadev.support.list.GenObjectHolder
 import io.github.raghavsatyadev.support.models.general.APIKeyDetail
 
 class KeyDetailHolder(
-    binding: ItemKeyDetailBinding,
-    itemClickListener: CustomClickListener?,
-    deleteClickListener: CustomClickListener?,
-) : GenObjectHolder<APIKeyDetail, ItemKeyDetailBinding>(
-    binding,
-    itemClickListener
-) {
-    companion object {
-        fun getInstance(
-            binding: ItemKeyDetailBinding,
-            itemClickListener: CustomClickListener?,
-            deleteClickListener: CustomClickListener?,
-        ): KeyDetailHolder {
-            return KeyDetailHolder(
-                binding,
-                itemClickListener,
-                deleteClickListener
-            )
-        }
+  binding: ItemKeyDetailBinding,
+  itemClickListener: CustomClickListener?,
+  deleteClickListener: CustomClickListener?,
+) : GenObjectHolder<APIKeyDetail, ItemKeyDetailBinding>(binding, itemClickListener) {
+  companion object {
+    fun getInstance(
+      binding: ItemKeyDetailBinding,
+      itemClickListener: CustomClickListener?,
+      deleteClickListener: CustomClickListener?,
+    ): KeyDetailHolder {
+      return KeyDetailHolder(binding, itemClickListener, deleteClickListener)
     }
+  }
 
-    init {
-        binding.btnCopyKey.setOnClickListener {
-            itemClickListener?.onItemClick(
-                layoutPosition,
-                it,
-                false
-            )
-        }
-        binding.btnDeleteKey.setOnClickListener {
-            deleteClickListener?.onItemClick(
-                layoutPosition,
-                it,
-                false
-            )
-        }
+  init {
+    binding.btnCopyKey.setOnClickListener {
+      itemClickListener?.onItemClick(layoutPosition, it, false)
     }
+    binding.btnDeleteKey.setOnClickListener {
+      deleteClickListener?.onItemClick(layoutPosition, it, false)
+    }
+  }
 
-    override fun bind(
-        model: APIKeyDetail,
-        itemViewType: Int,
-        position: Int,
-        itemCount: Int,
-    ) {
-        with(binding) {
-            with(model) {
-                txtKeyAppName.text = appName
-                txtKeyExpiry.text = expiry.formatMillisToDate()
-            }
-        }
+  override fun bind(model: APIKeyDetail, itemViewType: Int, position: Int, itemCount: Int) {
+    with(binding) {
+      with(model) {
+        txtKeyAppName.text = appName
+        txtKeyExpiry.text = expiry.formatMillisToDate()
+      }
     }
+  }
 }

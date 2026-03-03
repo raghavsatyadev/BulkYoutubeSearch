@@ -8,21 +8,17 @@ import io.github.raghavsatyadev.support.list.GenRecyclerAdapter
 import io.github.raghavsatyadev.support.models.general.APIKeyDetail
 
 class KeyDetailAdapter : GenRecyclerAdapter<APIKeyDetail, ItemKeyDetailBinding, KeyDetailHolder>() {
-    var deleteClickListener: CustomClickListener? = null
+  var deleteClickListener: CustomClickListener? = null
 
-    override fun creatingViewHolder(
-        parent: ViewGroup,
-        viewType: Int,
-        from: LayoutInflater,
-    ): KeyDetailHolder {
-        return KeyDetailHolder.getInstance(
-            ItemKeyDetailBinding.inflate(
-                from,
-                parent,
-                false
-            ),
-            itemClickListener,
-            deleteClickListener,
-        )
-    }
+  override fun creatingViewHolder(
+    parent: ViewGroup,
+    viewType: Int,
+    from: LayoutInflater,
+  ): KeyDetailHolder {
+    return KeyDetailHolder.getInstance(
+      ItemKeyDetailBinding.inflate(from, parent, false),
+      itemClickListener,
+      deleteClickListener,
+    )
+  }
 }

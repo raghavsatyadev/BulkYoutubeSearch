@@ -20,65 +20,55 @@ import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 
 class FoundSongsActivity : CoreActivity<ActivityFoundSongsBinding>() {
-    private val viewModel: FoundSongsViewModel by viewModels()
-    private val adapter by lazy {
-        FoundSongsAdapter(getConDrawable(io.github.raghavsatyadev.support.R.drawable.img_placeholder))
+  private val viewModel: FoundSongsViewModel by viewModels()
+  private val adapter by lazy {
+    FoundSongsAdapter(getConDrawable(io.github.raghavsatyadev.support.R.drawable.img_placeholder))
+  }
+
+  companion object {
+    fun getIntentObject(context: Context, bundle: Bundle = Bundle.EMPTY): Intent =
+      Intent(context, FoundSongsActivity::class.java).apply { putExtras(bundle) }
+  }
+
+  override fun createReference(savedInstanceState: Bundle?) {
+    loadAds(binding.adView)
+
+    binding.listFoundSongs.adapter = adapter
+
+    lifecycleScope.launch {
+      repeatOnLifecycle(Lifecycle.State.STARTED) {
+        withContext(ioDispatcher) { viewModel.loadListUsingPagination(adapter) }
+      }
     }
+  }
 
-    companion object {
-        fun getIntentObject(
-            context: Context,
-            bundle: Bundle = Bundle.EMPTY,
-        ): Intent = Intent(
-            context,
-            FoundSongsActivity::class.java
-        ).apply { putExtras(bundle) }
-    }
+  override fun createBinding(savedInstanceState: Bundle?) =
+    ActivityFoundSongsBinding.inflate(layoutInflater)
 
+  override fun getToolBar() = binding.toolbar
 
-    override fun createReference(savedInstanceState: Bundle?) {
-        loadAds(binding.adView)
+  override fun setListeners(isEnabled: Boolean) {
+    if (isEnabled) {
+      adapter.itemClickListener =
+        CustomClickListener(
+          onClick = { position, view, _ ->
+            when (view?.id) {
+              R.id.btn_delete -> {
+                viewModel.deleteSong(adapter.getItem(position))
+              }
 
-        binding.listFoundSongs.adapter = adapter
-
-        lifecycleScope.launch {
-            repeatOnLifecycle(Lifecycle.State.STARTED) {
-                withContext(ioDispatcher) {
-                    viewModel.loadListUsingPagination(adapter)
-                }
+              else -> {
+                startActivity(
+                  PlayerActivity.getIntentObject(
+                    this,
+                    bundleOf(PlayerActivity.SONG to adapter.getItem(position).toJsonString()),
+                  )
+                )
+                // openBrowser(adapter.getItem(position).link)
+              }
             }
-        }
+          }
+        )
     }
-
-    override fun createBinding(savedInstanceState: Bundle?) =
-        ActivityFoundSongsBinding.inflate(layoutInflater)
-
-    override fun getToolBar() = binding.toolbar
-
-    override fun setListeners(isEnabled: Boolean) {
-        if (isEnabled) {
-            adapter.itemClickListener = CustomClickListener(
-                onClick = { position, view, _ ->
-                    when (view?.id) {
-                        R.id.btn_delete -> {
-                            viewModel.deleteSong(adapter.getItem(position))
-                        }
-
-                        else -> {
-                            startActivity(
-                                PlayerActivity.getIntentObject(
-                                    this,
-                                    bundleOf(
-                                        PlayerActivity.SONG to adapter
-                                            .getItem(position)
-                                            .toJsonString()
-                                    )
-                                )
-                            )
-                            // openBrowser(adapter.getItem(position).link)
-                        }
-                    }
-                })
-        }
-    }
+  }
 }

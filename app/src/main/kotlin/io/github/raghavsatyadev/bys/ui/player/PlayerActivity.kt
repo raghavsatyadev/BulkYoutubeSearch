@@ -23,105 +23,76 @@ import io.github.raghavsatyadev.support.extensions.serializer.SerializationExten
 import io.github.raghavsatyadev.support.models.db.song_detail.SongDetail
 
 class PlayerActivity : CoreActivity<ActivityPlayerBinding>() {
-    private val viewModel: PlayerViewModel by viewModels()
-    private val tracker = YouTubePlayerTracker()
-    private var player: YouTubePlayer? = null
+  private val viewModel: PlayerViewModel by viewModels()
+  private val tracker = YouTubePlayerTracker()
+  private var player: YouTubePlayer? = null
 
-    companion object {
-        const val SONG = "SONG"
-        fun getIntentObject(
-            context: Context,
-            bundle: Bundle = Bundle.EMPTY,
-        ): Intent = Intent(
-            context,
-            PlayerActivity::class.java
-        ).apply { putExtras(bundle) }
-    }
+  companion object {
+    const val SONG = "SONG"
 
+    fun getIntentObject(context: Context, bundle: Bundle = Bundle.EMPTY): Intent =
+      Intent(context, PlayerActivity::class.java).apply { putExtras(bundle) }
+  }
 
-    override fun createReference(savedInstanceState: Bundle?) {
-        loadAds(binding.adView)
-        setupYoutubePlayer()
-    }
+  override fun createReference(savedInstanceState: Bundle?) {
+    loadAds(binding.adView)
+    setupYoutubePlayer()
+  }
 
-    private fun setupYoutubePlayer() {
-        val songDetail = intent
-            .getStringExtra(SONG)
-            ?.toKotlinObject<SongDetail>()
+  private fun setupYoutubePlayer() {
+    val songDetail = intent.getStringExtra(SONG)?.toKotlinObject<SongDetail>()
 
-        if (songDetail != null) {
-            lifecycle.addObserver(binding.youtubePlayerView)
+    if (songDetail != null) {
+      lifecycle.addObserver(binding.youtubePlayerView)
 
-            binding.youtubePlayerView.addYouTubePlayerListener(object :
-                AbstractYouTubePlayerListener() {
-                override fun onReady(youTubePlayer: YouTubePlayer) {
-                    super.onReady(youTubePlayer)
-                    player = youTubePlayer
-                    youTubePlayer.loadVideo(
-                        songDetail.link.replace(
-                            YOUTUBE_LINK,
-                            ""
-                        ),
-                        0F
-                    )
-                    youTubePlayer.addListener(tracker)
-
-                }
-            })
-            binding.youtubePlayerView.addFullscreenListener(object : FullscreenListener {
-                override fun onEnterFullscreen(
-                    fullscreenView: View,
-                    exitFullscreen: () -> Unit,
-                ) {
-
-                }
-
-                override fun onExitFullscreen() {
-
-                }
-
-            })
+      binding.youtubePlayerView.addYouTubePlayerListener(
+        object : AbstractYouTubePlayerListener() {
+          override fun onReady(youTubePlayer: YouTubePlayer) {
+            super.onReady(youTubePlayer)
+            player = youTubePlayer
+            youTubePlayer.loadVideo(songDetail.link.replace(YOUTUBE_LINK, ""), 0F)
+            youTubePlayer.addListener(tracker)
+          }
         }
-    }
+      )
+      binding.youtubePlayerView.addFullscreenListener(
+        object : FullscreenListener {
+          override fun onEnterFullscreen(fullscreenView: View, exitFullscreen: () -> Unit) {}
 
-    override fun onUserLeaveHint() {
-        super.onUserLeaveHint()
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
-            val aspectRatio = Rational(
-                16,
-                9
-            ) // Adjust to your video's aspect ratio
-            val pipParams = PictureInPictureParams
-                .Builder()
-                .setAspectRatio(aspectRatio)
-                .build()
-            enterPictureInPictureMode(pipParams)
+          override fun onExitFullscreen() {}
         }
+      )
     }
+  }
 
-    override fun onPictureInPictureModeChanged(
-        isInPictureInPictureMode: Boolean,
-        newConfig: Configuration,
-    ) {
-        super.onPictureInPictureModeChanged(
-            isInPictureInPictureMode,
-            newConfig
-        )
-        if (isInPictureInPictureMode) {
-            binding.adView.gone()
-        } else {
-            binding.adView.visible()
-        }
+  override fun onUserLeaveHint() {
+    super.onUserLeaveHint()
+    if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+      val aspectRatio = Rational(16, 9) // Adjust to your video's aspect ratio
+      val pipParams = PictureInPictureParams.Builder().setAspectRatio(aspectRatio).build()
+      enterPictureInPictureMode(pipParams)
     }
+  }
 
-    override fun onDestroy() {
-        binding.youtubePlayerView.release()
-        super.onDestroy()
+  override fun onPictureInPictureModeChanged(
+    isInPictureInPictureMode: Boolean,
+    newConfig: Configuration,
+  ) {
+    super.onPictureInPictureModeChanged(isInPictureInPictureMode, newConfig)
+    if (isInPictureInPictureMode) {
+      binding.adView.gone()
+    } else {
+      binding.adView.visible()
     }
+  }
 
-    override fun createBinding(savedInstanceState: Bundle?) =
-        ActivityPlayerBinding.inflate(layoutInflater)
+  override fun onDestroy() {
+    binding.youtubePlayerView.release()
+    super.onDestroy()
+  }
 
-    override fun setListeners(isEnabled: Boolean) = Unit
+  override fun createBinding(savedInstanceState: Bundle?) =
+    ActivityPlayerBinding.inflate(layoutInflater)
+
+  override fun setListeners(isEnabled: Boolean) = Unit
 }
-

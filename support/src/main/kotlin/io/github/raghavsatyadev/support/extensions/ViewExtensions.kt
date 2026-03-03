@@ -9,24 +9,23 @@ import androidx.core.view.isVisible
 
 @Suppress("unused")
 object ViewExtensions {
-    fun View.gone() {
-        if (isGone) return
-        visibility = View.GONE
-    }
+  fun View.gone() {
+    if (isGone) return
+    visibility = View.GONE
+  }
 
-    fun View.visible() {
-        if (isVisible) return
-        visibility = View.VISIBLE
-    }
+  fun View.visible() {
+    if (isVisible) return
+    visibility = View.VISIBLE
+  }
 
-    fun View.invisible() {
-        if (isInvisible) return
-        visibility = View.INVISIBLE
-    }
+  fun View.invisible() {
+    if (isInvisible) return
+    visibility = View.INVISIBLE
+  }
 
-    fun View.hideKeyBoard() {
-        val inputManager =
-            context.getSystemService(Context.INPUT_METHOD_SERVICE) as InputMethodManager
-        inputManager.hideSoftInputFromWindow(windowToken, 0)
-    }
+  fun View.hideKeyBoard() {
+    val inputManager = context.getSystemService(Context.INPUT_METHOD_SERVICE) as InputMethodManager
+    inputManager.hideSoftInputFromWindow(windowToken, 0)
+  }
 }

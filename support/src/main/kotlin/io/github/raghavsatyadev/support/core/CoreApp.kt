@@ -31,78 +31,74 @@ import kotlin.coroutines.CoroutineContext
 
 class CoreApp : Application(), CoroutineScope {
 
-    private lateinit var job: Job
+  private lateinit var job: Job
 
-    private val handler = CoroutineExceptionHandler { _, exception ->
-        AppLog.loge(false, kotlinFileName, "handler", exception, Exception())
+  private val handler = CoroutineExceptionHandler { _, exception ->
+    AppLog.loge(false, kotlinFileName, "handler", exception, Exception())
+  }
+
+  override val coroutineContext: CoroutineContext
+    get() {
+      var context = Dispatchers.Main + job
+      if (!BuildConfig.DEBUG) context += handler
+      return context
     }
 
-    override val coroutineContext: CoroutineContext
-        get() {
-            var context = Dispatchers.Main + job
-            if (!BuildConfig.DEBUG) context += handler
-            return context
+  companion object {
+    @Volatile
+    lateinit var instance: CoreApp
+      private set
+  }
+
+  override fun onCreate() {
+    super.onCreate()
+    instance = this
+    job = Job()
+
+    setupGoogleServices()
+    RoomDBUtil.getDatabase()
+    KtorUtil.httpClient
+    setupCoil()
+  }
+
+  private fun setupCoil() {
+    SingletonImageLoader.setSafe {
+      ImageLoader.Builder(instance)
+        .memoryCache { MemoryCache.Builder().maxSizePercent(instance, 0.25).build() }
+        .diskCache {
+          DiskCache.Builder()
+            .directory(cacheDir.resolve("image_cache"))
+            .maxSizeBytes(5 * 1024 * 1024)
+            .build()
         }
-
-    companion object {
-        @Volatile
-        lateinit var instance: CoreApp
-            private set
+        .logger(DebugLogger())
+        .build()
     }
+  }
 
-    override fun onCreate() {
-        super.onCreate()
-        instance = this
-        job = Job()
-
-        setupGoogleServices()
-        RoomDBUtil.getDatabase()
-        KtorUtil.httpClient
-        setupCoil()
-    }
-
-    private fun setupCoil() {
-        SingletonImageLoader.setSafe {
-            ImageLoader.Builder(instance)
-                .memoryCache {
-                    MemoryCache.Builder()
-                        .maxSizePercent(instance, 0.25)
-                        .build()
-                }
-                .diskCache {
-                    DiskCache.Builder()
-                        .directory(cacheDir.resolve("image_cache"))
-                        .maxSizeBytes(5 * 1024 * 1024)
-                        .build()
-                }
-                .logger(DebugLogger())
-                .build()
-        }
-    }
-
-    private fun setupGoogleServices() {
-        if (checkPlayServiceAvailability()) {
-            MobileAds.initialize(this)
-            FirebaseApp.initializeApp(this)
-            Firebase.appCheck.installAppCheckProviderFactory(
-                if (!BuildConfig.DEBUG) {
-                    DebugAppCheckProviderFactory.getInstance()
-                } else {
-                    PlayIntegrityAppCheckProviderFactory.getInstance()
-                },
-            )
+  private fun setupGoogleServices() {
+    if (checkPlayServiceAvailability()) {
+      MobileAds.initialize(this)
+      FirebaseApp.initializeApp(this)
+      Firebase.appCheck.installAppCheckProviderFactory(
+        if (!BuildConfig.DEBUG) {
+          DebugAppCheckProviderFactory.getInstance()
         } else {
-            Toast.makeText(this, R.string.warning_update_play_service, Toast.LENGTH_SHORT).show()
+          PlayIntegrityAppCheckProviderFactory.getInstance()
         }
+      )
+    } else {
+      Toast.makeText(this, R.string.warning_update_play_service, Toast.LENGTH_SHORT).show()
     }
+  }
 
-    override fun attachBaseContext(base: Context?) {
-        super.attachBaseContext(base)
-        MultiDex.install(this)
-    }
+  override fun attachBaseContext(base: Context?) {
+    super.attachBaseContext(base)
+    MultiDex.install(this)
+  }
 
-    override fun onTerminate() {
-        job.cancel()
-        super.onTerminate()
-    }
+  override fun onTerminate() {
+    job.cancel()
+    super.onTerminate()
+  }
 }

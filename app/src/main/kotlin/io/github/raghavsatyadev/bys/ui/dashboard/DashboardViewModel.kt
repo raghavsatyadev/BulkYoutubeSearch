@@ -7,11 +7,7 @@ import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 
 class DashboardViewModel : CoreViewModel() {
-    fun setupData() {
-        viewModelScope.launch {
-            withContext(ioDispatcher) {
-                YoutubeSearchUtil.setupData()
-            }
-        }
-    }
+  fun setupData() {
+    viewModelScope.launch { withContext(ioDispatcher) { YoutubeSearchUtil.setupData() } }
+  }
 }

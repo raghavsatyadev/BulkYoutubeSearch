@@ -9,25 +9,19 @@ import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 
 class FoundSongsViewModel : CoreViewModel() {
-    fun loadListUsingPagination(adapter: FoundSongsAdapter) {
-        viewModelScope.launch {
-            withContext(ioDispatcher) {
-                SongDetailDataUtil.getInstance().getAllSortedLive().collectLatest {
-                    withContext(mainDispatcher) {
-                        adapter.replaceAll(it)
-                    }
-                }
-            }
+  fun loadListUsingPagination(adapter: FoundSongsAdapter) {
+    viewModelScope.launch {
+      withContext(ioDispatcher) {
+        SongDetailDataUtil.getInstance().getAllSortedLive().collectLatest {
+          withContext(mainDispatcher) { adapter.replaceAll(it) }
         }
+      }
     }
+  }
 
-    fun deleteSong(detail: SongDetail) {
-        viewModelScope.launch {
-            withContext(ioDispatcher) {
-                SongDetailDataUtil
-                    .getInstance()
-                    .delete(detail)
-            }
-        }
+  fun deleteSong(detail: SongDetail) {
+    viewModelScope.launch {
+      withContext(ioDispatcher) { SongDetailDataUtil.getInstance().delete(detail) }
     }
+  }
 }

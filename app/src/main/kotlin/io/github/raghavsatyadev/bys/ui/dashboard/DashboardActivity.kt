@@ -14,51 +14,40 @@ import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 
 class DashboardActivity : CoreActivity<ActivityDashboardBinding>() {
-    private val viewModel: DashboardViewModel by viewModels()
+  private val viewModel: DashboardViewModel by viewModels()
 
-    companion object {
-        fun getIntentObject(
-            context: Context,
-            bundle: Bundle = Bundle.EMPTY,
-        ): Intent = Intent(
-            context,
-            DashboardActivity::class.java
-        ).apply { putExtras(bundle) }
+  companion object {
+    fun getIntentObject(context: Context, bundle: Bundle = Bundle.EMPTY): Intent =
+      Intent(context, DashboardActivity::class.java).apply { putExtras(bundle) }
+  }
+
+  override fun createReference(savedInstanceState: Bundle?) {
+    loadAds(binding.adView)
+
+    startSetup()
+  }
+
+  private fun startSetup() {
+    launch { withContext(ioDispatcher) { viewModel.setupData() } }
+  }
+
+  override fun createBinding(savedInstanceState: Bundle?) =
+    ActivityDashboardBinding.inflate(layoutInflater)
+
+  override fun getToolBar() = binding.toolbar
+
+  override fun setListeners(isEnabled: Boolean) {
+    if (isEnabled) {
+      binding.btnSearch.setOnClickListener { startActivity(SearchActivity.getIntentObject(this)) }
+      binding.btnFoundSongs.setOnClickListener {
+        startActivity(FoundSongsActivity.getIntentObject(this))
+      }
+      binding.btnManageKeys.setOnClickListener {
+        startActivity(ManageKeysActivity.getIntentObject(this))
+      }
+    } else {
+      binding.btnFoundSongs.setOnClickListener(null)
+      binding.btnSearch.setOnClickListener(null)
     }
-
-    override fun createReference(savedInstanceState: Bundle?) {
-        loadAds(binding.adView)
-
-        startSetup()
-    }
-
-    private fun startSetup() {
-        launch {
-            withContext(ioDispatcher) {
-                viewModel.setupData()
-            }
-        }
-    }
-
-    override fun createBinding(savedInstanceState: Bundle?) =
-        ActivityDashboardBinding.inflate(layoutInflater)
-
-    override fun getToolBar() = binding.toolbar
-
-    override fun setListeners(isEnabled: Boolean) {
-        if (isEnabled) {
-            binding.btnSearch.setOnClickListener {
-                startActivity(SearchActivity.getIntentObject(this))
-            }
-            binding.btnFoundSongs.setOnClickListener {
-                startActivity(FoundSongsActivity.getIntentObject(this))
-            }
-            binding.btnManageKeys.setOnClickListener {
-                startActivity(ManageKeysActivity.getIntentObject(this))
-            }
-        } else {
-            binding.btnFoundSongs.setOnClickListener(null)
-            binding.btnSearch.setOnClickListener(null)
-        }
-    }
+  }
 }

@@ -22,216 +22,169 @@ import java.io.FileWriter
 import java.io.IOException
 
 object YoutubeSearchUtil {
-    private var apiKeys: ArrayList<APIKeyDetail> = ArrayList()
+  private var apiKeys: ArrayList<APIKeyDetail> = ArrayList()
 
-    private val parentFile =
-        StorageUtils.getFileWithoutCreating(Constants.FileNames.PARENT_FOLDER_NAME)
-    private val readerFile = File(
-        parentFile,
-        Constants.FileNames.VIDEO_NAMES
+  private val parentFile =
+    StorageUtils.getFileWithoutCreating(Constants.FileNames.PARENT_FOLDER_NAME)
+  private val readerFile = File(parentFile, Constants.FileNames.VIDEO_NAMES)
+  private val resultFile = File(parentFile, Constants.FileNames.VIDEO_LINKS)
+
+  suspend fun searchVideos(): Boolean {
+    val (isDataSetupCorrectly, remainingSongs) = setupData()
+
+    if (isDataSetupCorrectly) {
+      processTitles(remainingSongs)
+      return SongDetailDataUtil.getInstance().getCountLive(SongRetrievalMode.NOT_FOUND).first() ==
+        0L
+    } else {
+      return false
+    }
+  }
+
+  private suspend fun processTitles(remainingSongs: ArrayList<SongDetail>) {
+    for (oldSongDetail in remainingSongs) {
+      try {
+        val response = searchYoutubeForVideo(oldSongDetail)
+        val songDetail = response.second
+        if (response.first) {
+          if (songDetail != null) {
+            handleYoutubeResult(songDetail)
+          }
+        } else {
+          break
+        }
+      } catch (e: Exception) {
+        AppLog.loge(false, kotlinFileName, "searchVideos", e, Exception())
+        break
+      }
+    }
+  }
+
+  private fun handleYoutubeResult(songDetail: SongDetail) {
+    AppLog.loge(
+      true,
+      kotlinFileName,
+      "searchVideos",
+      "Title: ${songDetail.oldTitle}\nVideo: ${songDetail.link}",
+      Exception(),
     )
-    private val resultFile = File(
-        parentFile,
-        Constants.FileNames.VIDEO_LINKS
-    )
+    SongDetailDataUtil.getInstance().update(songDetail)
+  }
 
-    suspend fun searchVideos(): Boolean {
-        val (isDataSetupCorrectly, remainingSongs) = setupData()
+  suspend fun setupData(): Pair<Boolean, ArrayList<SongDetail>> {
 
-        if (isDataSetupCorrectly) {
-            processTitles(remainingSongs)
-            return SongDetailDataUtil
-                .getInstance()
-                .getCountLive(SongRetrievalMode.NOT_FOUND)
-                .first() == 0L
+    setupAPIKeys()
+
+    val videoTitles = ArrayList<String>()
+    val oldVideoData = ArrayList<SongDetail>()
+
+    if (readerFile.exists()) {
+      videoTitles.addAll(readerFile.readFile())
+    }
+    if (resultFile.exists()) {
+      oldVideoData.addAll(resultFile.readFile())
+    }
+    videoTitles.forEach { videoTitle ->
+      if (oldVideoData.find { data -> data.oldTitle == videoTitle } == null) {
+        oldVideoData.add(SongDetail(oldTitle = videoTitle))
+      }
+    }
+    oldVideoData.sortBy { detail -> detail.oldTitle.lowercase() }
+    SongDetailDataUtil.getInstance().upsert(oldVideoData)
+
+    val remainingTitles = SongDetailDataUtil.getInstance().getAllSorted(SongRetrievalMode.NOT_FOUND)
+
+    return true to remainingTitles
+  }
+
+  private suspend fun setupAPIKeys() {
+    val expiredKeyDetails = AppPrefsUtil.getNonExpiredKeyDetails()
+    apiKeys = expiredKeyDetails.ifEmpty { buildKeysFromJson() }
+  }
+
+  private suspend fun buildKeysFromJson(): java.util.ArrayList<APIKeyDetail> {
+    val keyJSONString = BuildConfig.youtube_api_keys
+    val jsonKeyDetails = JSONArray(keyJSONString)
+    val apiKeyDetails = ArrayList<APIKeyDetail>()
+    for (i in 0 until jsonKeyDetails.length()) {
+      val keyDetail = jsonKeyDetails.getJSONObject(i)
+      val key = keyDetail.getString("key")
+      val appName = keyDetail.getString("name")
+      apiKeyDetails.add(APIKeyDetail(appName, key, System.currentTimeMillis()))
+    }
+    AppPrefsUtil.saveAllKeyDetail(apiKeyDetails)
+    return apiKeyDetails
+  }
+
+  private suspend fun searchYoutubeForVideo(oldSongDetail: SongDetail): Pair<Boolean, SongDetail?> {
+    if (apiKeys.isEmpty()) {
+      return false to null
+    } else {
+      val currentKeyDetail = Randoms.selectRandomElement(*apiKeys.toTypedArray())
+      val currentAPIKey = currentKeyDetail.key
+      try {
+        val searchData = APIs.searchYoutube(oldSongDetail.oldTitle, currentAPIKey)
+
+        return buildSongDetailObject(searchData, oldSongDetail)
+      } catch (e: Exception) {
+        if (e.message == "quotaExceeded") {
+          AppPrefsUtil.saveKeyDetail(currentKeyDetail, System.currentTimeMillis())
+          apiKeys.remove(currentKeyDetail)
+          return searchYoutubeForVideo(oldSongDetail)
         } else {
-            return false
+          return true to null
         }
+      }
     }
+  }
 
-    private suspend fun processTitles(remainingSongs: ArrayList<SongDetail>) {
-        for (oldSongDetail in remainingSongs) {
-            try {
-                val response = searchYoutubeForVideo(oldSongDetail)
-                val songDetail = response.second
-                if (response.first) {
-                    if (songDetail != null) {
-                        handleYoutubeResult(songDetail)
-                    }
-                } else {
-                    break
-                }
-            } catch (e: Exception) {
-                AppLog.loge(
-                    false,
-                    kotlinFileName,
-                    "searchVideos",
-                    e,
-                    Exception()
-                )
-                break
-            }
-        }
+  private fun buildSongDetailObject(
+    searchData: YoutubeSearchData,
+    oldSongDetail: SongDetail,
+  ): Pair<Boolean, SongDetail?> {
+    val items = searchData.items
+
+    if (items.isEmpty()) {
+      val e = Exception("No videos found for query: ${oldSongDetail.oldTitle}")
+      AppLog.loge(false, kotlinFileName, "searchYouTube", e, e)
+      return true to null
+    } else {
+      val video = items[0]
+      val videoLink = "$YOUTUBE_LINK${video.id.videoId}"
+      val videoTitle = video.snippet.title
+      val description = video.snippet.description
+      val artist = video.snippet.channelTitle
+      val thumbnailHigh = video.snippet.thumbnails.high.url
+      val thumbnailLow = video.snippet.thumbnails.default.url
+
+      with(oldSongDetail) {
+        this.link = videoLink
+        this.title = videoTitle
+        this.description = description
+        this.artist = artist
+        this.thumbnailHigh = thumbnailHigh
+        this.thumbnailLow = thumbnailLow
+      }
+
+      return true to oldSongDetail
     }
+  }
 
-    private fun handleYoutubeResult(songDetail: SongDetail) {
-        AppLog.loge(
-            true,
-            kotlinFileName,
-            "searchVideos",
-            "Title: ${songDetail.oldTitle}\nVideo: ${songDetail.link}",
-            Exception()
-        )
-        SongDetailDataUtil
-            .getInstance()
-            .update(songDetail)
-    }
+  private inline fun <reified T> File.readFile(): ArrayList<T> {
+    try {
+      if (!exists()) {
+        createNewFile()
+        FileWriter(this).use { writer -> writer.write("[]") }
+      }
 
-    suspend fun setupData(): Pair<Boolean, ArrayList<SongDetail>> {
-
-        setupAPIKeys()
-
-        val videoTitles = ArrayList<String>()
-        val oldVideoData = ArrayList<SongDetail>()
-
-        if (readerFile.exists()) {
-            videoTitles.addAll(readerFile.readFile())
-        }
-        if (resultFile.exists()) {
-            oldVideoData.addAll(resultFile.readFile())
-        }
-        videoTitles.forEach { videoTitle ->
-            if (oldVideoData.find { data -> data.oldTitle == videoTitle } == null) {
-                oldVideoData.add(SongDetail(oldTitle = videoTitle))
-            }
-        }
-        oldVideoData.sortBy { detail -> detail.oldTitle.lowercase() }
-        SongDetailDataUtil
-            .getInstance()
-            .upsert(oldVideoData)
-
-        val remainingTitles = SongDetailDataUtil
-            .getInstance()
-            .getAllSorted(SongRetrievalMode.NOT_FOUND)
-
-        return true to remainingTitles
-    }
-
-    private suspend fun setupAPIKeys() {
-        val expiredKeyDetails = AppPrefsUtil.getNonExpiredKeyDetails()
-        apiKeys = expiredKeyDetails.ifEmpty { buildKeysFromJson() }
-    }
-
-    private suspend fun buildKeysFromJson(): java.util.ArrayList<APIKeyDetail> {
-        val keyJSONString = BuildConfig.youtube_api_keys
-        val jsonKeyDetails = JSONArray(keyJSONString)
-        val apiKeyDetails = ArrayList<APIKeyDetail>()
-        for (i in 0 until jsonKeyDetails.length()) {
-            val keyDetail = jsonKeyDetails.getJSONObject(i)
-            val key = keyDetail.getString("key")
-            val appName = keyDetail.getString("name")
-            apiKeyDetails.add(
-                APIKeyDetail(
-                    appName,
-                    key,
-                    System.currentTimeMillis()
-                )
-            )
-        }
-        AppPrefsUtil.saveAllKeyDetail(apiKeyDetails)
-        return apiKeyDetails
-    }
-
-    private suspend fun searchYoutubeForVideo(oldSongDetail: SongDetail): Pair<Boolean, SongDetail?> {
-        if (apiKeys.isEmpty()) {
-            return false to null
-        } else {
-            val currentKeyDetail = Randoms.selectRandomElement(*apiKeys.toTypedArray())
-            val currentAPIKey = currentKeyDetail.key
-            try {
-                val searchData = APIs.searchYoutube(
-                    oldSongDetail.oldTitle,
-                    currentAPIKey
-                )
-
-                return buildSongDetailObject(
-                    searchData,
-                    oldSongDetail
-                )
-            } catch (e: Exception) {
-                if (e.message == "quotaExceeded") {
-                    AppPrefsUtil.saveKeyDetail(
-                        currentKeyDetail,
-                        System.currentTimeMillis()
-                    )
-                    apiKeys.remove(currentKeyDetail)
-                    return searchYoutubeForVideo(oldSongDetail)
-                } else {
-                    return true to null
-                }
-            }
-        }
-    }
-
-    private fun buildSongDetailObject(
-        searchData: YoutubeSearchData,
-        oldSongDetail: SongDetail,
-    ): Pair<Boolean, SongDetail?> {
-        val items = searchData.items
-
-        if (items.isEmpty()) {
-            val e = Exception("No videos found for query: ${oldSongDetail.oldTitle}")
-            AppLog.loge(
-                false,
-                kotlinFileName,
-                "searchYouTube",
-                e,
-                e
-            )
-            return true to null
-        } else {
-            val video = items[0]
-            val videoLink = "$YOUTUBE_LINK${video.id.videoId}"
-            val videoTitle = video.snippet.title
-            val description = video.snippet.description
-            val artist = video.snippet.channelTitle
-            val thumbnailHigh = video.snippet.thumbnails.high.url
-            val thumbnailLow = video.snippet.thumbnails.default.url
-
-            with(oldSongDetail) {
-                this.link = videoLink
-                this.title = videoTitle
-                this.description = description
-                this.artist = artist
-                this.thumbnailHigh = thumbnailHigh
-                this.thumbnailLow = thumbnailLow
-            }
-
-            return true to oldSongDetail
-        }
-    }
-
-    private inline fun <reified T> File.readFile(): ArrayList<T> {
-        try {
-            if (!exists()) {
-                createNewFile()
-                FileWriter(this).use { writer -> writer.write("[]") }
-            }
-
-            val readStringFromFile = readText()
-            if (readStringFromFile.isEmpty()) {
-                return ArrayList()
-            }
-            return readStringFromFile.toKotlinObject()
-        } catch (e: IOException) {
-            AppLog.loge(
-                false,
-                this@YoutubeSearchUtil.kotlinFileName,
-                "getVideoTitles",
-                e,
-                Exception()
-            )
-        }
+      val readStringFromFile = readText()
+      if (readStringFromFile.isEmpty()) {
         return ArrayList()
+      }
+      return readStringFromFile.toKotlinObject()
+    } catch (e: IOException) {
+      AppLog.loge(false, this@YoutubeSearchUtil.kotlinFileName, "getVideoTitles", e, Exception())
     }
+    return ArrayList()
+  }
 }

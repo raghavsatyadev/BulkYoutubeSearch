@@ -13,69 +13,66 @@ import androidx.appcompat.widget.AppCompatTextView
 
 @Suppress("unused")
 object AppExtensions {
-    /** Clear full cache of application */
-    fun Context.clearFullCache() {
-        cacheDir.deleteRecursively()
-        externalCacheDir?.deleteRecursively()
-    }
+  /** Clear full cache of application */
+  fun Context.clearFullCache() {
+    cacheDir.deleteRecursively()
+    externalCacheDir?.deleteRecursively()
+  }
 
-    inline val <T : Any> T.kotlinFileName: String
-        get() = javaClass.simpleName + ".kt"
+  inline val <T : Any> T.kotlinFileName: String
+    get() = javaClass.simpleName + ".kt"
 
-    fun AppCompatTextView.setClickableForegroundSpan(
-        fullString: String,
-        @ColorInt
-        color: Int? = null,
-        applyColor: Boolean = false,
-        partStrings: Array<String>,
-        listener: ((String) -> Unit),
-    ) {
-        movementMethod = LinkMovementMethod.getInstance()
-        text = buildClickableForegroundSpan(
-            fullString,
-            color,
-            applyColor,
-            partStrings,
-            listener
-        )
-    }
+  fun AppCompatTextView.setClickableForegroundSpan(
+    fullString: String,
+    @ColorInt color: Int? = null,
+    applyColor: Boolean = false,
+    partStrings: Array<String>,
+    listener: ((String) -> Unit),
+  ) {
+    movementMethod = LinkMovementMethod.getInstance()
+    text = buildClickableForegroundSpan(fullString, color, applyColor, partStrings, listener)
+  }
 
-    private fun buildClickableForegroundSpan(
-        fullString: String,
-        @ColorInt
-        color: Int? = null,
-        applyColor: Boolean = false,
-        partStrings: Array<String>,
-        listener: ((String) -> Unit),
-    ): SpannableStringBuilder {
-        val ssb = SpannableStringBuilder(fullString)
+  private fun buildClickableForegroundSpan(
+    fullString: String,
+    @ColorInt color: Int? = null,
+    applyColor: Boolean = false,
+    partStrings: Array<String>,
+    listener: ((String) -> Unit),
+  ): SpannableStringBuilder {
+    val ssb = SpannableStringBuilder(fullString)
 
-        partStrings.forEach { value ->
-            val indexOf = fullString.indexOf(value)
-            ssb.setSpan(object : ClickableSpan() {
-                override fun onClick(widget: View) {
-                    widget.cancelPendingInputEvents()
-                    listener(value)
-                }
+    partStrings.forEach { value ->
+      val indexOf = fullString.indexOf(value)
+      ssb.setSpan(
+        object : ClickableSpan() {
+          override fun onClick(widget: View) {
+            widget.cancelPendingInputEvents()
+            listener(value)
+          }
 
-                override fun updateDrawState(ds: TextPaint) {
-                    super.updateDrawState(ds)
-                    ds.isFakeBoldText = true
-                    ds.isUnderlineText = false
-                }
-            }, indexOf, indexOf + value.length, Spanned.SPAN_EXCLUSIVE_EXCLUSIVE)
+          override fun updateDrawState(ds: TextPaint) {
+            super.updateDrawState(ds)
+            ds.isFakeBoldText = true
+            ds.isUnderlineText = false
+          }
+        },
+        indexOf,
+        indexOf + value.length,
+        Spanned.SPAN_EXCLUSIVE_EXCLUSIVE,
+      )
 
-            if (applyColor) {
-                color?.let {
-                    ssb.setSpan(
-                        ForegroundColorSpan(color),
-                        indexOf,
-                        indexOf + value.length,
-                        Spanned.SPAN_EXCLUSIVE_EXCLUSIVE
-                    )
-                }
-            }
+      if (applyColor) {
+        color?.let {
+          ssb.setSpan(
+            ForegroundColorSpan(color),
+            indexOf,
+            indexOf + value.length,
+            Spanned.SPAN_EXCLUSIVE_EXCLUSIVE,
+          )
         }
-        return ssb
+      }
     }
+    return ssb
+  }
 }

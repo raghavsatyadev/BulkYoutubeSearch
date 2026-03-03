@@ -16,29 +16,22 @@ import kotlinx.serialization.Transient
 @Parcelize
 @Serializable
 @Entity(
-    tableName = Tables.SONG_DETAIL_TABLE,
-    indices = [
-        Index(value = [Tables.SONG_DETAIL_LINK, Tables.SONG_DETAIL_OLD_TITLE], unique = true),
-    ]
+  tableName = Tables.SONG_DETAIL_TABLE,
+  indices = [Index(value = [Tables.SONG_DETAIL_LINK, Tables.SONG_DETAIL_OLD_TITLE], unique = true)],
 )
 data class SongDetail(
-    @Transient
-    @SerialName(Tables.SONG_DETAIL_ID)
-    @ColumnInfo(Tables.SONG_DETAIL_ID)
-    @PrimaryKey(autoGenerate = true)
-    var id: Int = 0,
-
-    var artist: String = "",
-    var thumbnailHigh: String = "",
-    var thumbnailLow: String = "",
-    var title: String = "",
-    var description: String = "",
-
-    @SerialName(Tables.SONG_DETAIL_LINK)
-    @ColumnInfo(Tables.SONG_DETAIL_LINK)
-    var link: String = "",
-
-    @SerialName(Tables.SONG_DETAIL_OLD_TITLE)
-    @ColumnInfo(Tables.SONG_DETAIL_OLD_TITLE)
-    var oldTitle: String,
+  @Transient
+  @SerialName(Tables.SONG_DETAIL_ID)
+  @ColumnInfo(Tables.SONG_DETAIL_ID)
+  @PrimaryKey(autoGenerate = true)
+  var id: Int = 0,
+  var artist: String = "",
+  var thumbnailHigh: String = "",
+  var thumbnailLow: String = "",
+  var title: String = "",
+  var description: String = "",
+  @SerialName(Tables.SONG_DETAIL_LINK) @ColumnInfo(Tables.SONG_DETAIL_LINK) var link: String = "",
+  @SerialName(Tables.SONG_DETAIL_OLD_TITLE)
+  @ColumnInfo(Tables.SONG_DETAIL_OLD_TITLE)
+  var oldTitle: String,
 ) : Parcelable

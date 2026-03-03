@@ -9,80 +9,49 @@ import kotlinx.serialization.Serializable
 @Parcelize
 @Serializable
 data class YoutubeSearchData(
-    var kind: String,
-    var etag: String,
-    var nextPageToken: String? = null,
-    var regionCode: String,
-    var pageInfo: PageInfo,
-    var items: List<Item>,
+  var kind: String,
+  var etag: String,
+  var nextPageToken: String? = null,
+  var regionCode: String,
+  var pageInfo: PageInfo,
+  var items: List<Item>,
 ) : Parcelable
 
 @Parcelize
 @Serializable
-data class PageInfo(
-    var totalResults: Int,
-    var resultsPerPage: Int,
-) : Parcelable
+data class PageInfo(var totalResults: Int, var resultsPerPage: Int) : Parcelable
 
 @Parcelize
 @Serializable
-data class Item(
-    var kind: String,
-    var etag: String,
-    var id: Id,
-    var snippet: Snippet,
-) : Parcelable
+data class Item(var kind: String, var etag: String, var id: Id, var snippet: Snippet) : Parcelable
 
-@Parcelize
-@Serializable
-data class Id(
-    var kind: String,
-    var videoId: String,
-) : Parcelable
+@Parcelize @Serializable data class Id(var kind: String, var videoId: String) : Parcelable
 
 @Parcelize
 @Serializable
 data class Snippet(
-    var publishedAt: String,
-    var channelId: String,
-    var title: String,
-    var description: String,
-    var thumbnails: Thumbnails,
-    var channelTitle: String,
-    var liveBroadcastContent: String,
-    var publishTime: String,
+  var publishedAt: String,
+  var channelId: String,
+  var title: String,
+  var description: String,
+  var thumbnails: Thumbnails,
+  var channelTitle: String,
+  var liveBroadcastContent: String,
+  var publishTime: String,
 ) : Parcelable
 
 @Parcelize
 @Serializable
-data class Thumbnails(
-    var default: Default,
-    var medium: Medium,
-    var high: High,
-) : Parcelable
+data class Thumbnails(var default: Default, var medium: Medium, var high: High) : Parcelable
 
 @Parcelize
 @Serializable
-data class Default(
-    var url: String,
-    var width: Int,
-    var height: Int,
-) : Parcelable
+data class Default(var url: String, var width: Int, var height: Int) : Parcelable
 
 @Parcelize
 @Serializable
-data class Medium(
-    var url: String,
-    var width: Int,
-    var height: Int,
-) : Parcelable
+data class Medium(var url: String, var width: Int, var height: Int) : Parcelable
 
 @Parcelize
 @Serializable
-data class High(
-    var url: String,
-    var width: Int,
-    var height: Int,
-) : Parcelable
-
-
+data class High(var url: String, var width: Int, var height: Int) : Parcelable
