@@ -3,19 +3,26 @@ package io.github.raghavsatyadev.bys.ui.search
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import io.github.raghavsatyadev.bys.databinding.ItemKeyDetailBinding
+import io.github.raghavsatyadev.support.list.CustomClickListener
 import io.github.raghavsatyadev.support.list.GenRecyclerAdapter
 import io.github.raghavsatyadev.support.models.general.APIKeyDetail
 
-class KeyDetailAdapter :
-    GenRecyclerAdapter<APIKeyDetail, ItemKeyDetailBinding, KeyDetailHolder>() {
+class KeyDetailAdapter : GenRecyclerAdapter<APIKeyDetail, ItemKeyDetailBinding, KeyDetailHolder>() {
+    var deleteClickListener: CustomClickListener? = null
+
     override fun creatingViewHolder(
         parent: ViewGroup,
         viewType: Int,
         from: LayoutInflater,
     ): KeyDetailHolder {
         return KeyDetailHolder.getInstance(
-            ItemKeyDetailBinding.inflate(from, parent, false),
-            itemClickListener
+            ItemKeyDetailBinding.inflate(
+                from,
+                parent,
+                false
+            ),
+            itemClickListener,
+            deleteClickListener,
         )
     }
 }

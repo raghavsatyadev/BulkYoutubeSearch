@@ -4,9 +4,12 @@ import android.content.Context
 import android.content.Intent
 import android.net.Uri
 import android.os.Bundle
+import android.view.LayoutInflater
 import androidx.activity.viewModels
+import com.google.android.material.dialog.MaterialAlertDialogBuilder
 import io.github.raghavsatyadev.bys.R
 import io.github.raghavsatyadev.bys.databinding.ActivitySearchBinding
+import io.github.raghavsatyadev.bys.databinding.DialogAddKeyBinding
 import io.github.raghavsatyadev.support.JsonFilePicker
 import io.github.raghavsatyadev.support.core.CoreActivity
 import io.github.raghavsatyadev.support.extensions.ErrorShowExtensions.errorDialog
@@ -42,7 +45,8 @@ class SearchActivity : CoreActivity<ActivitySearchBinding>() {
                 },
                 showInvalidJSONWarning = {
                     errorDialog(io.github.raghavsatyadev.support.R.string.warning_invalid_json_file)
-                })
+                },
+            )
         }
     }
 
@@ -79,6 +83,9 @@ class SearchActivity : CoreActivity<ActivitySearchBinding>() {
                     )
                 }
             }
+            adapter.deleteClickListener = CustomClickListener { position, _, _ ->
+                showDeleteConfirmation(position)
+            }
             binding.btnSearchVideos.setOnClickListener {
                 if (selectedFile != Uri.EMPTY) {
                     showInterstitialAd { viewModel.searchVideos() }
@@ -91,12 +98,64 @@ class SearchActivity : CoreActivity<ActivitySearchBinding>() {
                     }
                 }
             }
+            binding.fabAddKey.setOnClickListener { showAddKeyDialog() }
         } else {
             binding.btnSelectFile.setOnClickListener(null)
             adapter.itemClickListener = null
+            adapter.deleteClickListener = null
             binding.btnShareResultFile.setOnClickListener(null)
             binding.btnSearchVideos.setOnClickListener(null)
+            binding.fabAddKey.setOnClickListener(null)
         }
+    }
+
+    private fun showAddKeyDialog() {
+        val dialogBinding = DialogAddKeyBinding.inflate(LayoutInflater.from(this))
+        MaterialAlertDialogBuilder(this)
+            .setView(dialogBinding.root)
+            .create()
+            .also { dialog ->
+                dialogBinding.btnCancel.setOnClickListener { dialog.dismiss() }
+                dialogBinding.btnAdd.setOnClickListener {
+                    val appName = dialogBinding.inputAppName.text
+                        ?.toString()
+                        ?.trim()
+                        .orEmpty()
+                    val apiKey = dialogBinding.inputApiKey.text
+                        ?.toString()
+                        ?.trim()
+                        .orEmpty()
+                    if (appName.isNotEmpty() && apiKey.isNotEmpty()) {
+                        viewModel.addKey(
+                            appName,
+                            apiKey
+                        )
+                        dialog.dismiss()
+                    } else {
+                        if (appName.isEmpty()) {
+                            dialogBinding.inputAppNameLayout.error =
+                                getString(R.string.key_app_name)
+                        }
+                        if (apiKey.isEmpty()) {
+                            dialogBinding.inputApiKeyLayout.error = getString(R.string.api_key_hint)
+                        }
+                    }
+                }
+                dialog.show()
+            }
+    }
+
+    private fun showDeleteConfirmation(position: Int) {
+        val keyDetail = adapter.items[position]
+        MaterialAlertDialogBuilder(this)
+            .setTitle(R.string.confirm_delete_key_title)
+            .setMessage(R.string.confirm_delete_key_message)
+            .setNegativeButton(
+                android.R.string.cancel,
+                null
+            )
+            .setPositiveButton(R.string.delete_key) { _, _ -> viewModel.deleteKey(keyDetail.key) }
+            .show()
     }
 
     private fun setupUI() {
@@ -144,7 +203,8 @@ class SearchActivity : CoreActivity<ActivitySearchBinding>() {
                             }
                         }
                     }
-                })
+                },
+            )
         }
     }
 }

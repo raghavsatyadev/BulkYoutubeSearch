@@ -9,19 +9,39 @@ import io.github.raghavsatyadev.support.models.general.APIKeyDetail
 class KeyDetailHolder(
     binding: ItemKeyDetailBinding,
     itemClickListener: CustomClickListener?,
-) : GenObjectHolder<APIKeyDetail, ItemKeyDetailBinding>(binding, itemClickListener) {
+    deleteClickListener: CustomClickListener?,
+) : GenObjectHolder<APIKeyDetail, ItemKeyDetailBinding>(
+    binding,
+    itemClickListener
+) {
     companion object {
         fun getInstance(
             binding: ItemKeyDetailBinding,
             itemClickListener: CustomClickListener?,
+            deleteClickListener: CustomClickListener?,
         ): KeyDetailHolder {
-            return KeyDetailHolder(binding, itemClickListener)
+            return KeyDetailHolder(
+                binding,
+                itemClickListener,
+                deleteClickListener
+            )
         }
     }
 
     init {
         binding.btnCopyKey.setOnClickListener {
-            itemClickListener?.onItemClick(layoutPosition, it, false)
+            itemClickListener?.onItemClick(
+                layoutPosition,
+                it,
+                false
+            )
+        }
+        binding.btnDeleteKey.setOnClickListener {
+            deleteClickListener?.onItemClick(
+                layoutPosition,
+                it,
+                false
+            )
         }
     }
 
