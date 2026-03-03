@@ -27,7 +27,7 @@ versionCode = "2"
 versionName = "0.0.1"
 
 # Plugin Versions
-agp = "8.12.0-alpha08"
+agp = "8.12.3"
 kotlin = "2.2.0"
 com-google-devtools-ksp = "2.2.0-2.0.2"
 com-google-gms = "4.4.3"
@@ -53,7 +53,7 @@ fragment = "1.8.8"
 google-id = "1.1.1"
 junit = "4.13.2"
 junit-jupiter = "5.13.3"
-ktor = "3.2.1"
+ktor = "3.2.2"
 lifecycle = "2.9.1"
 lottie = "6.6.7"
 material = "1.13.0-beta01"
@@ -71,7 +71,7 @@ sonarqube = "6.2.0.5505"
 splashscreen = "1.2.0-rc01"
 swiperefreshlayout = "1.2.0-beta01"
 work-manager = "2.10.2"
-youtube = "12.1.2"
+youtube = "13.0.0"
 
 [libraries]
 # Classpaths

@@ -1,3 +1,3 @@
 # Software Versions:
 
-Android Studio Meerkat Feature Drop | 2024.3.2 Canary 8
+Android Studio Narwhal Feature Drop | 2025.1.2 Canary 8
