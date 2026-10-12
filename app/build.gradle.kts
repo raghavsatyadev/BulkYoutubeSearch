@@ -1,19 +1,13 @@
-@file:Suppress("DEPRECATION")
-
-import com.android.build.api.variant.AndroidComponentsExtension
-import com.android.build.gradle.api.ApplicationVariant
-import com.android.build.gradle.api.BaseVariantOutput
+import com.android.build.api.artifact.SingleArtifact
 import com.google.firebase.crashlytics.buildtools.gradle.CrashlyticsExtension
 import java.text.SimpleDateFormat
 import java.util.Date
-import java.util.Locale
 
 plugins {
   alias(libs.plugins.android.application)
 
   alias(libs.plugins.google.gms)
 
-  alias(libs.plugins.kotlin.android)
   alias(libs.plugins.ksp)
   alias(libs.plugins.kotlin.serialization)
   alias(libs.plugins.kotlin.parcelize)
@@ -24,14 +18,16 @@ plugins {
 }
 
 sonar {
+  setAndroidVariant("DevDebug")
   properties {
-    androidVariant = "DevDebug"
     property(
       "sonar.androidLint.reportPaths",
       "${layout.buildDirectory.asFile}/reports/lint-results-DevDebug.xml",
     )
   }
 }
+
+kotlin { jvmToolchain(21) }
 
 android {
   namespace = libs.versions.nameSpace.get()
@@ -87,29 +83,29 @@ android {
       //            applicationIdSuffix = ".debug"
       configure<CrashlyticsExtension> { mappingFileUploadEnabled = false }
     }
-    kotlin { jvmToolchain(21) }
-    compileOptions { isCoreLibraryDesugaringEnabled = true }
-    buildFeatures {
-      viewBinding = true
-      buildConfig = true
-      resValues = true
-    }
+  }
+  compileOptions { isCoreLibraryDesugaringEnabled = true }
+  buildFeatures {
+    viewBinding = true
+    buildConfig = true
+    resValues = true
+  }
 
-    flavorDimensions.add("isPlayStoreVersion")
-    productFlavors {
-      create("Prod") {
-        dimension = "isPlayStoreVersion"
-        applicationId = libs.versions.appIdProd.get()
-      }
-      create("Dev") {
-        dimension = "isPlayStoreVersion"
-        applicationId = libs.versions.appIdDev.get()
-      }
+  flavorDimensions.add("isPlayStoreVersion")
+  productFlavors {
+    create("Prod") {
+      dimension = "isPlayStoreVersion"
+      applicationId = libs.versions.appIdProd.get()
+    }
+    create("Dev") {
+      dimension = "isPlayStoreVersion"
+      applicationId = libs.versions.appIdDev.get()
     }
   }
-  val androidComponents = project.extensions.getByType(AndroidComponentsExtension::class.java)
+}
 
-  androidComponents.beforeVariants { variant ->
+androidComponents {
+  beforeVariants { variant ->
     val names = variant.flavorName
 
     if (
@@ -119,12 +115,34 @@ android {
       variant.enable = false
     }
   }
-  applicationVariants.configureEach {
-    val variant = this
-    if (!variant.name.lowercase(Locale.getDefault()).contains("debug")) {
-      outputs.configureEach {
-        val output = this
-        renameOutputs(variant, output)
+
+  // Copies release APK, mapping file and AAB to build/outputs/apk with a timestamped name.
+  onVariants(selector().withBuildType("release")) { variant ->
+    val variantNameCapitalized = variant.name.replaceFirstChar { it.uppercase() }
+    val outputFullName = getBuildName(variant.name)
+    val buildOutputDirectory = layout.buildDirectory.dir("outputs/apk")
+
+    val copyApkTask =
+      tasks.register<Copy>("copy${variantNameCapitalized}Apk") {
+        from(variant.artifacts.get(SingleArtifact.APK)) {
+          include("*.apk")
+          rename { "$outputFullName.apk" }
+        }
+        from(variant.artifacts.get(SingleArtifact.OBFUSCATION_MAPPING_FILE)) {
+          rename { "$outputFullName.txt" }
+        }
+        into(buildOutputDirectory)
+      }
+    val copyBundleTask =
+      tasks.register<Copy>("copy${variantNameCapitalized}Bundle") {
+        from(variant.artifacts.get(SingleArtifact.BUNDLE)) { rename { "$outputFullName.aab" } }
+        into(buildOutputDirectory)
+      }
+
+    tasks.configureEach {
+      when (name) {
+        "assemble$variantNameCapitalized" -> finalizedBy(copyApkTask)
+        "bundle$variantNameCapitalized" -> finalizedBy(copyBundleTask)
       }
     }
   }
@@ -183,102 +201,4 @@ fun getBuildName(variantName: String): String {
   val timestamp = SimpleDateFormat("dd-MM-yy_HH-mm").format(Date())
 
   return "${libs.versions.apkName.get()}-${variantName}-${timestamp}"
-}
-
-fun moveAAB(
-  variant: ApplicationVariant,
-  outputFullName: String,
-  buildOutputDirectory: File,
-  buildTypeDirectory: File,
-) {
-  val name = variant.name
-  val variantNameCapitalized = name.replaceFirstChar { it.uppercase() }
-  val bundleTaskName = "bundle${variantNameCapitalized}"
-  val bundleTask = tasks.named(bundleTaskName)
-
-  val copyBundleTask =
-    tasks.register<Copy>("copy${variantNameCapitalized}Bundle") {
-      dependsOn(bundleTask)
-      bundleTask.get().doLast {
-        println("Copying AAB to output directory: $buildOutputDirectory")
-        copy {
-          val aabFile = buildTypeDirectory.walkTopDown().find { it.name.endsWith(".aab") }
-          print("AAB Location: ${aabFile?.absolutePath ?: "EMPTY"}")
-          from(aabFile)
-          into(buildOutputDirectory)
-          rename { "$outputFullName.aab" }
-        }
-        println("Deleting build type directory: $buildTypeDirectory")
-        buildTypeDirectory.parentFile?.deleteRecursively()
-      }
-    }
-  bundleTask.configure { finalizedBy(copyBundleTask) }
-}
-
-fun moveAPK(
-  variant: ApplicationVariant,
-  buildOutputDirectoryPath: String,
-  output: BaseVariantOutput,
-  outputFullName: String,
-  variantName: String?,
-  buildTypeDirectory: File,
-) {
-  variant.assembleProvider.get().doLast {
-    println("Copying APK to output directory: $buildOutputDirectoryPath")
-    copy {
-      from(output.outputFile.absolutePath)
-      into(buildOutputDirectoryPath)
-      rename { "${outputFullName}.apk" }
-    }
-
-    println("Copying mapping file to output directory: $buildOutputDirectoryPath")
-    copy {
-      from(variant.mappingFileProvider.get())
-      into(buildOutputDirectoryPath)
-      rename { "${outputFullName}.txt" }
-    }
-
-    val nativeSymbolsDir =
-      file(
-        "${layout.buildDirectory.asFile}/app/intermediates/merged_native_libs/${variantName}/out/lib"
-      )
-
-    if (nativeSymbolsDir.exists()) {
-      println(
-        "Zipping native debug symbols and copying them to output directory: $buildOutputDirectoryPath"
-      )
-
-      val zipFile = file("$buildOutputDirectoryPath/$outputFullName-native_debug_symbols.zip")
-
-      ant.invokeMethod("zip", mapOf("destfile" to zipFile, "basedir" to nativeSymbolsDir))
-    }
-
-    println("Deleting build type directory: $buildTypeDirectory")
-    buildTypeDirectory.parentFile?.deleteRecursively()
-  }
-}
-
-fun renameOutputs(variant: ApplicationVariant, output: BaseVariantOutput): BaseVariantOutput {
-  val variantName = variant.name
-
-  if (variantName.lowercase().contains("release")) {
-    val outputFullName = getBuildName(variantName)
-    val buildTypeDirectory = output.outputFile.parentFile
-    val buildOutputDirectory = buildTypeDirectory?.parentFile?.parentFile
-    val buildOutputDirectoryPath = buildOutputDirectory?.path
-    buildOutputDirectory?.mkdirs()
-
-    if (buildOutputDirectoryPath != null) {
-      moveAAB(variant, outputFullName, buildOutputDirectory, buildTypeDirectory)
-      moveAPK(
-        variant,
-        buildOutputDirectoryPath,
-        output,
-        outputFullName,
-        variantName,
-        buildTypeDirectory,
-      )
-    }
-  }
-  return output
 }

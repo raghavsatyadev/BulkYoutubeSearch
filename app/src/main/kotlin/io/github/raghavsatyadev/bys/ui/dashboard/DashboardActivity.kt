@@ -38,16 +38,19 @@ class DashboardActivity : CoreActivity<ActivityDashboardBinding>() {
 
   override fun setListeners(isEnabled: Boolean) {
     if (isEnabled) {
-      binding.btnSearch.setOnClickListener { startActivity(SearchActivity.getIntentObject(this)) }
+      binding.btnSearch.setOnClickListener {
+        startActivityWithTransition(SearchActivity.getIntentObject(this))
+      }
       binding.btnFoundSongs.setOnClickListener {
-        startActivity(FoundSongsActivity.getIntentObject(this))
+        startActivityWithTransition(FoundSongsActivity.getIntentObject(this))
       }
       binding.btnManageKeys.setOnClickListener {
-        startActivity(ManageKeysActivity.getIntentObject(this))
+        startActivityWithTransition(ManageKeysActivity.getIntentObject(this))
       }
     } else {
       binding.btnFoundSongs.setOnClickListener(null)
       binding.btnSearch.setOnClickListener(null)
+      binding.btnManageKeys.setOnClickListener(null)
     }
   }
 }

@@ -1,0 +1,57 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <style name="TextAppearance.BYS.DisplayLarge" parent="TextAppearance.Material3.DisplayLarge.Emphasized">
+        <item name="fontFamily">@font/app_fonts</item>
+        <item name="android:fontFamily">@font/app_fonts</item>
+        <item name="android:textStyle">bold</item>
+    </style>
+
+    <style name="TextAppearance.BYS.DisplayMedium" parent="TextAppearance.Material3.DisplayMedium.Emphasized">
+        <item name="fontFamily">@font/app_fonts</item>
+        <item name="android:fontFamily">@font/app_fonts</item>
+        <item name="android:textStyle">bold</item>
+    </style>
+
+    <style name="TextAppearance.BYS.DisplaySmall" parent="TextAppearance.Material3.DisplaySmall.Emphasized">
+        <item name="fontFamily">@font/app_fonts</item>
+        <item name="android:fontFamily">@font/app_fonts</item>
+        <item name="android:textStyle">bold</item>
+    </style>
+
+    <style name="TextAppearance.BYS.HeadlineLarge" parent="TextAppearance.Material3.HeadlineLarge.Emphasized">
+        <item name="fontFamily">@font/app_fonts</item>
+        <item name="android:fontFamily">@font/app_fonts</item>
+        <item name="android:textStyle">bold</item>
+    </style>
+
+    <style name="TextAppearance.BYS.HeadlineMedium" parent="TextAppearance.Material3.HeadlineMedium.Emphasized">
+        <item name="fontFamily">@font/app_fonts</item>
+        <item name="android:fontFamily">@font/app_fonts</item>
+        <item name="android:textStyle">bold</item>
+    </style>
+
+    <style name="TextAppearance.BYS.HeadlineSmall" parent="TextAppearance.Material3.HeadlineSmall.Emphasized">
+        <item name="fontFamily">@font/app_fonts</item>
+        <item name="android:fontFamily">@font/app_fonts</item>
+        <item name="android:textStyle">bold</item>
+    </style>
+
+    <style name="TextAppearance.BYS.TitleLarge" parent="TextAppearance.Material3.TitleLarge.Emphasized">
+        <item name="fontFamily">@font/app_fonts</item>
+        <item name="android:fontFamily">@font/app_fonts</item>
+        <item name="android:textStyle">bold</item>
+    </style>
+
+    <style name="TextAppearance.BYS.TitleMedium" parent="TextAppearance.Material3.TitleMedium.Emphasized">
+        <item name="fontFamily">@font/app_fonts</item>
+        <item name="android:fontFamily">@font/app_fonts</item>
+        <item name="android:textStyle">bold</item>
+    </style>
+
+    <style name="TextAppearance.BYS.TitleSmall" parent="TextAppearance.Material3.TitleSmall.Emphasized">
+        <item name="fontFamily">@font/app_fonts</item>
+        <item name="android:fontFamily">@font/app_fonts</item>
+        <item name="android:textStyle">bold</item>
+    </style>
+</resources>

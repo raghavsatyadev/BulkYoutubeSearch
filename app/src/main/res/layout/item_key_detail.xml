@@ -5,10 +5,9 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:layout_margin="5dp"
-    app:cardCornerRadius="5dp"
-    app:cardElevation="5dp"
-    app:contentPadding="5dp"
+    android:layout_marginHorizontal="0dp"
+    android:layout_marginVertical="6dp"
+    app:contentPadding="16dp"
     >
 
     <androidx.constraintlayout.widget.ConstraintLayout
@@ -21,7 +20,8 @@
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:text="@string/key_app_name"
-            android:textStyle="bold"
+            android:textAppearance="?attr/textAppearanceLabelLarge"
+            android:textColor="?attr/colorOnSurfaceVariant"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
             />
@@ -31,6 +31,7 @@
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_marginStart="5dp"
+            android:textAppearance="?attr/textAppearanceBodyLarge"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toEndOf="@id/label_key_app_name"
             app:layout_constraintTop_toTopOf="parent"
@@ -43,7 +44,8 @@
             android:layout_height="wrap_content"
             android:layout_marginTop="5dp"
             android:text="@string/expired_on"
-            android:textStyle="bold"
+            android:textAppearance="?attr/textAppearanceLabelLarge"
+            android:textColor="?attr/colorOnSurfaceVariant"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@id/txt_key_app_name"
             />
@@ -54,35 +56,41 @@
             android:layout_height="wrap_content"
             android:layout_marginStart="5dp"
             android:layout_marginTop="5dp"
+            android:textAppearance="?attr/textAppearanceBodyLarge"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toEndOf="@id/label_key_expiry"
             app:layout_constraintTop_toBottomOf="@id/txt_key_app_name"
             tools:text="31-01-2024 11:55:55"
             />
 
-        <com.google.android.material.button.MaterialButton
-            android:id="@+id/btn_copy_key"
+        <com.google.android.material.button.MaterialButtonGroup
+            style="@style/Widget.Material3Expressive.MaterialButtonGroup.Connected"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginTop="5dp"
-            android:text="@string/copy_key"
-            app:layout_constraintEnd_toStartOf="@id/btn_delete_key"
-            app:layout_constraintHorizontal_chainStyle="packed"
+            android:layout_marginTop="12dp"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@id/txt_key_expiry"
-            />
+            >
 
-        <com.google.android.material.button.MaterialButton
-            android:id="@+id/btn_delete_key"
-            style="@style/Widget.Material3.Button.TextButton"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginStart="8dp"
-            android:layout_marginTop="5dp"
-            android:text="@string/delete_key"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toEndOf="@id/btn_copy_key"
-            app:layout_constraintTop_toBottomOf="@id/txt_key_expiry"
-            />
+            <com.google.android.material.button.MaterialButton
+                android:id="@+id/btn_copy_key"
+                style="@style/ButtonStyleTonal"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/copy_key"
+                />
+
+            <com.google.android.material.button.MaterialButton
+                android:id="@+id/btn_delete_key"
+                style="@style/ButtonStyleTonal"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:backgroundTint="?attr/colorErrorContainer"
+                android:text="@string/delete_key"
+                android:textColor="?attr/colorOnErrorContainer"
+                app:icon="@drawable/ic_delete"
+                app:iconTint="?attr/colorOnErrorContainer"
+                />
+        </com.google.android.material.button.MaterialButtonGroup>
     </androidx.constraintlayout.widget.ConstraintLayout>
 </com.google.android.material.card.MaterialCardView>

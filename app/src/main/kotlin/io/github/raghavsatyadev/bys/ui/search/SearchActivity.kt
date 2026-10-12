@@ -4,9 +4,14 @@ import android.content.Context
 import android.content.Intent
 import android.net.Uri
 import android.os.Bundle
+import android.transition.ChangeBounds
+import android.transition.TransitionManager
+import android.transition.TransitionSet
 import android.view.LayoutInflater
 import androidx.activity.viewModels
+import androidx.core.widget.NestedScrollView
 import com.google.android.material.dialog.MaterialAlertDialogBuilder
+import com.google.android.material.transition.platform.MaterialFade
 import io.github.raghavsatyadev.bys.R
 import io.github.raghavsatyadev.bys.databinding.ActivitySearchBinding
 import io.github.raghavsatyadev.bys.databinding.DialogAddKeyBinding
@@ -42,6 +47,7 @@ class SearchActivity : CoreActivity<ActivitySearchBinding>() {
           onSuccess = {
             selectedFile = it
             binding.txtSelectedFile.text = it.getFileNameFromUri(this@SearchActivity)
+            animateLayout()
             binding.txtSelectedFile.visible()
           },
           showInvalidJSONWarning = {
@@ -133,8 +139,21 @@ class SearchActivity : CoreActivity<ActivitySearchBinding>() {
       .show()
   }
 
+  private fun animateLayout() {
+    TransitionManager.beginDelayedTransition(
+      binding.contentSearch,
+      TransitionSet().addTransition(MaterialFade()).addTransition(ChangeBounds()),
+    )
+  }
+
   private fun setupUI() {
     binding.listKeyExpiry.adapter = adapter
+    binding.scrollSearch.setOnScrollChangeListener(
+      NestedScrollView.OnScrollChangeListener { _, _, y, _, oldY ->
+        if (y > oldY + 8) binding.fabAddKey.shrink()
+        else if (y < oldY - 8) binding.fabAddKey.extend()
+      }
+    )
     launch {
       SongDetailDataUtil.getInstance().getCountLive(SongRetrievalMode.NOT_FOUND).collectLatest {
         withContext(mainDispatcher) {
@@ -153,8 +172,10 @@ class SearchActivity : CoreActivity<ActivitySearchBinding>() {
           launch {
             withContext(mainDispatcher) {
               if (it) {
+                animateLayout()
                 binding.progressOneTimeWorkStatus.visible()
               } else {
+                animateLayout()
                 binding.progressOneTimeWorkStatus.gone()
               }
             }
@@ -164,8 +185,10 @@ class SearchActivity : CoreActivity<ActivitySearchBinding>() {
           launch {
             withContext(mainDispatcher) {
               if (it) {
+                animateLayout()
                 binding.progressPeriodicWorkStatus.visible()
               } else {
+                animateLayout()
                 binding.progressPeriodicWorkStatus.gone()
               }
             }

@@ -58,7 +58,7 @@ class FoundSongsActivity : CoreActivity<ActivityFoundSongsBinding>() {
               }
 
               else -> {
-                startActivity(
+                startActivityWithTransition(
                   PlayerActivity.getIntentObject(
                     this,
                     bundleOf(PlayerActivity.SONG to adapter.getItem(position).toJsonString()),

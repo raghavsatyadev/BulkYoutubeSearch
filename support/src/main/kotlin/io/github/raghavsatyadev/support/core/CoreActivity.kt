@@ -1,11 +1,18 @@
 package io.github.raghavsatyadev.support.core
 
+import android.content.Intent
 import android.os.Bundle
+import android.transition.TransitionManager
 import android.view.MenuItem
+import android.view.ViewGroup
+import android.view.Window
 import android.view.WindowManager
 import androidx.activity.addCallback
 import androidx.appcompat.app.AppCompatActivity
+import androidx.core.app.ActivityOptionsCompat
 import androidx.viewbinding.ViewBinding
+import com.google.android.material.transition.platform.MaterialFade
+import com.google.android.material.transition.platform.MaterialSharedAxis
 import io.github.raghavsatyadev.support.AppLog
 import io.github.raghavsatyadev.support.R
 import io.github.raghavsatyadev.support.databinding.LoaderBinding
@@ -15,11 +22,11 @@ import io.github.raghavsatyadev.support.extensions.ResourceExtensions.getConDraw
 import io.github.raghavsatyadev.support.extensions.ViewExtensions.gone
 import io.github.raghavsatyadev.support.extensions.ViewExtensions.hideKeyBoard
 import io.github.raghavsatyadev.support.extensions.ViewExtensions.visible
+import kotlin.coroutines.CoroutineContext
 import kotlinx.coroutines.CoroutineExceptionHandler
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.Job
-import kotlin.coroutines.CoroutineContext
 
 abstract class CoreActivity<Binding : ViewBinding> : AppCompatActivity(), CoroutineScope {
   private lateinit var job: Job
@@ -51,7 +58,27 @@ abstract class CoreActivity<Binding : ViewBinding> : AppCompatActivity(), Corout
 
   abstract fun createBinding(savedInstanceState: Bundle?): Binding
 
+  private fun setupWindowTransitions() {
+    window.requestFeature(Window.FEATURE_ACTIVITY_TRANSITIONS)
+    window.enterTransition = sharedAxis(true)
+    window.exitTransition = sharedAxis(true)
+    window.reenterTransition = sharedAxis(false)
+    window.returnTransition = sharedAxis(false)
+    window.allowEnterTransitionOverlap = true
+  }
+
+  private fun sharedAxis(forward: Boolean) =
+    MaterialSharedAxis(MaterialSharedAxis.X, forward).apply {
+      excludeTarget(android.R.id.statusBarBackground, true)
+      excludeTarget(android.R.id.navigationBarBackground, true)
+    }
+
+  fun startActivityWithTransition(intent: Intent) {
+    startActivity(intent, ActivityOptionsCompat.makeSceneTransitionAnimation(this).toBundle())
+  }
+
   override fun onCreate(savedInstanceState: Bundle?) {
+    setupWindowTransitions()
     super.onCreate(savedInstanceState)
     job = Job()
 
@@ -110,6 +137,9 @@ abstract class CoreActivity<Binding : ViewBinding> : AppCompatActivity(), Corout
   }
 
   private fun setProgressBar(showProgressBar: Boolean) {
+    (loader?.root?.parent as? ViewGroup)?.let {
+      TransitionManager.beginDelayedTransition(it, MaterialFade())
+    }
     if (showProgressBar) loader?.root?.visible() else loader?.root?.gone()
 
     setListeners(!showProgressBar)
@@ -134,7 +164,7 @@ abstract class CoreActivity<Binding : ViewBinding> : AppCompatActivity(), Corout
   }
 
   open fun onBackPressedCompat() {
-    finish()
+    finishAfterTransition()
   }
 
   fun pressBack() {

@@ -14,8 +14,10 @@
         />
 
     <androidx.core.widget.NestedScrollView
+        android:id="@+id/scroll_search"
         android:layout_width="0dp"
         android:layout_height="0dp"
+        android:clipToPadding="false"
         android:fillViewport="true"
         app:layout_constraintBottom_toTopOf="@id/ad_view"
         app:layout_constraintEnd_toEndOf="parent"
@@ -24,146 +26,195 @@
         >
 
         <androidx.constraintlayout.widget.ConstraintLayout
+            android:id="@+id/content_search"
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:padding="15dp"
+            android:layout_height="wrap_content"
+            android:padding="16dp"
+            android:paddingBottom="96dp"
             >
 
-            <com.google.android.material.progressindicator.CircularProgressIndicator
-                android:id="@+id/progress_one_time_work_status"
-                android:layout_width="36dp"
-                android:layout_height="36dp"
-                android:layout_centerInParent="true"
-                android:layout_marginEnd="5dp"
-                android:background="@drawable/round_gray"
-                android:indeterminate="true"
-                android:progressBackgroundTint="?colorSecondary"
-                android:visibility="gone"
-                app:hideAnimationBehavior="outward"
-                app:indicatorColor="?colorPrimary"
-                app:indicatorDirectionCircular="clockwise"
-                app:layout_constraintBottom_toBottomOf="@id/btn_search_videos"
-                app:layout_constraintEnd_toStartOf="@id/label_work_status_one_time"
-                app:layout_constraintTop_toTopOf="@id/btn_search_videos"
-                app:showAnimationBehavior="inward"
-                />
-
-            <com.google.android.material.textview.MaterialTextView
-                android:id="@+id/label_work_status_one_time"
-                android:layout_width="wrap_content"
+            <com.google.android.material.card.MaterialCardView
+                android:id="@+id/card_file"
+                android:layout_width="0dp"
                 android:layout_height="wrap_content"
-                android:layout_marginEnd="15dp"
-                android:text="@string/label_one_time_work_status"
-                android:textAppearance="@style/TextAppearance.Material3.HeadlineMedium"
-                app:layout_constraintBottom_toBottomOf="@id/btn_search_videos"
-                app:layout_constraintEnd_toStartOf="@id/btn_search_videos"
-                app:layout_constraintTop_toTopOf="@id/btn_search_videos"
-                />
-
-            <com.google.android.material.progressindicator.CircularProgressIndicator
-                android:id="@+id/progress_periodic_work_status"
-                android:layout_width="36dp"
-                android:layout_height="36dp"
-                android:layout_centerInParent="true"
-                android:layout_marginStart="5dp"
-                android:background="@drawable/round_gray"
-                android:indeterminate="true"
-                android:progressBackgroundTint="?colorSecondary"
-                android:visibility="gone"
-                app:hideAnimationBehavior="outward"
-                app:indicatorColor="?colorPrimary"
-                app:indicatorDirectionCircular="clockwise"
-                app:layout_constraintBottom_toBottomOf="@id/btn_search_videos"
-                app:layout_constraintStart_toEndOf="@id/label_work_status_periodic"
-                app:layout_constraintTop_toTopOf="@id/btn_search_videos"
-                app:showAnimationBehavior="inward"
-                />
-
-            <com.google.android.material.textview.MaterialTextView
-                android:id="@+id/label_work_status_periodic"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginStart="15dp"
-                android:text="@string/label_periodic_work_status"
-                android:textAppearance="@style/TextAppearance.Material3.HeadlineMedium"
-                app:layout_constraintBottom_toBottomOf="@id/btn_search_videos"
-                app:layout_constraintStart_toEndOf="@id/btn_search_videos"
-                app:layout_constraintTop_toTopOf="@id/btn_search_videos"
-                />
-
-            <com.google.android.material.button.MaterialButton
-                android:id="@+id/btn_select_file"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="@string/select_file"
-                app:layout_constraintEnd_toStartOf="@+id/txt_selected_file"
-                app:layout_constraintHorizontal_bias="0.5"
+                app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent"
-                />
+                >
 
-            <com.google.android.material.textview.MaterialTextView
-                android:id="@+id/txt_selected_file"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:singleLine="true"
-                android:visibility="gone"
-                app:layout_constraintBottom_toBottomOf="@id/btn_select_file"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintHorizontal_bias="0.5"
-                app:layout_constraintStart_toEndOf="@+id/btn_select_file"
-                app:layout_constraintTop_toTopOf="@id/btn_select_file"
-                />
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical"
+                    android:padding="16dp"
+                    >
 
-            <com.google.android.material.button.MaterialButton
-                android:id="@+id/btn_search_videos"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="@string/search"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@id/btn_select_file"
-                />
+                    <com.google.android.material.button.MaterialButton
+                        android:id="@+id/btn_select_file"
+                        style="@style/ButtonStyleTonal"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:text="@string/select_file"
+                        app:icon="@drawable/ic_upload"
+                        />
 
-            <com.google.android.material.button.MaterialButton
-                android:id="@+id/btn_share_result_file"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="10dp"
-                android:text="@string/share_result_file"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/btn_search_videos"
-                />
+                    <com.google.android.material.textview.MaterialTextView
+                        android:id="@+id/txt_selected_file"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="8dp"
+                        android:singleLine="true"
+                        android:textAppearance="?attr/textAppearanceBodyMedium"
+                        android:textColor="?attr/colorOnSurfaceVariant"
+                        android:visibility="gone"
+                        />
+                </LinearLayout>
+            </com.google.android.material.card.MaterialCardView>
 
-            <com.google.android.material.textview.MaterialTextView
-                android:id="@+id/txt_songs_remain_to_be_found"
-                android:layout_width="wrap_content"
+            <com.google.android.material.card.MaterialCardView
+                android:id="@+id/card_actions"
+                android:layout_width="0dp"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="10dp"
+                android:layout_marginTop="12dp"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/btn_share_result_file"
-                tools:text="Songs remain to be found: 0"
-                />
+                app:layout_constraintTop_toBottomOf="@id/card_file"
+                >
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical"
+                    android:padding="16dp"
+                    >
+
+                    <com.google.android.material.button.MaterialButtonGroup
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:orientation="horizontal"
+                        android:spacing="8dp"
+                        >
+
+                        <com.google.android.material.button.MaterialButton
+                            android:id="@+id/btn_search_videos"
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:layout_weight="1"
+                            android:text="@string/search"
+                            app:icon="@drawable/ic_search"
+                            />
+
+                        <com.google.android.material.button.MaterialButton
+                            android:id="@+id/btn_share_result_file"
+                            style="@style/ButtonStyleTonal"
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:layout_weight="1"
+                            android:text="@string/share_result_file"
+                            app:icon="@drawable/ic_share"
+                            />
+                    </com.google.android.material.button.MaterialButtonGroup>
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="12dp"
+                        android:gravity="center"
+                        android:orientation="horizontal"
+                        >
+
+                        <LinearLayout
+                            style="@style/StatusPill"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:backgroundTint="?attr/colorPrimaryContainer"
+                            >
+
+                            <com.google.android.material.textview.MaterialTextView
+                                android:id="@+id/label_work_status_one_time"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:text="@string/label_one_time_work_status"
+                                android:textAppearance="?attr/textAppearanceLabelLarge"
+                                android:textColor="?attr/colorOnPrimaryContainer"
+                                />
+
+                            <com.google.android.material.loadingindicator.LoadingIndicator
+                                android:id="@+id/progress_one_time_work_status"
+                                style="@style/Widget.Material3.LoadingIndicator"
+                                android:layout_width="28dp"
+                                android:layout_height="28dp"
+                                android:layout_marginStart="6dp"
+                                android:visibility="gone"
+                                app:containerHeight="28dp"
+                                app:containerWidth="28dp"
+                                app:indicatorColor="?attr/colorOnPrimaryContainer"
+                                app:indicatorSize="20dp"
+                                />
+                        </LinearLayout>
+
+                        <LinearLayout
+                            style="@style/StatusPill"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginStart="8dp"
+                            android:backgroundTint="?attr/colorTertiaryContainer"
+                            >
+
+                            <com.google.android.material.textview.MaterialTextView
+                                android:id="@+id/label_work_status_periodic"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:text="@string/label_periodic_work_status"
+                                android:textAppearance="?attr/textAppearanceLabelLarge"
+                                android:textColor="?attr/colorOnTertiaryContainer"
+                                />
+
+                            <com.google.android.material.loadingindicator.LoadingIndicator
+                                android:id="@+id/progress_periodic_work_status"
+                                style="@style/Widget.Material3.LoadingIndicator"
+                                android:layout_width="28dp"
+                                android:layout_height="28dp"
+                                android:layout_marginStart="6dp"
+                                android:visibility="gone"
+                                app:containerHeight="28dp"
+                                app:containerWidth="28dp"
+                                app:indicatorColor="?attr/colorOnTertiaryContainer"
+                                app:indicatorSize="20dp"
+                                />
+                        </LinearLayout>
+                    </LinearLayout>
+
+                    <com.google.android.material.textview.MaterialTextView
+                        android:id="@+id/txt_songs_remain_to_be_found"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="12dp"
+                        android:gravity="center"
+                        android:textAppearance="?attr/textAppearanceBodyLarge"
+                        tools:text="Songs remain to be found: 0"
+                        />
+                </LinearLayout>
+            </com.google.android.material.card.MaterialCardView>
 
             <com.google.android.material.textview.MaterialTextView
                 android:id="@+id/label_key_details"
-                android:layout_width="wrap_content"
+                android:layout_width="0dp"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="15dp"
+                android:layout_marginTop="24dp"
                 android:text="@string/key_details"
-                android:textAppearance="@style/TextAppearance.Material3.HeadlineMedium"
+                android:textAlignment="viewStart"
+                android:textAppearance="?attr/textAppearanceTitleLarge"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@id/txt_songs_remain_to_be_found"
+                app:layout_constraintTop_toBottomOf="@id/card_actions"
                 />
 
             <androidx.recyclerview.widget.RecyclerView
                 android:id="@+id/list_key_expiry"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="10dp"
+                android:layout_marginTop="8dp"
                 android:nestedScrollingEnabled="false"
                 android:orientation="vertical"
                 app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
@@ -176,13 +227,15 @@
         </androidx.constraintlayout.widget.ConstraintLayout>
     </androidx.core.widget.NestedScrollView>
 
-    <com.google.android.material.floatingactionbutton.FloatingActionButton
+    <com.google.android.material.floatingactionbutton.ExtendedFloatingActionButton
         android:id="@+id/fab_add_key"
+        style="?attr/extendedFloatingActionButtonMediumStyle"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_margin="16dp"
         android:contentDescription="@string/add_key"
-        android:src="@android:drawable/ic_input_add"
+        android:text="@string/add_key"
+        app:icon="@drawable/ic_add"
         app:layout_constraintBottom_toTopOf="@id/ad_view"
         app:layout_constraintEnd_toEndOf="parent"
         />

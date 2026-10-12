@@ -6,21 +6,22 @@
     android:id="@+id/app_bar"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:backgroundTint="?colorPrimary"
+    android:background="?attr/colorSurface"
     android:fitsSystemWindows="true"
+    app:elevation="0dp"
+    app:liftOnScroll="false"
     >
 
     <com.google.android.material.appbar.MaterialToolbar
         android:id="@+id/tool_bar"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:elevation="10dp"
+        android:background="@android:color/transparent"
         android:minHeight="?attr/actionBarSize"
-        app:navigationIconTint="?colorSurface"
-        app:popupTheme="@style/ThemeOverlay.MaterialComponents.Toolbar.Primary"
+        app:navigationIconTint="?attr/colorOnSurface"
         app:titleCentered="true"
         app:titleTextAppearance="@style/ToolbarTextStyle"
-        app:titleTextColor="?colorSurface"
+        app:titleTextColor="?attr/colorOnSurface"
         tools:title="@string/app_name"
         />
 </com.google.android.material.appbar.AppBarLayout>

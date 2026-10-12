@@ -13,18 +13,14 @@
     tools:visibility="gone"
     >
 
-    <com.google.android.material.progressindicator.CircularProgressIndicator
+    <com.google.android.material.loadingindicator.LoadingIndicator
         android:id="@+id/progress_bar"
-        android:layout_width="56dp"
-        android:layout_height="56dp"
+        style="@style/Widget.Material3.LoadingIndicator.Contained"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
         android:layout_centerInParent="true"
-        android:background="@drawable/round_gray"
-        android:indeterminate="true"
-        android:padding="10dp"
-        android:progressBackgroundTint="?colorSecondary"
-        app:hideAnimationBehavior="outward"
-        app:indicatorColor="?colorPrimary"
-        app:indicatorDirectionCircular="clockwise"
-        app:showAnimationBehavior="inward"
+        app:containerHeight="80dp"
+        app:containerWidth="80dp"
+        app:indicatorSize="48dp"
         />
 </RelativeLayout>

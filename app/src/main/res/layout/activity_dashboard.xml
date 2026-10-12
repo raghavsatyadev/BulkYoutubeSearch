@@ -16,7 +16,7 @@
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="0dp"
         android:layout_height="0dp"
-        android:padding="15dp"
+        android:padding="24dp"
         app:layout_constraintBottom_toTopOf="@id/ad_view"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
@@ -25,40 +25,42 @@
 
         <com.google.android.material.button.MaterialButton
             android:id="@+id/btn_search"
-            android:layout_width="wrap_content"
+            style="@style/ButtonStyleLarge"
+            android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:minEms="12"
             android:text="@string/search_songs"
+            app:icon="@drawable/ic_search"
             app:layout_constraintBottom_toTopOf="@+id/btn_manage_keys"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintHorizontal_bias="0.5"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintVertical_chainStyle="packed"
             />
 
         <com.google.android.material.button.MaterialButton
             android:id="@+id/btn_manage_keys"
-            android:layout_width="wrap_content"
+            style="@style/ButtonStyleTonalLarge"
+            android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:minEms="12"
+            android:layout_marginTop="12dp"
             android:text="@string/manage_keys"
             android:visibility="gone"
+            app:icon="@drawable/ic_settings"
             app:layout_constraintBottom_toTopOf="@+id/btn_found_songs"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintHorizontal_bias="0.5"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/btn_search"
             />
 
         <com.google.android.material.button.MaterialButton
             android:id="@+id/btn_found_songs"
-            android:layout_width="wrap_content"
+            style="@style/ButtonStyleTonalLarge"
+            android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:minEms="12"
+            android:layout_marginTop="12dp"
             android:text="@string/found_songs"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintHorizontal_bias="0.5"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/btn_manage_keys"
             />

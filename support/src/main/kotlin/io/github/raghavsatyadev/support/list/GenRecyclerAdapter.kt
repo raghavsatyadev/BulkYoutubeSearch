@@ -5,9 +5,11 @@ import android.view.LayoutInflater
 import android.view.MotionEvent
 import android.view.View
 import android.view.ViewGroup
+import android.view.animation.AnimationUtils
 import androidx.recyclerview.widget.ItemTouchHelper
 import androidx.recyclerview.widget.RecyclerView
 import androidx.viewbinding.ViewBinding
+import io.github.raghavsatyadev.support.R
 
 @Suppress("MemberVisibilityCanBePrivate", "unused")
 abstract class GenRecyclerAdapter<
@@ -17,6 +19,8 @@ abstract class GenRecyclerAdapter<
 >(var items: ArrayList<Model>) : RecyclerView.Adapter<ViewHolder>() {
 
   var itemClickListener: CustomClickListener? = null
+  var animateItems = true
+  private var lastAnimatedPosition = -1
 
   val itemTouchHelper by lazy {
     val simpleItemTouchCallback =
@@ -97,6 +101,17 @@ abstract class GenRecyclerAdapter<
 
   final override fun onBindViewHolder(holder: ViewHolder, position: Int) {
     holder.bind(getItem(position), getItemViewType(position), position, itemCount)
+    if (animateItems && position > lastAnimatedPosition) {
+      lastAnimatedPosition = position
+      holder.itemView.startAnimation(
+        AnimationUtils.loadAnimation(holder.itemView.context, R.anim.item_enter)
+      )
+    }
+  }
+
+  override fun onViewDetachedFromWindow(holder: ViewHolder) {
+    holder.itemView.clearAnimation()
+    super.onViewDetachedFromWindow(holder)
   }
 
   fun getItem(position: Int) = items[position]

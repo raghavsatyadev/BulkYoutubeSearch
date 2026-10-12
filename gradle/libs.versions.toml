@@ -17,60 +17,60 @@ supportId = "io.github.raghavsatyadev.support"
 targetSdk = "36"
 targetSdkPreview = "Baklava"
 minSdk = "24"
-compileSdk = "36"
+compileSdk = "37"
 compileSdkPreview = "Baklava"
 
-buildTools = "36.0.0 rc4"
+buildTools = "37.0.0"
 
 # App Version Codes
 versionCode = "3"
 versionName = "0.0.2"
 
 # Plugin Versions
-agp = "8.12.3"
-kotlin = "2.2.0"
-com-google-devtools-ksp = "2.2.0-2.0.2"
-com-google-gms = "4.4.3"
+agp = "9.5.0-alpha08"
+kotlin = "2.5.0-Beta1"
+com-google-devtools-ksp = "2.3.12"
+com-google-gms = "4.5.0"
 
 # Library Versions
-activity = "1.10.1"
-androidx-core = "1.16.0"
-androidx-junit = "1.2.1"
-androidx-test-core = "1.6.1"
-appcompat = "1.7.1"
-coil = "3.2.0"
-collection = "1.5.0"
-constraintlayout = "2.2.1"
-coroutines = "1.10.2"
-credentials = "1.5.0"
-datastore = "1.1.7"
+activity = "1.14.0-alpha03"
+androidx-core = "1.19.1"
+androidx-junit = "1.3.0"
+androidx-test-core = "1.7.0"
+appcompat = "1.8.0"
+coil = "3.6.3"
+collection = "1.7.0"
+constraintlayout = "2.2.2"
+coroutines = "1.11.0"
+credentials = "1.7.0-alpha03"
+datastore = "1.3.0-alpha11"
 desugar-jdk-libs = "2.1.5"
-firebase-analytics-ktx = "22.5.0"
-firebase-appcheck = "18.0.0"
-firebase-crashlytics = "19.4.4"
-firebase-crashlytics-gradle = "3.0.4"
-fragment = "1.8.8"
-google-id = "1.1.1"
+firebase-analytics = "23.2.0"
+firebase-appcheck = "19.4.1"
+firebase-crashlytics = "20.1.1"
+firebase-crashlytics-gradle = "3.0.8"
+fragment = "1.9.1"
+google-id = "1.2.1"
 junit = "4.13.2"
-junit-jupiter = "5.13.3"
-ktor = "3.2.2"
-lifecycle = "2.9.1"
-lottie = "6.6.7"
-material = "1.13.0-beta01"
+junit-jupiter = "6.1.3"
+ktor = "3.6.0"
+lifecycle = "2.12.0-alpha04"
+lottie = "6.7.1"
+material = "1.14.0"
 multidex = "2.0.1"
-navigation = "2.9.1"
+navigation = "2.10.2"
 permissionx = "1.8.1"
-play-services-ads = "24.4.0"
-play-services-auth = "21.3.0"
+play-services-ads = "25.5.0"
+play-services-auth = "22.0.0"
 recyclerview = "1.4.0"
-room = "2.7.2"
-rules = "1.6.1"
-runner = "1.6.2"
-serialization = "1.9.0"
-sonarqube = "6.2.0.5505"
-splashscreen = "1.2.0-rc01"
-swiperefreshlayout = "1.2.0-beta01"
-work-manager = "2.10.2"
+room = "2.8.5"
+rules = "1.7.0"
+runner = "1.7.0"
+serialization = "1.12.0-RC"
+sonarqube = "7.5.0.8588"
+splashscreen = "1.2.0"
+swiperefreshlayout = "1.2.0"
+work-manager = "2.12.0"
 youtube = "13.0.0"
 
 [libraries]
@@ -111,8 +111,8 @@ navigation-runtime = { module = "androidx.navigation:navigation-runtime-ktx", ve
 navigation-ui = { module = "androidx.navigation:navigation-ui-ktx", version.ref = "navigation" }
 
 #Firebase
-firebase-analytics = { module = "com.google.firebase:firebase-analytics-ktx", version.ref = "firebase-analytics-ktx" }
-firebase-crashlytics = { module = "com.google.firebase:firebase-crashlytics-ktx", version.ref = "firebase-crashlytics" }
+firebase-analytics = { module = "com.google.firebase:firebase-analytics", version.ref = "firebase-analytics" }
+firebase-crashlytics = { module = "com.google.firebase:firebase-crashlytics", version.ref = "firebase-crashlytics" }
 firebase-appcheck-debug = { module = "com.google.firebase:firebase-appcheck-debug", version.ref = "firebase-appcheck" }
 firebase-appcheck-playintegrity = { module = "com.google.firebase:firebase-appcheck-playintegrity", version.ref = "firebase-appcheck" }
 
@@ -166,7 +166,6 @@ android-library = { id = "com.android.library", version.ref = "agp" }
 
 google-gms = { id = "com.google.gms.google-services", version.ref = "com-google-gms" }
 
-kotlin-android = { id = "org.jetbrains.kotlin.android", version.ref = "kotlin" }
 kotlin-parcelize = { id = "org.jetbrains.kotlin.plugin.parcelize", version.ref = "kotlin" }
 kotlin-serialization = { id = "org.jetbrains.kotlin.plugin.serialization", version.ref = "kotlin" }
 ksp = { id = "com.google.devtools.ksp", version.ref = "com-google-devtools-ksp" }
