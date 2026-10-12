@@ -17,3 +17,10 @@ debug
 .cxx
 .kotlin
 keys.json
+# Android Agent Kit
+tmp/
+memory/
+.cache/
+.env
+.claude/skills/
+.claude/settings.local.json
