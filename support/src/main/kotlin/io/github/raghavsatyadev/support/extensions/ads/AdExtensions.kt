@@ -38,7 +38,12 @@ object AdExtensions {
         }
       it.show(this)
       loadInterstitialAd()
-    } ?: { loadInterstitialAd() }
+    }
+      ?: run {
+        // No ad ready: never hold the action back for one.
+        loadInterstitialAd()
+        onAdClosed()
+      }
   }
 
   fun ComponentActivity.loadAds(adView: AdView) {

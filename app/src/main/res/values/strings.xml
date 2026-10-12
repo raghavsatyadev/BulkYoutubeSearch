@@ -22,4 +22,43 @@
     <string name="manage_keys">Manage API keys</string>
     <string name="found_songs">Found Songs</string>
     <string name="add_api_key">Add API Key</string>
+    <!-- Compose screens -->
+    <string name="app_title">Bulk YouTube Search</string>
+    <string name="app_subtitle">Find the video for every song you have</string>
+    <string name="navigate_back">Back</string>
+    <string name="library">Your library</string>
+    <string name="found">found</string>
+    <string name="remaining">to find</string>
+    <string name="searching_now">Searching</string>
+    <string name="search_songs_hint">Pick a list of song names and find their videos</string>
+    <string name="step_pick_list">Pick the song list</string>
+    <string name="step_search">Search YouTube</string>
+    <string name="step_share">Share the results</string>
+    <string name="select_file_hint">A JSON array of video or song names</string>
+    <string name="search_now_status">Searching now</string>
+    <string name="daily_search_status">Daily search</string>
+    <string name="share_hint">Exports every found song with its link as JSON</string>
+    <string name="invalid_file_title">Unable to read this file</string>
+    <string name="song_removed">Song removed</string>
+    <string name="undo">Undo</string>
+    <string name="no_songs_title">No songs found yet</string>
+    <string name="no_songs_hint">Run a search and the videos it finds show up here</string>
+    <string name="no_keys_title">No API keys</string>
+    <string name="no_keys_hint">Add a YouTube Data API key to start searching</string>
+    <string name="key_copied">Key copied</string>
+    <string name="key_ready">Ready to search</string>
+    <string name="key_exhausted_on">Quota used up · back at %1$s</string>
+    <string name="now_playing">Now playing</string>
+    <plurals name="songs_count">
+        <item quantity="one">%1$d song</item>
+        <item quantity="other">%1$d songs</item>
+    </plurals>
+    <plurals name="songs_remaining">
+        <item quantity="one">%1$d song left to find</item>
+        <item quantity="other">%1$d songs left to find</item>
+    </plurals>
+    <plurals name="keys_count">
+        <item quantity="one">%1$d API key</item>
+        <item quantity="other">%1$d API keys</item>
+    </plurals>
 </resources>

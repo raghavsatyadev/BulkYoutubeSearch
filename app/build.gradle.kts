@@ -11,10 +11,9 @@ plugins {
   alias(libs.plugins.ksp)
   alias(libs.plugins.kotlin.serialization)
   alias(libs.plugins.kotlin.parcelize)
+  alias(libs.plugins.kotlin.compose)
 
   id("com.google.firebase.crashlytics")
-
-  id("androidx.navigation.safeargs.kotlin")
 }
 
 sonar {
@@ -31,7 +30,7 @@ kotlin { jvmToolchain(21) }
 
 android {
   namespace = libs.versions.nameSpace.get()
-  compileSdk = libs.versions.compileSdk.get().toInt()
+  compileSdk { version = release(libs.versions.compileSdk.get().toInt()) { minorApiLevel = 1 } }
   // compileSdkPreview = libs.versions.compileSdkPreview.get()
   buildToolsVersion = libs.versions.buildTools.get()
 
@@ -86,7 +85,7 @@ android {
   }
   compileOptions { isCoreLibraryDesugaringEnabled = true }
   buildFeatures {
-    viewBinding = true
+    compose = true
     buildConfig = true
     resValues = true
   }
@@ -168,6 +167,10 @@ dependencies {
 
   // Google
   implementation(libs.bundles.google)
+
+  // Compose
+  implementation(libs.bundles.compose)
+  debugImplementation(libs.compose.ui.tooling)
 
   // Coil
   implementation(libs.bundles.coil)

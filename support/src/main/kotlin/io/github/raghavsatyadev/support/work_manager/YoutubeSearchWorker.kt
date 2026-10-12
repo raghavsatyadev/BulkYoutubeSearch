@@ -11,11 +11,13 @@ import androidx.work.WorkManager
 import androidx.work.WorkerParameters
 import io.github.raghavsatyadev.support.core.CoreApp
 import io.github.raghavsatyadev.support.work_manager.YoutubeSearchUtil.searchVideos
+import java.util.concurrent.TimeUnit
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.coroutineScope
+import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.collectLatest
+import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.withContext
-import java.util.concurrent.TimeUnit
 
 class YoutubeSearchWorker(appContext: Context, workerParams: WorkerParameters) :
   CoroutineWorker(appContext, workerParams) {
@@ -29,6 +31,16 @@ class YoutubeSearchWorker(appContext: Context, workerParams: WorkerParameters) :
     }
     private val periodicWorkStatus by lazy {
       manager.getWorkInfosForUniqueWorkFlow(UNIQUE_WORK_NAME_PERIODIC)
+    }
+
+    /** True while the one-time search runs. */
+    fun oneTimeRunning(): Flow<Boolean> = oneTimeWorkStatus.map { infos ->
+      infos.any { it.state == WorkInfo.State.RUNNING }
+    }
+
+    /** True while the daily search runs. */
+    fun periodicRunning(): Flow<Boolean> = periodicWorkStatus.map { infos ->
+      infos.any { it.state == WorkInfo.State.RUNNING }
     }
 
     suspend fun startWorker() {
