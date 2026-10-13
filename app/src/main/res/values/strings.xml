@@ -61,4 +61,21 @@
         <item quantity="one">%1$d API key</item>
         <item quantity="other">%1$d API keys</item>
     </plurals>
+    <string name="filter_songs_hint">Search songs or artists</string>
+    <string name="clear_search">Clear search</string>
+    <string name="sort_songs">Sort</string>
+    <string name="sort_by_song">Song name</string>
+    <string name="sort_by_artist">Artist</string>
+    <string name="sort_by_release">Release date</string>
+    <string name="sort_ascending">Ascending</string>
+    <string name="sort_descending">Descending</string>
+    <string name="clear_filters">Clear</string>
+    <string name="released_on">Released %1$s</string>
+    <string name="no_matches_title">No matching songs</string>
+    <string name="no_matches_hint">Try another search or clear the artist filter</string>
+    <string name="full_screen">Full screen</string>
+    <plurals name="artist_filter_count">
+        <item quantity="one">%d artist</item>
+        <item quantity="other">%d artists</item>
+    </plurals>
 </resources>

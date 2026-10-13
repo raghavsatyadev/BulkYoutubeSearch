@@ -50,6 +50,17 @@ class AppViewModel : ViewModel() {
     viewModelScope.launch(Dispatchers.IO) { YoutubeSearchUtil.setupData() }
   }
 
+  private var releaseDatesRequested = false
+
+  /** Fetches missing release dates once per process; songs found earlier were saved without. */
+  fun backfillReleaseDates() {
+    if (releaseDatesRequested) return
+    releaseDatesRequested = true
+    viewModelScope.launch(Dispatchers.IO) {
+      runCatching { YoutubeSearchUtil.backfillReleaseDates() }
+    }
+  }
+
   fun searchVideos() {
     viewModelScope.launch(Dispatchers.IO) { YoutubeSearchWorker.startWorker() }
   }

@@ -15,11 +15,11 @@ import io.github.raghavsatyadev.support.models.general.APIKeyDetail
 import io.github.raghavsatyadev.support.models.general.YoutubeSearchData
 import io.github.raghavsatyadev.support.networking.APIs
 import io.github.raghavsatyadev.support.preferences.AppPrefsUtil
-import kotlinx.coroutines.flow.first
-import org.json.JSONArray
 import java.io.File
 import java.io.FileWriter
 import java.io.IOException
+import kotlinx.coroutines.flow.first
+import org.json.JSONArray
 
 object YoutubeSearchUtil {
   private var apiKeys: ArrayList<APIKeyDetail> = ArrayList()
@@ -97,6 +97,44 @@ object YoutubeSearchUtil {
     return true to remainingTitles
   }
 
+  /**
+   * Fills in the release date of found songs saved before dates were stored. One `videos` call
+   * covers 50 songs and costs one quota unit, so a full library takes a handful of calls.
+   */
+  suspend fun backfillReleaseDates() {
+    val missing =
+      SongDetailDataUtil.getInstance().getAllSorted(SongRetrievalMode.FOUND).filter {
+        it.publishedAt.isEmpty() && it.link.startsWith(YOUTUBE_LINK)
+      }
+    if (missing.isEmpty()) return
+    setupAPIKeys()
+    for (chunk in missing.chunked(VIDEOS_PER_CALL)) {
+      val dates = fetchPublishDates(chunk.map { it.link.removePrefix(YOUTUBE_LINK) }) ?: return
+      val updated = chunk.mapNotNull { song ->
+        dates[song.link.removePrefix(YOUTUBE_LINK)]?.let { song.apply { publishedAt = it } }
+      }
+      if (updated.isNotEmpty()) SongDetailDataUtil.getInstance().update(updated)
+    }
+  }
+
+  private suspend fun fetchPublishDates(videoIds: List<String>): Map<String, String>? {
+    if (apiKeys.isEmpty()) return null
+    val keyDetail = Randoms.selectRandomElement(*apiKeys.toTypedArray())
+    return try {
+      APIs.videoPublishDates(videoIds, keyDetail.key)
+    } catch (e: Exception) {
+      if (e.message == "quotaExceeded") {
+        AppPrefsUtil.saveKeyDetail(keyDetail, System.currentTimeMillis())
+        apiKeys.remove(keyDetail)
+        fetchPublishDates(videoIds)
+      } else {
+        null
+      }
+    }
+  }
+
+  private const val VIDEOS_PER_CALL = 50
+
   private suspend fun setupAPIKeys() {
     val expiredKeyDetails = AppPrefsUtil.getNonExpiredKeyDetails()
     apiKeys = expiredKeyDetails.ifEmpty { buildKeysFromJson() }
@@ -164,6 +202,7 @@ object YoutubeSearchUtil {
         this.artist = artist
         this.thumbnailHigh = thumbnailHigh
         this.thumbnailLow = thumbnailLow
+        this.publishedAt = video.snippet.publishedAt
       }
 
       return true to oldSongDetail

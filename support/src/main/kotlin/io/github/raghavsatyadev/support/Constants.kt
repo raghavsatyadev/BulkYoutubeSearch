@@ -11,7 +11,7 @@ object Constants {
 
   object DB {
     const val NAME: String = "BYS"
-    const val VERSION = 2
+    const val VERSION = 3
 
     object Tables {
       const val SONG_DETAIL_TABLE = "song_detail"
@@ -19,6 +19,7 @@ object Constants {
       const val SONG_DETAIL_ID = "id"
       const val SONG_DETAIL_OLD_TITLE = "oldTitle"
       const val SONG_DETAIL_LINK = "link"
+      const val SONG_DETAIL_PUBLISHED_AT = "publishedAt"
     }
   }
 

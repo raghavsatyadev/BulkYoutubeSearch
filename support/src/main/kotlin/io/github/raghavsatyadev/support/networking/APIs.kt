@@ -6,6 +6,7 @@ import io.github.raghavsatyadev.support.extensions.AppExtensions.kotlinFileName
 import io.github.raghavsatyadev.support.extensions.serializer.SerializationExtensions.toKotlinObject
 import io.github.raghavsatyadev.support.models.general.YoutubeError
 import io.github.raghavsatyadev.support.models.general.YoutubeSearchData
+import io.github.raghavsatyadev.support.models.general.YoutubeVideoList
 import io.ktor.client.call.body
 import io.ktor.client.request.get
 
@@ -22,6 +23,22 @@ object APIs {
     } catch (e: Exception) {
       val errorReason = getErrorReason(e)
       AppLog.loge(true, kotlinFileName, "searchYoutube", errorReason, Exception())
+      throw Exception(errorReason)
+    }
+  }
+
+  private const val YOUTUBE_VIDEOS_URL =
+    "https://www.googleapis.com/youtube/v3/videos?part=snippet&fields=items(id,snippet(publishedAt))"
+
+  /** Release dates for up to 50 video ids, keyed by id. */
+  suspend fun videoPublishDates(videoIds: List<String>, key: String): Map<String, String> {
+    try {
+      val response =
+        KtorUtil.httpClient.get("$YOUTUBE_VIDEOS_URL&id=${videoIds.joinToString(",")}&key=$key")
+      return response.body<YoutubeVideoList>().items.associate { it.id to it.snippet.publishedAt }
+    } catch (e: Exception) {
+      val errorReason = getErrorReason(e)
+      AppLog.loge(true, kotlinFileName, "videoPublishDates", errorReason, Exception())
       throw Exception(errorReason)
     }
   }
