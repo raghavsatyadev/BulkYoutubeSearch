@@ -25,6 +25,7 @@ import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.flow.stateIn
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
+import kotlinx.serialization.json.Json
 
 /** One state holder for the app: the screens are small and share the same data. */
 class AppViewModel : ViewModel() {
@@ -83,8 +84,9 @@ class AppViewModel : ViewModel() {
   }
 
   /**
-   * Reads a picked JSON list of video names and stores it for the search. Calls [onInvalid] when
-   * the file is not a non-empty JSON array of strings.
+   * Reads a picked JSON file and stores it for the search. It is either a list of video names, or a
+   * links file exported earlier (a list of songs), whose found songs show up at once. Calls
+   * [onInvalid] when the file is neither, or is empty.
    */
   fun onJsonPicked(uri: Uri, name: String?, resolver: ContentResolver, onInvalid: () -> Unit) {
     runCatching {
@@ -93,21 +95,40 @@ class AppViewModel : ViewModel() {
     viewModelScope.launch(Dispatchers.IO) {
       val json = resolver.openInputStream(uri)?.bufferedReader()?.use { it.readText() }
       val names = runCatching { json?.toKotlinObject<ArrayList<String>>() }.getOrNull()
-      if (json == null || names.isNullOrEmpty()) {
+      val links =
+        if (names == null) {
+          runCatching { json?.let { linksJson.decodeFromString<ArrayList<SongDetail>>(it) } }
+            .getOrNull()
+        } else null
+      if (json == null || (names.isNullOrEmpty() && links.isNullOrEmpty())) {
         withContext(Dispatchers.Main) { onInvalid() }
         return@launch
       }
-      StorageUtils.createFile(
-          Constants.FileNames.PARENT_FOLDER_NAME,
-          Constants.FileNames.VIDEO_NAMES,
-          true,
-        )
-        .writeText(json)
+      if (links != null) {
+        // The search merges this file in too, so the songs survive a reinstall of the list.
+        StorageUtils.createFile(
+            Constants.FileNames.PARENT_FOLDER_NAME,
+            Constants.FileNames.VIDEO_LINKS,
+            true,
+          )
+          .writeText(links.toJsonString())
+        songs.upsert(links)
+      } else {
+        StorageUtils.createFile(
+            Constants.FileNames.PARENT_FOLDER_NAME,
+            Constants.FileNames.VIDEO_NAMES,
+            true,
+          )
+          .writeText(json)
+      }
       _selectedFile.value = name ?: uri.lastPathSegment
     }
   }
 
   private companion object {
     const val STOP_TIMEOUT_MILLIS = 5_000L
+
+    /** Exported links files carry extra fields (such as localPath) the app does not keep. */
+    val linksJson = Json { ignoreUnknownKeys = true }
   }
 }
