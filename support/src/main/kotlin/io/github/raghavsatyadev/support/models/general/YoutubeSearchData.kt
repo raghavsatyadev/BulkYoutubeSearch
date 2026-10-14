@@ -55,3 +55,10 @@ data class Medium(var url: String, var width: Int, var height: Int) : Parcelable
 @Parcelize
 @Serializable
 data class High(var url: String, var width: Int, var height: Int) : Parcelable
+
+/** The `videos` endpoint, trimmed by `fields` to ids and release dates. */
+@Keep @Serializable data class YoutubeVideoList(var items: List<VideoItem> = emptyList())
+
+@Keep @Serializable data class VideoItem(var id: String, var snippet: VideoSnippet)
+
+@Keep @Serializable data class VideoSnippet(var publishedAt: String = "")

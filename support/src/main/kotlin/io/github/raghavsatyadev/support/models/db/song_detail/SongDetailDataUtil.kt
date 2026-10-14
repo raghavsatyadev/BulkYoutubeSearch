@@ -96,6 +96,9 @@ class SongDetailDataUtil : BaseDataUtil<SongDetail, SongDetailDataUtil.SongDetai
         val existingSongDetail = getItemByOldTitle(songDetail.oldTitle)
         if (existingSongDetail != null) {
           songDetail.id = existingSongDetail.id
+          // An import without dates must not erase dates already fetched.
+          if (songDetail.publishedAt.isEmpty())
+            songDetail.publishedAt = existingSongDetail.publishedAt
           if (songDetail.link.isNotEmpty()) {
             update(songDetail)
           }

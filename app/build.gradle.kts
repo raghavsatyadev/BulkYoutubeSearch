@@ -131,11 +131,14 @@ androidComponents {
           rename { "$outputFullName.txt" }
         }
         into(buildOutputDirectory)
+        // AGP writes its listing file under outputs/apk too, so copy after it.
+        mustRunAfter("create${variantNameCapitalized}ApkListingFileRedirect")
       }
     val copyBundleTask =
       tasks.register<Copy>("copy${variantNameCapitalized}Bundle") {
         from(variant.artifacts.get(SingleArtifact.BUNDLE)) { rename { "$outputFullName.aab" } }
         into(buildOutputDirectory)
+        mustRunAfter("create${variantNameCapitalized}BundleListingFileRedirect")
       }
 
     tasks.configureEach {

@@ -31,6 +31,8 @@ data class SongDetail(
   var title: String = "",
   var description: String = "",
   @SerialName(Tables.SONG_DETAIL_LINK) @ColumnInfo(Tables.SONG_DETAIL_LINK) var link: String = "",
+  /** When YouTube says the video was published (ISO-8601); empty until known. */
+  @ColumnInfo(Tables.SONG_DETAIL_PUBLISHED_AT, defaultValue = "''") var publishedAt: String = "",
   @SerialName(Tables.SONG_DETAIL_OLD_TITLE)
   @ColumnInfo(Tables.SONG_DETAIL_OLD_TITLE)
   var oldTitle: String,
