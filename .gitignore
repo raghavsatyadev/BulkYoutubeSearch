@@ -26,3 +26,8 @@ memory/
 .claude/settings.local.json
 
 .claude/.turn-start
+
+# Claude working notes (plan-keeper) — never commit
+PLAN.md
+DECISIONS.md
+HISTORY.md
