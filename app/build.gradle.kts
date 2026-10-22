@@ -2,6 +2,7 @@ import com.android.build.api.artifact.SingleArtifact
 import com.google.firebase.crashlytics.buildtools.gradle.CrashlyticsExtension
 import java.text.SimpleDateFormat
 import java.util.Date
+import java.util.Properties
 
 plugins {
   alias(libs.plugins.android.application)
@@ -26,6 +27,12 @@ sonar {
   }
 }
 
+val props =
+  Properties().apply {
+    val propertiesFile = file("../secret.properties")
+    if (propertiesFile.exists()) propertiesFile.inputStream().use { fis -> load(fis) }
+  }
+
 kotlin { jvmToolchain(21) }
 
 android {
@@ -48,9 +55,9 @@ android {
   signingConfigs {
     create("release") {
       storeFile = file("../keystore_123456.jks")
-      storePassword = "123456"
+      storePassword = props.getProperty("storePassword", "")
       keyAlias = "bys"
-      keyPassword = "123456"
+      keyPassword = props.getProperty("keyPassword", "")
     }
   }
   buildTypes {

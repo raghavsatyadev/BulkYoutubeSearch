@@ -16,7 +16,9 @@ plugins {
 }
 
 fun readProperties(propertiesFile: File) =
-  Properties().apply { propertiesFile.inputStream().use { fis -> load(fis) } }
+  Properties().apply {
+    if (propertiesFile.exists()) propertiesFile.inputStream().use { fis -> load(fis) }
+  }
 
 val props = readProperties(file("../secret.properties"))
 
@@ -52,9 +54,9 @@ android {
   signingConfigs {
     create("release") {
       storeFile = file("../keystore_123456.jks")
-      storePassword = "123456"
+      storePassword = props.getProperty("storePassword", "")
       keyAlias = "misfit_challenge"
-      keyPassword = "123456"
+      keyPassword = props.getProperty("keyPassword", "")
     }
   }
   buildTypes {
