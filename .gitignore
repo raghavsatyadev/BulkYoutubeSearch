@@ -24,3 +24,5 @@ memory/
 .env
 .claude/skills/
 .claude/settings.local.json
+
+.claude/.turn-start
