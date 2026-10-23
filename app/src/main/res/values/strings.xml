@@ -61,7 +61,10 @@
         <item quantity="one">%1$d API key</item>
         <item quantity="other">%1$d API keys</item>
     </plurals>
-    <string name="filter_songs_hint">Search songs or artists</string>
+    <plurals name="search_songs_count">
+        <item quantity="one">Search %1$d song</item>
+        <item quantity="other">Search %1$d songs</item>
+    </plurals>
     <string name="clear_search">Clear search</string>
     <string name="sort_songs">Sort</string>
     <string name="sort_by_song">Song name</string>
