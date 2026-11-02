@@ -9,6 +9,7 @@ import coil3.SingletonImageLoader
 import coil3.disk.DiskCache
 import coil3.disk.directory
 import coil3.memory.MemoryCache
+import coil3.network.ktor3.KtorNetworkFetcherFactory
 import coil3.util.DebugLogger
 import com.google.android.gms.ads.MobileAds
 import com.google.firebase.Firebase
@@ -23,11 +24,12 @@ import io.github.raghavsatyadev.support.database.RoomDBUtil
 import io.github.raghavsatyadev.support.extensions.AppExtensions.kotlinFileName
 import io.github.raghavsatyadev.support.extensions.GoogleExtensions.checkPlayServiceAvailability
 import io.github.raghavsatyadev.support.networking.KtorUtil
+import io.github.raghavsatyadev.support.networking.imageHttpClient
+import kotlin.coroutines.CoroutineContext
 import kotlinx.coroutines.CoroutineExceptionHandler
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.Job
-import kotlin.coroutines.CoroutineContext
 
 class CoreApp : Application(), CoroutineScope {
 
@@ -64,6 +66,7 @@ class CoreApp : Application(), CoroutineScope {
   private fun setupCoil() {
     SingletonImageLoader.setSafe {
       ImageLoader.Builder(instance)
+        .components { add(KtorNetworkFetcherFactory(httpClient = ::imageHttpClient)) }
         .memoryCache { MemoryCache.Builder().maxSizePercent(instance, 0.25).build() }
         .diskCache {
           DiskCache.Builder()
