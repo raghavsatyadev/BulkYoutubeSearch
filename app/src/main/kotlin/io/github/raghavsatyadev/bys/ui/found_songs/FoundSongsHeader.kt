@@ -54,7 +54,7 @@ import androidx.compose.ui.unit.dp
 import io.github.raghavsatyadev.bys.R
 
 /**
- * The found songs' whole header in two slim rows: back, search and sort, then the artist chips. It
+ * The found songs' whole header in two slim rows: back, search and sort, then the artist filter. It
  * stands in for a top app bar, so the list gets the room.
  */
 @Composable
@@ -68,10 +68,10 @@ internal fun FoundSongsHeader(
   ascending: Boolean,
   onSort: (SongSort) -> Unit,
   onDirection: (Boolean) -> Unit,
-  artists: List<String>,
+  showArtistFilter: Boolean,
   selectedArtists: Set<String>,
-  onToggleArtist: (String) -> Unit,
-  onClearArtists: () -> Unit,
+  onOpenArtists: () -> Unit,
+  onRemoveArtist: (String) -> Unit,
 ) {
   Column(
     modifier = Modifier.fillMaxWidth().padding(bottom = 4.dp),
@@ -97,13 +97,11 @@ internal fun FoundSongsHeader(
       )
       SortMenu(sort = sort, ascending = ascending, onSort = onSort, onDirection = onDirection)
     }
-    // One artist leaves nothing to choose between.
-    if (artists.size > 1) {
-      ArtistChips(
-        artists = artists,
+    if (showArtistFilter) {
+      ArtistFilterRow(
         selected = selectedArtists,
-        onToggle = onToggleArtist,
-        onClear = onClearArtists,
+        onOpen = onOpenArtists,
+        onRemove = onRemoveArtist,
       )
     }
   }
@@ -181,60 +179,54 @@ private fun CompactSearchField(
   )
 }
 
-/** Multi-select artist filter: chosen artists first, then the rest by how many songs they have. */
+/**
+ * The artist filter button, then one chip per picked artist; tapping a chip drops that artist. The
+ * button opens [ArtistFilterSheet], where artists are searched and picked.
+ */
 @Composable
-private fun ArtistChips(
-  artists: List<String>,
+private fun ArtistFilterRow(
   selected: Set<String>,
-  onToggle: (String) -> Unit,
-  onClear: () -> Unit,
+  onOpen: () -> Unit,
+  onRemove: (String) -> Unit,
 ) {
-  val ordered =
-    remember(artists, selected) {
-      artists.filter { it in selected } + artists.filterNot { it in selected }
-    }
+  val picked = remember(selected) { selected.sortedBy { it.lowercase() } }
   LazyRow(
     contentPadding = PaddingValues(horizontal = 12.dp),
     horizontalArrangement = Arrangement.spacedBy(6.dp),
   ) {
-    if (selected.isNotEmpty()) {
-      item(key = "clear") {
-        InputChip(
-          selected = true,
-          onClick = onClear,
-          label = {
-            Text(pluralStringResource(R.plurals.artist_filter_count, selected.size, selected.size))
-          },
-          trailingIcon = {
-            Icon(
-              painterResource(R.drawable.ic_close),
-              contentDescription = stringResource(R.string.clear_filters),
-              modifier = Modifier.size(InputChipDefaults.IconSize),
-            )
-          },
-          modifier = Modifier.animateItem(),
-        )
-      }
-    }
-    items(ordered, key = { it }) { artist ->
-      val isSelected = artist in selected
+    item(key = "open") {
       FilterChip(
-        selected = isSelected,
-        onClick = { onToggle(artist) },
+        selected = selected.isNotEmpty(),
+        onClick = onOpen,
+        label = {
+          Text(
+            if (selected.isEmpty()) stringResource(R.string.artists_filter)
+            else stringResource(R.string.artists_filter_selected, selected.size)
+          )
+        },
+        trailingIcon = {
+          Icon(
+            painterResource(R.drawable.ic_arrow_drop_down),
+            contentDescription = null,
+            modifier = Modifier.size(FilterChipDefaults.IconSize),
+          )
+        },
+      )
+    }
+    items(picked, key = { it }) { artist ->
+      val remove = stringResource(R.string.remove_artist_filter, artist)
+      InputChip(
+        selected = true,
+        onClick = { onRemove(artist) },
         label = { Text(artist, maxLines = 1, overflow = TextOverflow.Ellipsis) },
-        leadingIcon =
-          if (isSelected) {
-            {
-              Icon(
-                painterResource(R.drawable.ic_check),
-                contentDescription = null,
-                modifier = Modifier.size(FilterChipDefaults.IconSize),
-              )
-            }
-          } else {
-            null
-          },
-        modifier = Modifier.widthIn(max = 220.dp).animateItem(),
+        trailingIcon = {
+          Icon(
+            painterResource(R.drawable.ic_close),
+            contentDescription = remove,
+            modifier = Modifier.size(InputChipDefaults.IconSize),
+          )
+        },
+        modifier = Modifier.widthIn(max = 200.dp).animateItem(),
       )
     }
   }

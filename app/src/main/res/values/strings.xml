@@ -72,13 +72,16 @@
     <string name="sort_by_release">Release date</string>
     <string name="sort_ascending">Ascending</string>
     <string name="sort_descending">Descending</string>
-    <string name="clear_filters">Clear</string>
     <string name="released_on">Released %1$s</string>
     <string name="no_matches_title">No matching songs</string>
     <string name="no_matches_hint">Try another search or clear the artist filter</string>
     <string name="full_screen">Full screen</string>
-    <plurals name="artist_filter_count">
-        <item quantity="one">%d artist</item>
-        <item quantity="other">%d artists</item>
-    </plurals>
+    <string name="artists_filter">Artists</string>
+    <string name="artists_filter_selected">Artists (%1$d)</string>
+    <string name="filter_by_artist">Filter by artist</string>
+    <string name="search_artists">Search artists</string>
+    <string name="no_artists_match">No artists match</string>
+    <string name="clear_all">Clear all</string>
+    <string name="done">Done</string>
+    <string name="remove_artist_filter">Remove %1$s from the filter</string>
 </resources>

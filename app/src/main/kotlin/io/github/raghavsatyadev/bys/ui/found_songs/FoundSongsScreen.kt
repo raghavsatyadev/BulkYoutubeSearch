@@ -97,10 +97,11 @@ fun FoundSongsScreen(
     rememberSaveable(stateSaver = ArtistSetSaver) { mutableStateOf(emptySet<String>()) }
   var sort by rememberSaveable { mutableStateOf(SongSort.Title) }
   var ascending by rememberSaveable { mutableStateOf(true) }
+  var showArtistSheet by rememberSaveable { mutableStateOf(false) }
 
   val rows =
     remember(songs) { songs?.map { SongRow(it, it.title.fromHtml(), it.artist.fromHtml()) } }
-  // Artists with the most songs first, so the useful chips are in reach.
+  // Artists with the most songs first, so the likely picks are at the top of the sheet.
   val artists =
     remember(rows) {
       rows
@@ -111,7 +112,7 @@ fun FoundSongsScreen(
         .sortedWith(
           compareByDescending<Map.Entry<String, Int>> { it.value }.thenBy { it.key.lowercase() }
         )
-        .map { it.key }
+        .map { ArtistCount(it.key, it.value) }
     }
   val shown =
     remember(rows, query, selectedArtists, sort, ascending) {
@@ -187,14 +188,11 @@ fun FoundSongsScreen(
               ascending = ascending,
               onSort = { sort = it },
               onDirection = { ascending = it },
-              artists = artists,
+              // One artist leaves nothing to choose between.
+              showArtistFilter = artists.size > 1,
               selectedArtists = selectedArtists,
-              onToggleArtist = { artist ->
-                selectedArtists =
-                  if (artist in selectedArtists) selectedArtists - artist
-                  else selectedArtists + artist
-              },
-              onClearArtists = { selectedArtists = emptySet() },
+              onOpenArtists = { showArtistSheet = true },
+              onRemoveArtist = { selectedArtists = selectedArtists - it },
             )
           }
           if (list.isEmpty()) {
@@ -245,6 +243,20 @@ fun FoundSongsScreen(
           }
         }
     }
+  }
+
+  // Outside the header, which hides on scroll and would close the sheet with it.
+  if (showArtistSheet) {
+    ArtistFilterSheet(
+      artists = artists,
+      selected = selectedArtists,
+      onToggle = { artist ->
+        selectedArtists =
+          if (artist in selectedArtists) selectedArtists - artist else selectedArtists + artist
+      },
+      onClear = { selectedArtists = emptySet() },
+      onDismiss = { showArtistSheet = false },
+    )
   }
 }
 
