@@ -6,7 +6,6 @@ import android.content.Context
 import android.content.Intent
 import android.content.pm.PackageManager
 import android.graphics.Bitmap
-import android.graphics.BitmapFactory
 import android.graphics.Canvas
 import android.graphics.drawable.Drawable
 import android.media.RingtoneManager
@@ -22,13 +21,19 @@ import androidx.core.app.NotificationCompat.BigPictureStyle
 import androidx.core.app.NotificationCompat.BigTextStyle
 import androidx.core.app.NotificationManagerCompat
 import androidx.core.graphics.createBitmap
+import coil3.SingletonImageLoader
+import coil3.executeBlocking
+import coil3.request.ErrorResult
+import coil3.request.ImageRequest
+import coil3.request.SuccessResult
+import coil3.request.allowHardware
+import coil3.toBitmap
 import io.github.raghavsatyadev.support.AppLog
 import io.github.raghavsatyadev.support.R
+import io.github.raghavsatyadev.support.core.CoreApp
 import io.github.raghavsatyadev.support.extensions.AppExtensions.kotlinFileName
 import io.github.raghavsatyadev.support.extensions.ResourceExtensions.getConColor
 import io.github.raghavsatyadev.support.extensions.ResourceExtensions.getConDrawable
-import java.net.HttpURLConnection
-import java.net.URL
 import java.util.Random
 
 @Suppress("unused")
@@ -210,17 +215,17 @@ object NotificationUtils {
     return builder
   }
 
+  /** Blocking on purpose: notifications are built off the main thread. Coil caches the image. */
   private fun getBitmapFromUrl(imageUrl: String?): Bitmap? {
-    return try {
-      val url = URL(imageUrl)
-      val connection = url.openConnection() as HttpURLConnection
-      connection.doInput = true
-      connection.connect()
-      val input = connection.inputStream
-      BitmapFactory.decodeStream(input)
-    } catch (e: Exception) {
-      AppLog.loge(false, kotlinFileName, "getBitmapFromUrl", e, Exception())
-      null
+    if (imageUrl.isNullOrBlank()) return null
+    val context = CoreApp.instance
+    val request = ImageRequest.Builder(context).data(imageUrl).allowHardware(false).build()
+    return when (val result = SingletonImageLoader.get(context).executeBlocking(request)) {
+      is SuccessResult -> result.image.toBitmap()
+      is ErrorResult -> {
+        AppLog.loge(false, kotlinFileName, "getBitmapFromUrl", result.throwable, Exception())
+        null
+      }
     }
   }
 

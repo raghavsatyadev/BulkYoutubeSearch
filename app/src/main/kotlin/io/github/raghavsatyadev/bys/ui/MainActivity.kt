@@ -21,9 +21,11 @@ import androidx.compose.runtime.getValue
 import androidx.compose.ui.res.stringResource
 import androidx.core.splashscreen.SplashScreen.Companion.installSplashScreen
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
+import androidx.lifecycle.viewmodel.navigation3.rememberViewModelStoreNavEntryDecorator
 import androidx.navigation3.runtime.NavKey
 import androidx.navigation3.runtime.entryProvider
 import androidx.navigation3.runtime.rememberNavBackStack
+import androidx.navigation3.runtime.rememberSaveableStateHolderNavEntryDecorator
 import androidx.navigation3.ui.NavDisplay
 import io.github.raghavsatyadev.bys.R
 import io.github.raghavsatyadev.bys.ui.dashboard.DashboardScreen
@@ -92,6 +94,11 @@ private fun BysApp(viewModel: AppViewModel, reviewViewModel: ReviewViewModel) {
   NavDisplay(
     backStack = backStack,
     onBack = back,
+    entryDecorators =
+      listOf(
+        rememberSaveableStateHolderNavEntryDecorator(),
+        rememberViewModelStoreNavEntryDecorator(),
+      ),
     transitionSpec = { sharedAxisX(motion, forward = true, animate) },
     popTransitionSpec = { sharedAxisX(motion, forward = false, animate) },
     predictivePopTransitionSpec = { sharedAxisX(motion, forward = false, animate) },

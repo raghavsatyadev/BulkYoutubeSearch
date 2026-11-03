@@ -15,7 +15,6 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.FrameLayout
 import androidx.activity.ComponentActivity
-import androidx.activity.compose.BackHandler
 import androidx.activity.compose.setContent
 import androidx.activity.enableEdgeToEdge
 import androidx.compose.foundation.background
@@ -52,6 +51,9 @@ import androidx.compose.ui.viewinterop.AndroidView
 import androidx.core.view.WindowCompat
 import androidx.core.view.WindowInsetsCompat
 import androidx.core.view.WindowInsetsControllerCompat
+import androidx.navigationevent.NavigationEventInfo
+import androidx.navigationevent.compose.NavigationBackHandler
+import androidx.navigationevent.compose.rememberNavigationEventState
 import com.pierfrancescosoffritti.androidyoutubeplayer.core.player.YouTubePlayer
 import com.pierfrancescosoffritti.androidyoutubeplayer.core.player.listeners.AbstractYouTubePlayerListener
 import com.pierfrancescosoffritti.androidyoutubeplayer.core.player.listeners.FullscreenListener
@@ -122,7 +124,11 @@ class PlayerActivity : ComponentActivity() {
       if (fullscreen || wasFullscreen) applyFullscreen(fullscreen)
       wasFullscreen = fullscreen
     }
-    BackHandler(enabled = fullscreen) { exitFullscreen() }
+    NavigationBackHandler(
+      state = rememberNavigationEventState(NavigationEventInfo.None),
+      isBackEnabled = fullscreen,
+      onBackCompleted = { exitFullscreen() },
+    )
     val immersive = inPip || fullscreen
     // The player stays in the same place in the tree in and out of picture-in-picture, so the
     // video keeps playing; only the chrome around it comes and goes.
