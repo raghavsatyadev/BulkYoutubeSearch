@@ -15,7 +15,7 @@ plugins {
   alias(libs.plugins.kotlin.parcelize) apply false
   alias(libs.plugins.kotlin.compose) apply false
 
-  alias(libs.plugins.room) apply false
+  alias(libs.plugins.room3) apply false
 
   alias(libs.plugins.org.sonarqube)
 }

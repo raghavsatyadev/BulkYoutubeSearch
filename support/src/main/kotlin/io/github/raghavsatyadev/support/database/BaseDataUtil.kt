@@ -1,6 +1,6 @@
 package io.github.raghavsatyadev.support.database
 
-import androidx.sqlite.db.SimpleSQLiteQuery
+import androidx.room3.RoomRawQuery
 
 @Suppress("unused")
 abstract class BaseDataUtil<T, D : BaseDao<T>> {
@@ -10,106 +10,66 @@ abstract class BaseDataUtil<T, D : BaseDao<T>> {
 
   abstract fun getPrimaryKey(): String
 
-  open fun insertReplace(ts: ArrayList<T>): List<Long> {
-    return getDao().insertReplace(ts)
-  }
+  open suspend fun insertReplace(ts: List<T>): List<Long> = getDao().insertReplace(ts)
 
-  open fun insertReplace(ts: List<T>): List<Long> {
-    return getDao().insertReplace(ts)
-  }
+  open suspend fun insertReplace(t: T): Long = getDao().insertReplace(t)
 
-  open fun insertReplace(t: T): Long {
-    return getDao().insertReplace(t)
-  }
+  open suspend fun insertIgnore(ts: List<T>): List<Long> = getDao().insertIgnore(ts)
 
-  open fun insertIgnore(ts: ArrayList<T>): List<Long> {
-    return getDao().insertIgnore(ts)
-  }
+  open suspend fun insertIgnore(t: T): Long = getDao().insertIgnore(t)
 
-  open fun insertIgnore(ts: List<T>): List<Long> {
-    return getDao().insertIgnore(ts)
-  }
+  open suspend fun update(t: T): Int = getDao().update(t)
 
-  open fun insertIgnore(t: T): Long {
-    return getDao().insertIgnore(t)
-  }
+  open suspend fun update(ts: List<T>): Int = getDao().update(ts)
 
-  open fun update(t: T): Int {
-    return getDao().update(t)
-  }
+  open suspend fun delete(id: Long): Int =
+    getDao()
+      .delete(RoomRawQuery("DELETE FROM `${getTableName()}` WHERE `${getPrimaryKey()}` = $id"))
 
-  open fun update(ts: List<T>): Int {
-    return getDao().update(ts)
-  }
+  open suspend fun delete(t: T): Int = getDao().delete(t)
 
-  open fun delete(id: Long): Int {
-    return getDao()
+  open suspend fun delete(ts: List<T>): Int = getDao().delete(ts)
+
+  open suspend fun delete(primaryKeyId: String): Int =
+    getDao()
       .delete(
-        SimpleSQLiteQuery("DELETE FROM `${getTableName()}` WHERE `${getPrimaryKey()}` = `$id`")
+        RoomRawQuery("DELETE FROM `${getTableName()}` WHERE `${getPrimaryKey()}` LIKE ?") {
+          it.bindText(1, primaryKeyId)
+        }
       )
-  }
 
-  open fun delete(t: T): Int {
-    return getDao().delete(t)
-  }
+  open suspend fun deleteAll(): Int =
+    getDao().delete(RoomRawQuery("DELETE FROM `${getTableName()}`"))
 
-  open fun delete(ts: List<T>): Int {
-    return getDao().delete(ts)
-  }
-
-  open fun delete(primaryKeyId: String): Int {
-    return getDao()
-      .delete(
-        SimpleSQLiteQuery(
-          "DELETE FROM `${getTableName()}` WHERE `${getPrimaryKey()}` LIKE '$primaryKeyId'"
-        )
-      )
-  }
-
-  open fun deleteAll(): Int {
-    return getDao().delete(SimpleSQLiteQuery("DELETE FROM `${getTableName()}`"))
-  }
-
-  open fun replaceAll(ts: List<T>): List<Long> {
-    deleteAll()
-    return insertReplace(ts)
-  }
-
-  open fun replaceAll(ts: ArrayList<T>): List<Long> {
+  open suspend fun replaceAll(ts: List<T>): List<Long> {
     deleteAll()
     return insertReplace(ts)
   }
 
   fun buildGetAllSortedQuery(sortKey: String): String {
     val sortQuery = if (sortKey.isEmpty()) "" else " ORDER BY `$sortKey`"
-    val query = "SELECT * FROM `${getTableName()}`$sortQuery"
-    return query
+    return "SELECT * FROM `${getTableName()}`$sortQuery"
   }
 
-  open fun getAll(sortKey: String = ""): ArrayList<T> {
-    return ArrayList(getDao().getAll(SimpleSQLiteQuery(buildGetAllSortedQuery(sortKey))))
-  }
+  open suspend fun getAll(sortKey: String = ""): ArrayList<T> =
+    ArrayList(getDao().getAll(RoomRawQuery(buildGetAllSortedQuery(sortKey))))
 
-  open fun getItem(id: String): T {
-    return getDao()
+  open suspend fun getItem(id: String): T =
+    getDao()
       .getItem(
-        SimpleSQLiteQuery(
-          "SELECT * FROM `${getTableName()}` WHERE `${getPrimaryKey()}` LIKE '$id' LIMIT 1"
-        )
+        RoomRawQuery(
+          "SELECT * FROM `${getTableName()}` WHERE `${getPrimaryKey()}` LIKE ? LIMIT 1"
+        ) {
+          it.bindText(1, id)
+        }
       )
-  }
 
-  open fun getItem(id: Long): T {
-    return getDao()
+  open suspend fun getItem(id: Long): T =
+    getDao()
       .getItem(
-        SimpleSQLiteQuery(
-          "SELECT * FROM `${getTableName()}` WHERE `${getPrimaryKey()}` = `$id` LIMIT 1"
-        )
+        RoomRawQuery("SELECT * FROM `${getTableName()}` WHERE `${getPrimaryKey()}` = $id LIMIT 1")
       )
-  }
 
-  open fun getCount(): Long {
-    return getDao()
-      .getCount(SimpleSQLiteQuery("SELECT COUNT(`${getPrimaryKey()}`) FROM `${getTableName()}`"))
-  }
+  open suspend fun getCount(): Long =
+    getDao().getCount(RoomRawQuery("SELECT COUNT(`${getPrimaryKey()}`) FROM `${getTableName()}`"))
 }

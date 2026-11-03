@@ -1,20 +1,22 @@
 package io.github.raghavsatyadev.support.database
 
-import androidx.room.migration.Migration
-import androidx.sqlite.db.SupportSQLiteDatabase
+import androidx.room3.migration.Migration
+import androidx.sqlite.SQLiteConnection
+import androidx.sqlite.execSQL
 import io.github.raghavsatyadev.support.Constants
 
 object MigrationUtil {
 
   private val MIGRATION_1_2: Migration =
     object : Migration(1, 2) {
-      override fun migrate(db: SupportSQLiteDatabase) {}
+      override suspend fun migrate(connection: SQLiteConnection) {}
     }
+
   /** Adds the release date. Without it the destructive fallback would wipe every found song. */
   private val MIGRATION_2_3: Migration =
     object : Migration(2, 3) {
-      override fun migrate(db: SupportSQLiteDatabase) {
-        db.execSQL(
+      override suspend fun migrate(connection: SQLiteConnection) {
+        connection.execSQL(
           "ALTER TABLE `${Constants.DB.Tables.SONG_DETAIL_TABLE}` ADD COLUMN " +
             "`${Constants.DB.Tables.SONG_DETAIL_PUBLISHED_AT}` TEXT NOT NULL DEFAULT ''"
         )
@@ -24,8 +26,8 @@ object MigrationUtil {
   /** Adds the table of song reviews; the found songs stay as they are. */
   private val MIGRATION_3_4: Migration =
     object : Migration(3, 4) {
-      override fun migrate(db: SupportSQLiteDatabase) {
-        db.execSQL(
+      override suspend fun migrate(connection: SQLiteConnection) {
+        connection.execSQL(
           "CREATE TABLE IF NOT EXISTS `${Constants.DB.Tables.SONG_REVIEW_TABLE}` (" +
             "`oldTitle` TEXT NOT NULL, `link` TEXT NOT NULL, `verdict` TEXT NOT NULL, " +
             "`reviewedAt` INTEGER NOT NULL, `localPath` TEXT NOT NULL, PRIMARY KEY(`oldTitle`))"

@@ -1,11 +1,10 @@
 package io.github.raghavsatyadev.support.models.db.song_detail
 
-import androidx.room.Dao
-import androidx.room.Query
-import androidx.room.RawQuery
-import androidx.room.Transaction
-import androidx.sqlite.db.SimpleSQLiteQuery
-import androidx.sqlite.db.SupportSQLiteQuery
+import androidx.room3.Dao
+import androidx.room3.Query
+import androidx.room3.RawQuery
+import androidx.room3.RoomRawQuery
+import androidx.room3.Transaction
 import io.github.raghavsatyadev.support.Constants
 import io.github.raghavsatyadev.support.database.BaseDao
 import io.github.raghavsatyadev.support.database.BaseDataUtil
@@ -43,7 +42,7 @@ class SongDetailDataUtil : BaseDataUtil<SongDetail, SongDetailDataUtil.SongDetai
     val foundQueryPart = buildLinkFilter(retrievalMode)
     val selectQueryPart = "SELECT * FROM `${getTableName()}`"
     val orderQueryPart = " ORDER BY `${buildOrderByPart(retrievalMode)}` COLLATE NOCASE"
-    val query = SimpleSQLiteQuery("$selectQueryPart$foundQueryPart$orderQueryPart")
+    val query = RoomRawQuery("$selectQueryPart$foundQueryPart$orderQueryPart")
     return getDao().getAllLive(query).map { it as ArrayList<SongDetail> }
   }
 
@@ -71,14 +70,14 @@ class SongDetailDataUtil : BaseDataUtil<SongDetail, SongDetailDataUtil.SongDetai
     return getAllSortedLive(retrievalMode).first()
   }
 
-  fun upsert(songDetails: ArrayList<SongDetail>) {
+  suspend fun upsert(songDetails: ArrayList<SongDetail>) {
     getDao().upsert(songDetails)
   }
 
   fun getCountLive(retrievalMode: SongRetrievalMode = SongRetrievalMode.FOUND): Flow<Long> {
     return getDao()
       .getCountLive(
-        SimpleSQLiteQuery(
+        RoomRawQuery(
           "SELECT COUNT(`link`) FROM `${getTableName()}`${
                     buildLinkFilter(
                         retrievalMode
@@ -89,9 +88,9 @@ class SongDetailDataUtil : BaseDataUtil<SongDetail, SongDetailDataUtil.SongDetai
   }
 
   @Dao
-  abstract class SongDetailDao : BaseDao<SongDetail>() {
+  interface SongDetailDao : BaseDao<SongDetail> {
     @Transaction
-    open fun upsert(songDetails: ArrayList<SongDetail>) {
+    suspend fun upsert(songDetails: ArrayList<SongDetail>) {
       songDetails.forEach { songDetail ->
         val existingSongDetail = getItemByOldTitle(songDetail.oldTitle)
         if (existingSongDetail != null) {
@@ -111,13 +110,13 @@ class SongDetailDataUtil : BaseDataUtil<SongDetail, SongDetailDataUtil.SongDetai
     @Query(
       "SELECT * FROM ${Constants.DB.Tables.SONG_DETAIL_TABLE} WHERE ${Constants.DB.Tables.SONG_DETAIL_OLD_TITLE} = :oldTitle LIMIT 1"
     )
-    abstract fun getItemByOldTitle(oldTitle: String): SongDetail?
+    suspend fun getItemByOldTitle(oldTitle: String): SongDetail?
 
     @RawQuery(observedEntities = [SongDetail::class])
-    abstract fun getAllLive(simpleSQLiteQuery: SimpleSQLiteQuery): Flow<List<SongDetail>>
+    fun getAllLive(query: RoomRawQuery): Flow<List<SongDetail>>
 
     @RawQuery(observedEntities = [SongDetail::class])
-    abstract fun getCountLive(supportSQLiteQuery: SupportSQLiteQuery): Flow<Long>
+    fun getCountLive(query: RoomRawQuery): Flow<Long>
   }
 }
 

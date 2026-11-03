@@ -1,45 +1,39 @@
 package io.github.raghavsatyadev.support
 
-import androidx.room.Room
-import androidx.room.testing.MigrationTestHelper
+import androidx.room3.Room
+import androidx.room3.testing.MigrationTestHelper
+import androidx.sqlite.driver.bundled.BundledSQLiteDriver
 import androidx.test.platform.app.InstrumentationRegistry
 import io.github.raghavsatyadev.support.database.AppDatabase
 import io.github.raghavsatyadev.support.database.MigrationUtil
+import kotlinx.coroutines.runBlocking
 import org.junit.Rule
 import org.junit.Test
-import java.io.IOException
 
 class MigrationTest {
-  private val testDB = "migration-test"
-
-  // Array of all migrations
-  private val allMigrations = MigrationUtil.migrations
+  private val instrumentation = InstrumentationRegistry.getInstrumentation()
+  private val dbFile = instrumentation.targetContext.getDatabasePath("migration-test")
 
   @get:Rule
   val helper: MigrationTestHelper =
     MigrationTestHelper(
-      InstrumentationRegistry.getInstrumentation(),
-      AppDatabase::class.java,
-      listOf(),
+      instrumentation = instrumentation,
+      file = dbFile,
+      driver = BundledSQLiteDriver(),
+      databaseClass = AppDatabase::class,
     )
 
   @Test
-  @Throws(IOException::class)
-  fun migrateAll() {
-    // Create earliest version of the database.
-    helper.createDatabase(testDB, 1).apply { close() }
-
-    // Open latest version of the database. Room will validate the schema
-    // once all migrations execute.
-    Room.databaseBuilder(
-        InstrumentationRegistry.getInstrumentation().targetContext,
-        AppDatabase::class.java,
-        testDB,
-      )
-      .addMigrations(*allMigrations)
-      .build()
-      .apply { openHelper.writableDatabase.close() }
-
-    println("Successfully migrated all")
+  fun migrateAll() = runBlocking {
+    // Start at v2: v1 was the template's schema and never shipped (the first release used v3).
+    // Room then runs every later migration and checks the result against the current schema.
+    helper.createDatabase(2).close()
+    val db =
+      Room.databaseBuilder<AppDatabase>(instrumentation.targetContext, dbFile.absolutePath)
+        .setDriver(BundledSQLiteDriver())
+        .addMigrations(*MigrationUtil.migrations)
+        .build()
+    db.songDetailDao().getCount(androidx.room3.RoomRawQuery("SELECT COUNT(*) FROM song_detail"))
+    db.close()
   }
 }

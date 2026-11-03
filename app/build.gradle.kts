@@ -188,9 +188,6 @@ dependencies {
   implementation(libs.play.services.ads)
 
   // Room
-  implementation(libs.room)
-  implementation(libs.room.runtime)
-  ksp(libs.room.compiler)
 
   // WorkManager
   implementation(libs.androidx.work.runtime)
