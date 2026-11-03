@@ -17,15 +17,23 @@ import androidx.compose.material3.ExperimentalMaterial3ExpressiveApi
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.MotionScheme
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.getValue
+import androidx.compose.ui.res.stringResource
 import androidx.core.splashscreen.SplashScreen.Companion.installSplashScreen
+import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import androidx.navigation3.runtime.NavKey
 import androidx.navigation3.runtime.entryProvider
 import androidx.navigation3.runtime.rememberNavBackStack
 import androidx.navigation3.ui.NavDisplay
+import io.github.raghavsatyadev.bys.R
 import io.github.raghavsatyadev.bys.ui.dashboard.DashboardScreen
 import io.github.raghavsatyadev.bys.ui.found_songs.FoundSongsScreen
 import io.github.raghavsatyadev.bys.ui.manage_keys.ManageKeysScreen
 import io.github.raghavsatyadev.bys.ui.player.PlayerActivity
+import io.github.raghavsatyadev.bys.ui.review.ReviewListScreen
+import io.github.raghavsatyadev.bys.ui.review.ReviewPlayerScreen
+import io.github.raghavsatyadev.bys.ui.review.ReviewViewModel
+import io.github.raghavsatyadev.bys.ui.review.reviewedCount
 import io.github.raghavsatyadev.bys.ui.search.SearchScreen
 import io.github.raghavsatyadev.bys.ui.theme.AppTheme
 import io.github.raghavsatyadev.bys.ui.theme.animationsEnabled
@@ -40,15 +48,20 @@ import kotlinx.serialization.Serializable
 
 @Serializable data object ManageKeys : NavKey
 
+@Serializable data object ReviewList : NavKey
+
+@Serializable data class ReviewPlayer(val key: String) : NavKey
+
 class MainActivity : ComponentActivity() {
   private val viewModel: AppViewModel by viewModels()
+  private val reviewViewModel: ReviewViewModel by viewModels()
 
   override fun onCreate(savedInstanceState: Bundle?) {
     installSplashScreen()
     enableEdgeToEdge()
     super.onCreate(savedInstanceState)
     if (savedInstanceState == null) viewModel.setupData()
-    setContent { AppTheme { BysApp(viewModel) } }
+    setContent { AppTheme { BysApp(viewModel, reviewViewModel) } }
   }
 }
 
@@ -71,7 +84,7 @@ private fun sharedAxisX(
 }
 
 @Composable
-private fun BysApp(viewModel: AppViewModel) {
+private fun BysApp(viewModel: AppViewModel, reviewViewModel: ReviewViewModel) {
   val backStack = rememberNavBackStack(Dashboard)
   val motion = MaterialTheme.motionScheme
   val animate = animationsEnabled()
@@ -90,6 +103,8 @@ private fun BysApp(viewModel: AppViewModel) {
             onSearch = { backStack.add(Search) },
             onFoundSongs = { backStack.add(FoundSongs) },
             onManageKeys = { backStack.add(ManageKeys) },
+            onReview = { backStack.add(ReviewList) },
+            reviewSummary = reviewSummary(reviewViewModel),
           )
         }
         entry<Search> {
@@ -109,6 +124,24 @@ private fun BysApp(viewModel: AppViewModel) {
           )
         }
         entry<ManageKeys> { ManageKeysScreen(viewModel = viewModel, onBack = back) }
+        entry<ReviewList> {
+          ReviewListScreen(
+            viewModel = reviewViewModel,
+            onBack = back,
+            onOpen = { key -> backStack.add(ReviewPlayer(key)) },
+          )
+        }
+        entry<ReviewPlayer> { key ->
+          ReviewPlayerScreen(viewModel = reviewViewModel, startKey = key.key, onBack = back)
+        }
       },
   )
+}
+
+/** "12 of 650 reviewed" for the dashboard card. */
+@Composable
+private fun reviewSummary(reviewViewModel: ReviewViewModel): String {
+  val items by reviewViewModel.items.collectAsStateWithLifecycle()
+  val all = items.orEmpty()
+  return stringResource(R.string.reviewed_of, all.reviewedCount(), all.size)
 }

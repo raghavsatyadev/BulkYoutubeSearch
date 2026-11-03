@@ -10,8 +10,6 @@ plugins {
   alias(libs.plugins.kotlin.serialization)
   alias(libs.plugins.kotlin.parcelize)
 
-  id("androidx.navigation.safeargs.kotlin")
-
   alias(libs.plugins.room)
 }
 
@@ -83,7 +81,6 @@ android {
   }
   compileOptions { isCoreLibraryDesugaringEnabled = true }
   buildFeatures {
-    viewBinding = true
     buildConfig = true
     resValues = true
   }
@@ -143,9 +140,6 @@ dependencies {
 
   // LifeCycle
   implementation(libs.bundles.lifecycle)
-
-  // Navigation
-  implementation(libs.bundles.navigation)
 
   // Firebase
   implementation(libs.bundles.firebase)

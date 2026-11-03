@@ -3,7 +3,6 @@
 package io.github.raghavsatyadev.support.extensions.ads
 
 import androidx.activity.ComponentActivity
-import androidx.fragment.app.Fragment
 import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.lifecycleScope
 import androidx.lifecycle.repeatOnLifecycle
@@ -65,15 +64,5 @@ object AdExtensions {
     }
   }
 
-  // endregion
-
-  // region Fragment
-  fun Fragment.showInterstitialAd(onAdClosed: () -> Unit) {
-    requireActivity().showInterstitialAd(onAdClosed)
-  }
-
-  fun Fragment.loadAds(adView: AdView) {
-    requireActivity().loadAds(adView)
-  }
   // endregion
 }

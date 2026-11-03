@@ -59,6 +59,8 @@ fun DashboardScreen(
   onSearch: () -> Unit,
   onFoundSongs: () -> Unit,
   onManageKeys: () -> Unit,
+  onReview: () -> Unit,
+  reviewSummary: String,
 ) {
   val found by viewModel.foundCount.collectAsStateWithLifecycle()
   val remaining by viewModel.remainingCount.collectAsStateWithLifecycle()
@@ -70,7 +72,7 @@ fun DashboardScreen(
   // The cards cascade in on the first open only, never on the way back.
   var entranceDone by rememberSaveable { mutableStateOf(false) }
   LaunchedEffect(Unit) {
-    delay((ENTRANCE_DURATION_MILLIS + staggerDelayMillis(3)).toLong())
+    delay((ENTRANCE_DURATION_MILLIS + staggerDelayMillis(4)).toLong())
     entranceDone = true
   }
 
@@ -119,6 +121,17 @@ fun DashboardScreen(
         )
       }
       StaggeredEntrance(index = 3, play = !entranceDone) {
+        ActionCard(
+          title = stringResource(R.string.review_songs),
+          body = reviewSummary,
+          painter = painterResource(R.drawable.ic_compare),
+          container = MaterialTheme.colorScheme.errorContainer,
+          content = MaterialTheme.colorScheme.onErrorContainer,
+          shape = MaterialShapes.Pill,
+          onClick = onReview,
+        )
+      }
+      StaggeredEntrance(index = 4, play = !entranceDone) {
         ActionCard(
           title = stringResource(R.string.manage_keys),
           body = pluralString(R.plurals.keys_count, keys?.size ?: 0),

@@ -7,7 +7,6 @@ import android.content.Intent
 import android.net.Uri
 import androidx.core.app.ShareCompat
 import androidx.core.net.toUri
-import androidx.fragment.app.Fragment
 import io.github.raghavsatyadev.support.AppLog
 import io.github.raghavsatyadev.support.R
 import io.github.raghavsatyadev.support.extensions.AppExtensions.kotlinFileName
@@ -23,10 +22,6 @@ object ImplicitIntentExtensions {
     val intent = Intent(Intent.ACTION_DIAL)
     intent.data = "tel:$number".toUri()
     startActivity(intent)
-  }
-
-  fun Fragment.openDialer(number: String) {
-    requireContext().openDialer(number)
   }
 
   fun Context.emailTo(emailID: String?) {
@@ -47,10 +42,6 @@ object ImplicitIntentExtensions {
     val clipboard = getSystemService(Context.CLIPBOARD_SERVICE) as ClipboardManager
     val clip = ClipData.newPlainText(label ?: getString(R.string.app_name), data)
     clipboard.setPrimaryClip(clip)
-  }
-
-  fun Fragment.copyToClipboard(label: String? = null, data: String?) {
-    requireContext().copyToClipboard(label, data)
   }
 
   fun Context.openGoogleMaps(keyword: String?) {

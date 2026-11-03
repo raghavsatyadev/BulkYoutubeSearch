@@ -169,9 +169,6 @@ dependencies {
   // LifeCycle
   implementation(libs.bundles.lifecycle)
 
-  // Navigation
-  implementation(libs.bundles.navigation)
-
   // Firebase
   implementation(libs.bundles.firebase)
 

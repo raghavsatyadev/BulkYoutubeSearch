@@ -54,5 +54,8 @@ object AppPrefsUtil {
 
   object Keys {
     const val API_KEY_DETAILS = "api_key_details"
+
+    /** The folder of local videos picked for the review, as a persisted tree URI. */
+    const val REVIEW_FOLDER_URI = "review_folder_uri"
   }
 }

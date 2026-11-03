@@ -10,7 +10,6 @@ import androidx.activity.result.IntentSenderRequest.Builder
 import androidx.activity.result.contract.ActivityResultContracts.StartActivityForResult
 import androidx.activity.result.contract.ActivityResultContracts.StartIntentSenderForResult
 import androidx.core.app.ActivityOptionsCompat
-import androidx.fragment.app.Fragment
 
 @Suppress("unused")
 object ActivityResultExtensions {
@@ -35,21 +34,5 @@ object ActivityResultExtensions {
     optionsCompat: ActivityOptionsCompat? = null,
   ) {
     launch(Builder(intent).build(), optionsCompat)
-  }
-
-  fun Fragment.registerActivityForResult(
-    listener: ActivityResultListener
-  ): ActivityResultLauncher<Intent> {
-    return registerForActivityResult(StartActivityForResult()) { result: ActivityResult ->
-      listener.onResult(ResultType.getEnumByResultIndex(result.resultCode), result.data)
-    }
-  }
-
-  fun Fragment.registerActivityForResultSender(
-    listener: ActivityResultListener
-  ): ActivityResultLauncher<IntentSenderRequest> {
-    return registerForActivityResult(StartIntentSenderForResult()) { result: ActivityResult ->
-      listener.onResult(ResultType.getEnumByResultIndex(result.resultCode), result.data)
-    }
   }
 }
