@@ -1,9 +1,7 @@
 package io.github.raghavsatyadev.support.core
 
 import android.app.Application
-import android.content.Context
 import android.widget.Toast
-import androidx.multidex.MultiDex
 import coil3.ImageLoader
 import coil3.SingletonImageLoader
 import coil3.disk.DiskCache
@@ -93,11 +91,6 @@ class CoreApp : Application(), CoroutineScope {
     } else {
       Toast.makeText(this, R.string.warning_update_play_service, Toast.LENGTH_SHORT).show()
     }
-  }
-
-  override fun attachBaseContext(base: Context?) {
-    super.attachBaseContext(base)
-    MultiDex.install(this)
   }
 
   override fun onTerminate() {

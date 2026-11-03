@@ -1,7 +1,6 @@
 buildscript {
   dependencies {
     classpath(libs.com.google.firebase)
-    classpath(libs.androidx.navigation)
   }
 }
 

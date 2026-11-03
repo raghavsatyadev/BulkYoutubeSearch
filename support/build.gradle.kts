@@ -10,8 +10,6 @@ plugins {
   alias(libs.plugins.kotlin.serialization)
   alias(libs.plugins.kotlin.parcelize)
 
-  id("androidx.navigation.safeargs.kotlin")
-
   alias(libs.plugins.room)
 }
 
@@ -43,7 +41,6 @@ android {
 
   defaultConfig {
     minSdk = libs.versions.minSdk.get().toInt()
-    multiDexEnabled = true
 
     testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
     consumerProguardFiles.add(file("consumer-rules.pro"))
@@ -144,9 +141,6 @@ dependencies {
   // LifeCycle
   implementation(libs.bundles.lifecycle)
 
-  // Navigation
-  implementation(libs.bundles.navigation)
-
   // Firebase
   implementation(libs.bundles.firebase)
 
@@ -176,7 +170,5 @@ dependencies {
 
   // Others
   implementation(libs.bundles.other)
-
-  implementation(libs.androidx.multidex)
   coreLibraryDesugaring(libs.desugar.jdk.libs)
 }

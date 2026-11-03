@@ -14,7 +14,7 @@ appIdDev = "io.github.raghavsatyadev.bys"
 appIdProd = "io.github.raghavsatyadev.bys"
 supportId = "io.github.raghavsatyadev.support"
 # SDK Versions
-targetSdk = "36"
+targetSdk = "37"
 targetSdkPreview = "Baklava"
 minSdk = "24"
 compileSdk = "37"
@@ -37,13 +37,12 @@ activity = "1.14.0-alpha03"
 androidx-core = "1.19.1"
 androidx-junit = "1.3.0"
 androidx-test-core = "1.7.0"
-appcompat = "1.8.0"
 coil = "3.6.3"
 compose-ui = "1.13.0-beta02"
 compose-material3 = "1.5.0-beta02"
 navigation3 = "1.3.0-alpha03"
+navigationevent = "1.2.0"
 collection = "1.7.0"
-constraintlayout = "2.2.2"
 coroutines = "1.11.0"
 credentials = "1.7.0-alpha03"
 datastore = "1.3.0-alpha11"
@@ -58,42 +57,31 @@ junit = "4.13.2"
 junit-jupiter = "6.1.3"
 ktor = "3.6.0"
 lifecycle = "2.12.0-alpha05"
-lottie = "6.7.1"
 material = "1.14.0"
-multidex = "2.0.1"
-navigation = "2.10.2"
-permissionx = "1.8.1"
 play-services-ads = "25.5.0"
 play-services-auth = "22.0.0"
-recyclerview = "1.4.0"
 room = "2.8.5"
 rules = "1.7.0"
 runner = "1.7.0"
 serialization = "1.12.0-RC"
 sonarqube = "7.5.0.8588"
 splashscreen = "1.2.0"
-swiperefreshlayout = "1.2.0"
 work-manager = "2.12.0"
 youtube = "13.0.0"
 
 [libraries]
 # Classpaths
-androidx-navigation = { group = "androidx.navigation", name = "navigation-safe-args-gradle-plugin", version.ref = "navigation" }
 com-google-firebase = { group = "com.google.firebase", name = "firebase-crashlytics-gradle", version.ref = "firebase-crashlytics-gradle" }
 
 # Android
 androidx-activity = { module = "androidx.activity:activity-ktx", version.ref = "activity" }
-androidx-appcompat = { module = "androidx.appcompat:appcompat", version.ref = "appcompat" }
 androidx-collection = { module = "androidx.collection:collection-ktx", version.ref = "collection" }
-androidx-constraintlayout = { module = "androidx.constraintlayout:constraintlayout", version.ref = "constraintlayout" }
 androidx-core = { group = "androidx.core", name = "core-ktx", version.ref = "androidx-core" }
 androidx-credentials = { module = "androidx.credentials:credentials", version.ref = "credentials" }
 androidx-datastore-preferences = { module = "androidx.datastore:datastore-preferences", version.ref = "datastore" }
 androidx-fragment = { module = "androidx.fragment:fragment-ktx", version.ref = "fragment" }
 androidx-play-credentials = { module = "androidx.credentials:credentials-play-services-auth", version.ref = "credentials" }
-androidx-recyclerview = { module = "androidx.recyclerview:recyclerview", version.ref = "recyclerview" }
 androidx-splashscreen = { module = "androidx.core:core-splashscreen", version.ref = "splashscreen" }
-androidx-swiperefreshlayout = { module = "androidx.swiperefreshlayout:swiperefreshlayout", version.ref = "swiperefreshlayout" }
 
 material = { module = "com.google.android.material:material", version.ref = "material" }
 
@@ -109,9 +97,6 @@ lifecycle-viewmodel = { module = "androidx.lifecycle:lifecycle-viewmodel-ktx", v
 lifecycle-runtime = { group = "androidx.lifecycle", name = "lifecycle-runtime-ktx", version.ref = "lifecycle" }
 
 #Navigation
-navigation-fragment = { module = "androidx.navigation:navigation-fragment-ktx", version.ref = "navigation" }
-navigation-runtime = { module = "androidx.navigation:navigation-runtime-ktx", version.ref = "navigation" }
-navigation-ui = { module = "androidx.navigation:navigation-ui-ktx", version.ref = "navigation" }
 
 #Firebase
 firebase-analytics = { module = "com.google.firebase:firebase-analytics", version.ref = "firebase-analytics" }
@@ -153,6 +138,8 @@ lifecycle-runtime-compose = { module = "androidx.lifecycle:lifecycle-runtime-com
 lifecycle-viewmodel-compose = { module = "androidx.lifecycle:lifecycle-viewmodel-compose", version.ref = "lifecycle" }
 navigation3-runtime = { module = "androidx.navigation3:navigation3-runtime", version.ref = "navigation3" }
 navigation3-ui = { module = "androidx.navigation3:navigation3-ui", version.ref = "navigation3" }
+lifecycle-viewmodel-navigation3 = { module = "androidx.lifecycle:lifecycle-viewmodel-navigation3", version.ref = "lifecycle" }
+navigationevent-compose = { module = "androidx.navigationevent:navigationevent-compose", version.ref = "navigationevent" }
 coil-compose = { module = "io.coil-kt.coil3:coil-compose", version.ref = "coil" }
 
 #Coil
@@ -160,12 +147,9 @@ coil = { module = "io.coil-kt.coil3:coil", version.ref = "coil" }
 coil-network-ktor3 = { module = "io.coil-kt.coil3:coil-network-ktor3", version.ref = "coil" }
 
 #Other
-permissionx = { module = "com.guolindev.permissionx:permissionx", version.ref = "permissionx" }
-lottie = { module = "com.airbnb.android:lottie", version.ref = "lottie" }
 youtube = { module = "com.pierfrancescosoffritti.androidyoutubeplayer:core", version.ref = "youtube" }
 
 #Support
-androidx-multidex = { module = "androidx.multidex:multidex", version.ref = "multidex" }
 desugar_jdk_libs = { module = "com.android.tools:desugar_jdk_libs", version.ref = "desugar-jdk-libs" }
 
 #Tests
@@ -200,28 +184,19 @@ kotlin = [
 ]
 androidx = [
     "androidx-activity",
-    "androidx-appcompat",
     "androidx-collection",
-    "androidx-constraintlayout",
     "androidx-core",
     "androidx-credentials",
     "androidx-datastore-preferences",
     "androidx-fragment",
     "androidx-play-credentials",
-    "androidx-recyclerview",
     "androidx-splashscreen",
-    "androidx-swiperefreshlayout",
     "material",
 ]
 lifecycle = [
     "lifecycle-common-java8",
     "lifecycle-runtime",
     "lifecycle-viewmodel",
-]
-navigation = [
-    "navigation-fragment",
-    "navigation-runtime",
-    "navigation-ui",
 ]
 coil = [
     "coil",
@@ -239,6 +214,8 @@ compose = [
     "lifecycle-viewmodel-compose",
     "navigation3-runtime",
     "navigation3-ui",
+    "lifecycle-viewmodel-navigation3",
+    "navigationevent-compose",
 ]
 firebase = [
     "firebase-analytics",
@@ -261,8 +238,6 @@ ktor = [
     "ktor-serialization-kotlinx-json",
 ]
 other = [
-    "permissionx",
-    "lottie",
     "youtube"
 ]
 test = [

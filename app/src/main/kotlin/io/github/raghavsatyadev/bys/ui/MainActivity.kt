@@ -18,9 +18,11 @@ import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.MotionScheme
 import androidx.compose.runtime.Composable
 import androidx.core.splashscreen.SplashScreen.Companion.installSplashScreen
+import androidx.lifecycle.viewmodel.navigation3.rememberViewModelStoreNavEntryDecorator
 import androidx.navigation3.runtime.NavKey
 import androidx.navigation3.runtime.entryProvider
 import androidx.navigation3.runtime.rememberNavBackStack
+import androidx.navigation3.runtime.rememberSaveableStateHolderNavEntryDecorator
 import androidx.navigation3.ui.NavDisplay
 import io.github.raghavsatyadev.bys.ui.dashboard.DashboardScreen
 import io.github.raghavsatyadev.bys.ui.found_songs.FoundSongsScreen
@@ -79,6 +81,11 @@ private fun BysApp(viewModel: AppViewModel) {
   NavDisplay(
     backStack = backStack,
     onBack = back,
+    entryDecorators =
+      listOf(
+        rememberSaveableStateHolderNavEntryDecorator(),
+        rememberViewModelStoreNavEntryDecorator(),
+      ),
     transitionSpec = { sharedAxisX(motion, forward = true, animate) },
     popTransitionSpec = { sharedAxisX(motion, forward = false, animate) },
     predictivePopTransitionSpec = { sharedAxisX(motion, forward = false, animate) },
