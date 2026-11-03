@@ -3,6 +3,7 @@
 package io.github.raghavsatyadev.bys.ui.review
 
 import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxWidth
@@ -25,13 +26,15 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
+import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
 import io.github.raghavsatyadev.bys.R
 import io.github.raghavsatyadev.support.models.db.song_review.ReviewVerdict
 
 /**
- * The review buttons, in their own bar under the videos so they never cover either one. The button
- * of the saved verdict is filled; tapping it again clears the review.
+ * The review buttons, in their own bar under the videos so they never cover either one. The three
+ * verdict buttons share the width equally, each with its icon over a short label. The button of the
+ * saved verdict is filled; tapping it again clears the review.
  */
 @Composable
 internal fun ReviewControls(
@@ -46,9 +49,7 @@ internal fun ReviewControls(
   Surface(color = colors.surfaceContainer) {
     Row(
       modifier =
-        Modifier.fillMaxWidth()
-          .navigationBarsPadding()
-          .padding(horizontal = 8.dp, vertical = 12.dp),
+        Modifier.fillMaxWidth().navigationBarsPadding().padding(horizontal = 4.dp, vertical = 6.dp),
       horizontalArrangement = Arrangement.spacedBy(4.dp),
       verticalAlignment = Alignment.CenterVertically,
     ) {
@@ -69,6 +70,15 @@ internal fun ReviewControls(
         filled = colors.error to colors.onError,
         tonal = colors.errorContainer to colors.onErrorContainer,
         onClick = { onMark(ReviewVerdict.MISMATCH) },
+        modifier = Modifier.weight(1f),
+      )
+      VerdictButton(
+        text = stringResource(R.string.review_mark_rejected),
+        icon = R.drawable.ic_playlist_remove,
+        selected = verdict == ReviewVerdict.REJECTED,
+        filled = colors.tertiary to colors.onTertiary,
+        tonal = colors.tertiaryContainer to colors.onTertiaryContainer,
+        onClick = { onMark(ReviewVerdict.REJECTED) },
         modifier = Modifier.weight(1f),
       )
       VerdictButton(
@@ -109,20 +119,18 @@ private fun VerdictButton(
     onClick = onClick,
     shapes = ButtonDefaults.shapes(),
     colors = ButtonDefaults.buttonColors(containerColor = container, contentColor = content),
-    contentPadding = PaddingValues(horizontal = 8.dp),
-    modifier = modifier.heightIn(min = 56.dp),
+    contentPadding = PaddingValues(horizontal = 4.dp, vertical = 4.dp),
+    modifier = modifier.heightIn(min = 52.dp),
   ) {
-    Icon(
-      painterResource(icon),
-      contentDescription = null,
-      modifier = Modifier.size(ButtonDefaults.IconSize),
-    )
-    Text(
-      text,
-      maxLines = 1,
-      softWrap = false,
-      style = MaterialTheme.typography.titleSmall,
-      modifier = Modifier.padding(start = 6.dp),
-    )
+    Column(horizontalAlignment = Alignment.CenterHorizontally) {
+      Icon(painterResource(icon), contentDescription = null, modifier = Modifier.size(20.dp))
+      Text(
+        text,
+        maxLines = 1,
+        softWrap = false,
+        overflow = TextOverflow.Ellipsis,
+        style = MaterialTheme.typography.labelMedium,
+      )
+    }
   }
 }

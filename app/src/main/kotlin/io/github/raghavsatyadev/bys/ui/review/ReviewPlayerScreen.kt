@@ -7,18 +7,16 @@ import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
-import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.aspectRatio
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.heightIn
 import androidx.compose.foundation.layout.padding
-import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.verticalScroll
-import androidx.compose.material3.ButtonDefaults
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.ExperimentalMaterial3ExpressiveApi
-import androidx.compose.material3.FilledTonalButton
+import androidx.compose.material3.FilledTonalIconButton
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
 import androidx.compose.material3.IconButtonDefaults
@@ -37,7 +35,6 @@ import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.draw.clip
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
@@ -83,15 +80,13 @@ fun ReviewPlayerScreen(viewModel: ReviewViewModel, startKey: String, onBack: () 
     topBar = {
       TopAppBar(
         title = {
-          Column {
-            Text(stringResource(R.string.review_songs))
-            Text(
-              stringResource(R.string.review_position, index + 1, keys.size),
-              style = MaterialTheme.typography.labelMedium,
-              color = MaterialTheme.colorScheme.onSurfaceVariant,
-            )
-          }
+          Text(
+            stringResource(R.string.review_position, index + 1, keys.size),
+            style = MaterialTheme.typography.titleMedium,
+          )
         },
+        actions = { Box(Modifier.padding(end = 12.dp)) { VerdictPill(item?.review?.verdict) } },
+        expandedHeight = 48.dp,
         navigationIcon = {
           IconButton(onClick = onBack, shapes = IconButtonDefaults.shapes()) {
             Icon(
@@ -120,39 +115,26 @@ fun ReviewPlayerScreen(viewModel: ReviewViewModel, startKey: String, onBack: () 
   ) { padding ->
     Column(
       modifier = Modifier.fillMaxSize().padding(padding).verticalScroll(rememberScrollState()),
-      verticalArrangement = Arrangement.spacedBy(6.dp),
+      verticalArrangement = Arrangement.spacedBy(4.dp),
     ) {
-      SectionLabel(stringResource(R.string.review_youtube))
       YouTubeVideo(
         videoId = item?.song?.link?.replace(YOUTUBE_LINK, "").orEmpty(),
         modifier = videoFrame(),
         onPlayer = { youTube = it },
         onPlayingChange = { youTubePlaying = it },
       )
-      if (item != null) {
-        Column(modifier = Modifier.padding(horizontal = 16.dp)) {
-          Text(
-            remember(item.song.title) { htmlText(item.song.title) },
-            style = MaterialTheme.typography.titleMedium,
-            maxLines = 1,
-            overflow = TextOverflow.Ellipsis,
-          )
-          Text(
-            remember(item.song.artist) { htmlText(item.song.artist) },
-            style = MaterialTheme.typography.bodySmall,
-            color = MaterialTheme.colorScheme.onSurfaceVariant,
-            maxLines = 1,
-            overflow = TextOverflow.Ellipsis,
-          )
-        }
-      }
-      // The verdict and the playback buttons share one row, so both videos fit without scrolling.
-      Row(
-        modifier = Modifier.fillMaxWidth().padding(horizontal = 16.dp),
-        verticalAlignment = Alignment.CenterVertically,
+      // One short line under each video, so the videos get the height.
+      TitleLine(
+        label = stringResource(R.string.review_youtube),
+        title =
+          item
+            ?.let {
+              remember(it.song.title, it.song.artist) {
+                "${htmlText(it.song.title)} · ${htmlText(it.song.artist)}"
+              }
+            }
+            .orEmpty(),
       ) {
-        VerdictPill(item?.review?.verdict)
-        Spacer(Modifier.weight(1f))
         PlayBothButton(
           playing = youTubePlaying || localPlaying,
           onPlay = {
@@ -165,7 +147,6 @@ fun ReviewPlayerScreen(viewModel: ReviewViewModel, startKey: String, onBack: () 
           },
         )
       }
-      SectionLabel(stringResource(R.string.review_local))
       val local = item?.local
       if (local != null) {
         LocalVideo(
@@ -190,33 +171,40 @@ fun ReviewPlayerScreen(viewModel: ReviewViewModel, startKey: String, onBack: () 
           )
         }
       }
-      Text(
-        local?.path?.substringAfterLast('/')?.substringBeforeLast('.') ?: key,
-        style = MaterialTheme.typography.titleMedium,
-        maxLines = 1,
-        overflow = TextOverflow.Ellipsis,
-        modifier = Modifier.padding(start = 16.dp, end = 16.dp, bottom = 8.dp),
+      TitleLine(
+        label = stringResource(R.string.review_local),
+        title = local?.path?.substringAfterLast('/')?.substringBeforeLast('.') ?: key,
       )
     }
   }
 }
 
+/** A small source label and a one-line title, with an optional button at the end. */
 @Composable
-private fun SectionLabel(text: String) {
-  Text(
-    text,
-    style = MaterialTheme.typography.labelLarge,
-    color = MaterialTheme.colorScheme.primary,
-    modifier = Modifier.padding(start = 16.dp, top = 4.dp),
-  )
+private fun TitleLine(label: String, title: String, trailing: @Composable () -> Unit = {}) {
+  Row(
+    modifier = Modifier.fillMaxWidth().heightIn(min = 40.dp).padding(horizontal = 12.dp),
+    verticalAlignment = Alignment.CenterVertically,
+    horizontalArrangement = Arrangement.spacedBy(8.dp),
+  ) {
+    Text(
+      label,
+      style = MaterialTheme.typography.labelMedium,
+      color = MaterialTheme.colorScheme.primary,
+    )
+    Text(
+      title,
+      style = MaterialTheme.typography.bodyMedium,
+      maxLines = 1,
+      overflow = TextOverflow.Ellipsis,
+      modifier = Modifier.weight(1f),
+    )
+    trailing()
+  }
 }
 
-@Composable
-private fun videoFrame(): Modifier =
-  Modifier.padding(horizontal = 16.dp)
-    .fillMaxWidth()
-    .aspectRatio(16f / 9f)
-    .clip(MaterialTheme.shapes.large)
+/** Full width: in portrait the screen width sets the largest a 16:9 video can be. */
+private fun videoFrame(): Modifier = Modifier.fillMaxWidth().aspectRatio(16f / 9f)
 
 /** One YouTube view for the whole screen; a new [videoId] loads into it. */
 @Composable
@@ -308,15 +296,14 @@ private fun rememberIsPlaying(exo: ExoPlayer): Boolean {
 
 @Composable
 private fun PlayBothButton(playing: Boolean, onPlay: () -> Unit, onPause: () -> Unit) {
-  FilledTonalButton(onClick = if (playing) onPause else onPlay, shapes = ButtonDefaults.shapes()) {
+  FilledTonalIconButton(
+    onClick = if (playing) onPause else onPlay,
+    shapes = IconButtonDefaults.shapes(),
+  ) {
     Icon(
       painterResource(if (playing) R.drawable.ic_pause else R.drawable.ic_play),
-      contentDescription = null,
-      modifier = Modifier.size(ButtonDefaults.IconSize),
-    )
-    Text(
-      stringResource(if (playing) R.string.review_pause_both else R.string.review_play_both),
-      modifier = Modifier.padding(start = ButtonDefaults.IconSpacing),
+      contentDescription =
+        stringResource(if (playing) R.string.review_pause_both else R.string.review_play_both),
     )
   }
 }

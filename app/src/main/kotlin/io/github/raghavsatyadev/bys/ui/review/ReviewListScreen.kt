@@ -257,6 +257,7 @@ private fun ReviewFilter.label(): String =
       ReviewFilter.NOT_REVIEWED -> R.string.review_filter_not_reviewed
       ReviewFilter.REVIEWED -> R.string.review_filter_reviewed
       ReviewFilter.MATCH -> R.string.review_filter_match
+      ReviewFilter.REJECTED -> R.string.review_filter_rejected
       ReviewFilter.MISMATCH -> R.string.review_filter_mismatch
     }
   )
@@ -322,6 +323,12 @@ internal fun VerdictPill(verdict: ReviewVerdict?) {
         stringResource(R.string.review_filter_match),
         colors.primaryContainer,
         colors.onPrimaryContainer,
+      )
+    ReviewVerdict.REJECTED ->
+      StatusPill(
+        stringResource(R.string.review_filter_rejected),
+        colors.tertiaryContainer,
+        colors.onTertiaryContainer,
       )
     ReviewVerdict.MISMATCH ->
       StatusPill(

@@ -45,6 +45,7 @@ enum class ReviewFilter {
   NOT_REVIEWED,
   REVIEWED,
   MATCH,
+  REJECTED,
   MISMATCH;
 
   fun accepts(item: ReviewItem): Boolean =
@@ -53,6 +54,7 @@ enum class ReviewFilter {
       NOT_REVIEWED -> item.review == null
       REVIEWED -> item.review != null
       MATCH -> item.review?.verdict == ReviewVerdict.MATCH
+      REJECTED -> item.review?.verdict == ReviewVerdict.REJECTED
       MISMATCH -> item.review?.verdict == ReviewVerdict.MISMATCH
     }
 }

@@ -12,11 +12,15 @@ import io.github.raghavsatyadev.support.database.RoomDBUtil
 import kotlinx.coroutines.flow.Flow
 import kotlinx.serialization.Serializable
 
-/** Whether the found YouTube video is the same song as the local video. */
+/**
+ * Whether the found YouTube video is the same song as the local video. [REJECTED] is a match the
+ * user does not want in the playlist. Stored by name, so new values go at the end.
+ */
 @Keep
 enum class ReviewVerdict {
   MATCH,
   MISMATCH,
+  REJECTED,
 }
 
 /**
