@@ -1,36 +1,35 @@
 package io.github.raghavsatyadev.support.database
 
-import androidx.room.Delete
-import androidx.room.Insert
-import androidx.room.OnConflictStrategy
-import androidx.room.RawQuery
-import androidx.room.Update
-import androidx.sqlite.db.SimpleSQLiteQuery
-import androidx.sqlite.db.SupportSQLiteQuery
+import androidx.room3.Delete
+import androidx.room3.Insert
+import androidx.room3.OnConflictStrategy
+import androidx.room3.RawQuery
+import androidx.room3.RoomRawQuery
+import androidx.room3.Update
 
-abstract class BaseDao<T> {
-  @Insert(onConflict = OnConflictStrategy.REPLACE) abstract fun insertReplace(t: T): Long
+interface BaseDao<T> {
+  @Insert(onConflict = OnConflictStrategy.REPLACE) suspend fun insertReplace(t: T): Long
 
   @Insert(onConflict = OnConflictStrategy.REPLACE)
-  abstract fun insertReplace(ts: List<T>): List<Long>
+  suspend fun insertReplace(ts: List<T>): List<Long>
 
-  @Insert(onConflict = OnConflictStrategy.IGNORE) abstract fun insertIgnore(t: T): Long
+  @Insert(onConflict = OnConflictStrategy.IGNORE) suspend fun insertIgnore(t: T): Long
 
-  @Insert(onConflict = OnConflictStrategy.IGNORE) abstract fun insertIgnore(ts: List<T>): List<Long>
+  @Insert(onConflict = OnConflictStrategy.IGNORE) suspend fun insertIgnore(ts: List<T>): List<Long>
 
-  @Update abstract fun update(t: T): Int
+  @Update suspend fun update(t: T): Int
 
-  @Update abstract fun update(t: List<T>): Int
+  @Update suspend fun update(t: List<T>): Int
 
-  @Delete abstract fun delete(t: T): Int
+  @Delete suspend fun delete(t: T): Int
 
-  @Delete abstract fun delete(t: List<T>): Int
+  @Delete suspend fun delete(t: List<T>): Int
 
-  @RawQuery abstract fun delete(query: SimpleSQLiteQuery): Int
+  @RawQuery suspend fun delete(query: RoomRawQuery): Int
 
-  @RawQuery abstract fun getAll(query: SupportSQLiteQuery): List<T>
+  @RawQuery suspend fun getAll(query: RoomRawQuery): List<T>
 
-  @RawQuery abstract fun getItem(query: SupportSQLiteQuery): T
+  @RawQuery suspend fun getItem(query: RoomRawQuery): T
 
-  @RawQuery abstract fun getCount(supportSQLiteQuery: SupportSQLiteQuery): Long
+  @RawQuery suspend fun getCount(query: RoomRawQuery): Long
 }

@@ -60,7 +60,7 @@ object YoutubeSearchUtil {
     }
   }
 
-  private fun handleYoutubeResult(songDetail: SongDetail) {
+  private suspend fun handleYoutubeResult(songDetail: SongDetail) {
     AppLog.loge(
       true,
       kotlinFileName,

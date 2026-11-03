@@ -10,7 +10,7 @@ plugins {
   alias(libs.plugins.kotlin.serialization)
   alias(libs.plugins.kotlin.parcelize)
 
-  alias(libs.plugins.room)
+  alias(libs.plugins.room3)
 }
 
 fun readProperties(propertiesFile: File) =
@@ -22,16 +22,7 @@ val props = readProperties(file("../secret.properties"))
 
 kotlin { jvmToolchain(21) }
 
-room {
-  schemaDirectory("$projectDir/schemas")
-  // incremental("true")
-  // generateKotlin("true")
-}
-
-ksp {
-  arg("room.incremental", "true")
-  arg("room.generateKotlin", "true")
-}
+room3 { schemaDirectory("$projectDir/schemas") }
 
 android {
   namespace = libs.versions.supportId.get()
@@ -156,9 +147,9 @@ dependencies {
   implementation(libs.play.services.ads)
 
   // Room
-  implementation(libs.room)
-  implementation(libs.room.runtime)
-  ksp(libs.room.compiler)
+  implementation(libs.room3.runtime)
+  implementation(libs.sqlite.bundled)
+  ksp(libs.room3.compiler)
 
   // WorkManager
   implementation(libs.androidx.work.runtime)

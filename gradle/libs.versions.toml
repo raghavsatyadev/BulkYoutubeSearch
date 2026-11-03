@@ -59,7 +59,8 @@ lifecycle = "2.12.0-alpha05"
 material = "1.14.0"
 play-services-ads = "25.5.0"
 play-services-auth = "22.0.0"
-room = "2.8.5"
+room3 = "3.1.0-alpha03"
+sqlite-bundled = "2.8.0-alpha03"
 rules = "1.7.0"
 runner = "1.7.0"
 serialization = "1.12.0-RC"
@@ -118,9 +119,9 @@ ktor-client-serialization-jvm = { module = "io.ktor:ktor-client-serialization-jv
 ktor-serialization-kotlinx-json = { module = "io.ktor:ktor-serialization-kotlinx-json", version.ref = "ktor" }
 
 #Room
-room = { module = "androidx.room:room-ktx", version.ref = "room" }
-room-compiler = { module = "androidx.room:room-compiler", version.ref = "room" }
-room-runtime = { module = "androidx.room:room-runtime", version.ref = "room" }
+room3-runtime = { module = "androidx.room3:room3-runtime", version.ref = "room3" }
+room3-compiler = { module = "androidx.room3:room3-compiler", version.ref = "room3" }
+sqlite-bundled = { module = "androidx.sqlite:sqlite-bundled", version.ref = "sqlite-bundled" }
 
 #WorkManager
 androidx-work-runtime = { module = "androidx.work:work-runtime-ktx", version.ref = "work-manager" }
@@ -155,7 +156,7 @@ desugar_jdk_libs = { module = "com.android.tools:desugar_jdk_libs", version.ref 
 
 #Tests
 androidx-junit = { module = "androidx.test.ext:junit", version.ref = "androidx-junit" }
-androidx-room-testing = { module = "androidx.room:room-testing", version.ref = "room" }
+androidx-room3-testing = { module = "androidx.room3:room3-testing", version.ref = "room3" }
 androidx-rules = { module = "androidx.test:rules", version.ref = "rules" }
 androidx-runner = { module = "androidx.test:runner", version.ref = "runner" }
 androidx-test-core = { module = "androidx.test:core-ktx", version.ref = "androidx-test-core" }
@@ -174,7 +175,7 @@ kotlin-serialization = { id = "org.jetbrains.kotlin.plugin.serialization", versi
 ksp = { id = "com.google.devtools.ksp", version.ref = "com-google-devtools-ksp" }
 
 org-sonarqube = { id = "org.sonarqube", version.ref = "sonarqube" }
-room = { id = "androidx.room", version.ref = "room" }
+room3 = { id = "androidx.room3", version.ref = "room3" }
 
 [bundles]
 kotlin = [
@@ -244,7 +245,7 @@ other = [
 ]
 test = [
     "androidx-junit",
-    "androidx-room-testing",
+    "androidx-room3-testing",
     "androidx-rules",
     "androidx-runner",
     "androidx-test-core",
@@ -253,7 +254,7 @@ test = [
 ]
 androidTest = [
     "androidx-junit",
-    "androidx-room-testing",
+    "androidx-room3-testing",
     "androidx-rules",
     "androidx-runner",
     "androidx-test-core",
