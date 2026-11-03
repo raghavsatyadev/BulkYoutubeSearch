@@ -23,8 +23,8 @@ compileSdkPreview = "Baklava"
 buildTools = "37.0.0"
 
 # App Version Codes
-versionCode = "3"
-versionName = "0.0.2"
+versionCode = "4"
+versionName = "0.0.3"
 
 # Plugin Versions
 agp = "9.6.0-alpha02"
