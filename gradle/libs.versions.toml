@@ -27,9 +27,9 @@ versionCode = "4"
 versionName = "0.0.3"
 
 # Plugin Versions
-agp = "9.6.0-alpha02"
-kotlin = "2.5.0-Beta2"
-com-google-devtools-ksp = "2.3.12"
+agp = "9.6.0-alpha03"
+kotlin = "2.5.0-RC"
+com-google-devtools-ksp = "2.3.13"
 com-google-gms = "4.5.0"
 
 # Library Versions
@@ -38,7 +38,7 @@ androidx-core = "1.19.1"
 androidx-junit = "1.3.0"
 androidx-test-core = "1.7.0"
 coil = "3.6.3"
-compose-ui = "1.13.0-beta02"
+compose-ui = "1.13.0-rc01"
 compose-material3 = "1.5.0-beta02"
 navigation3 = "1.3.0-alpha03"
 navigationevent = "1.2.0"
